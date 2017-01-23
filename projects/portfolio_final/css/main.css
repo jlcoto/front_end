@@ -1,0 +1,166 @@
+@import url(http://weloveiconfonts.com/api/?family=brandico);
+
+/*General Rules*/
+
+* {
+	box-sizing: border-box;
+}
+
+
+body {
+	font-family: 'News Cycle', sans-serif;
+}
+
+
+
+header {
+	padding: 1.2%;
+}
+
+h1 {
+	font-size: 1.7em;
+}
+
+h2 {
+	font-size: 1.4em;
+}
+
+h3 {
+	font-size: 1.3em;
+}
+
+ul {
+
+  padding: 0;
+  margin: 0;
+}
+
+/*Header rules*/
+
+.line-header {
+	border-top: 2px solid #7d97ad;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.sandwich {
+	height: 70px;
+	width: 50px;
+	fill: #02b3e4;
+	display: none;
+}
+
+.name {
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+.title {
+	margin-top: 0px;
+	font-weight: lighter;
+}
+
+/*Navigation bar*/
+
+.nav {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav__list {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.nav__item {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 30%;
+  text-align: center;
+  line-height: 24px;
+  padding: 24px;
+
+}
+
+.nav a {
+  text-decoration: none;
+  color: #616161;
+  padding: 1.3em;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+  color: #212121;
+}
+
+/*Content*/
+
+.proj-pic {
+	max-width: 555px;
+}
+
+.title-justfc {
+	margin-left: 3%;
+}
+
+.sub-proj-title {
+	margin-bottom: 2px;
+}
+
+.center-pic {
+  margin: 0 auto;
+  width: 95%;
+}
+
+.modal-list {
+	margin-left: 20px;
+}
+
+.modal-image {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.justfc {
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+.skills {
+	color: #7d97ad;
+}
+
+/*Footer*/
+
+.footer-line {
+	width: 30%;
+	margin: 15px auto;
+	border-bottom: 1px solid #7d97ad;
+/*	margin: 10px 80%;*/
+}
+
+.social-links {
+	margin: 0 auto;
+	width: 80%;
+	text-align: center;
+}
+
+[class*="brandico-"]:before {
+	font-family: 'brandico', sans-serif;
+	font-size: 25px;
+}
+
+.link-footer {
+	display: inline-block;
+	width: 60px;
+	color: #7d97ad;
+}
+
+.link-footer:hover {
+	color: #02b3e4;
+}
+
+
+

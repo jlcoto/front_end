@@ -1,0 +1,121 @@
+
+@media screen and (max-width: 549px) {
+
+  /*Updating Header */
+
+  svg.logo {
+    display: none;
+  }
+
+  svg.sandwich {
+    display: block;
+  }
+
+  hr {
+    margin-bottom: 15px;
+  }
+
+  .nav {
+    z-index: 10;
+    background-color: #fff;
+    width: 200px;
+    position: absolute;
+    /* This trasform moves the drawer off canvas. */
+    -webkit-transform: translate(-350px, 0);
+    transform: translate(-350px, 0);
+    /* Optionally, we animate the drawer. */
+    transition: transform 0.3s ease;
+  }
+  .nav.open {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+  .nav__item {
+    display: list-item;
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%;
+    text-align: left;
+    font-size: 1.5em;
+    padding: 12px;
+  }
+
+  .nav a {
+    text-decoration: none;
+    color: #616161;
+    padding: 1.5em;
+  }
+
+  .nav a:hover {
+    text-decoration: underline;
+    color: #212121;
+  }
+
+}
+
+@media (min-width: 550px) {
+
+  /*Aligning pics*/
+
+  .center-pic {
+    margin: 0 auto;
+    width: 80%;
+  }
+
+}
+
+@media (min-width: 768px) {
+
+  /*Arranging logo and pics*/
+
+  svg.logo {
+    height: 75px;
+    width: 75px;
+  }
+
+  .center-pic {
+    margin: 0 auto;
+    width: 75%;
+  }
+
+}
+
+@media (min-width: 992px) {
+
+  /*Updating header*/
+
+  .logo {
+    height: 100px;
+    width: 100px;
+  }
+
+  .name {
+    margin-top: 25px;
+    font-size: 35px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+}
+
+@media (min-width: 1200px) {
+
+  /*Updating logo and pics*/
+
+  .logo {
+    height: 100px;
+    width: 100px;
+  }
+
+  .center-pic {
+    margin: 0 auto;
+    width: 90%;
+  }
+
+  .main-pic {
+    height: 300px;
+    width: 1000px;
+  }
+
+}
