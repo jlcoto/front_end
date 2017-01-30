@@ -8,9 +8,8 @@
 
 
 body {
-	font-family: 'News Cycle', sans-serif;
+	font-family: "News Cycle", sans-serif;
 }
-
 
 
 header {
@@ -42,6 +41,7 @@ ul {
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
+
 .sandwich {
 	height: 70px;
 	width: 50px;
@@ -81,7 +81,6 @@ ul {
   text-align: center;
   line-height: 24px;
   padding: 24px;
-
 }
 
 .nav a {
@@ -138,10 +137,9 @@ ul {
 	width: 30%;
 	margin: 15px auto;
 	border-bottom: 1px solid #7d97ad;
-/*	margin: 10px 80%;*/
 }
 
-.social-links {
+.social-link-list {
 	margin: 0 auto;
 	width: 80%;
 	text-align: center;
@@ -152,15 +150,29 @@ ul {
 	font-size: 25px;
 }
 
-.link-footer {
+.social-link-list li {
 	display: inline-block;
 	width: 60px;
+	text-decoration: none;
+}
+
+.social-link-list li a {
+	color: #7d97ad;
+	text-decoration: none;
+}
+
+.social-link-list li a:visited {
+	text-decoration: none;
 	color: #7d97ad;
 }
 
-.link-footer:hover {
+.social-link-list li a:hover {
+	text-decoration: none;
 	color: #02b3e4;
 }
+
+
+
 
 
 
