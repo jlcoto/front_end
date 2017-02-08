@@ -104,7 +104,8 @@ ul {
     margin-bottom: -15px;
 }
 
-#topContacts li a {
+#topContacts li a,
+#footerContacts li a {
     display: inline;
 }
 
