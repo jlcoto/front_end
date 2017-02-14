@@ -53,8 +53,8 @@ var Player = function() {
     this.height = 65;
     this.gems = ['images/Gem Blue.png','images/Gem Green.png','images/Gem Orange.png'];
     this.drawGem = true;
-    this.randomBlock = function (){return Math.floor((Math.random() * 5));}
-    this.gemblockChosenLeft = this.randomBlock()*100 + 20;
+    this.randomBlock = function (){return Math.floor((Math.random() * 5))*100 + 20;}
+    this.gemblockChosenLeft = this.randomBlock();
     this.gemblockChosenUp = 30;
     this.gem = 0;
 
@@ -95,7 +95,15 @@ Player.prototype.drawJewels = function(gem, placeLeft, placeRight) {
 
 
 Player.prototype.catchJewels = function() {
+    if (this.gemblockChosenLeft  < this.x + this.width &&
+        this.gemblockChosenLeft + 60> this.x &&
+        this.gemblockChosenUp < this.y + this.height &&
+        30 + this.gemblockChosenUp > this.y) {
 
+            this.gemblockChosenLeft = this.randomBlock();
+            this.gem += 1;
+
+    }
 
 
 
