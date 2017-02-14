@@ -10,7 +10,8 @@ var Enemy = function(y_position, velocity) {
     this.y = y_position;
     this.velocity = velocity;
     this.width = 101;
-    this.height = 70;
+    this.height = 65;
+
 };
 
 // Update the enemy's position, required method for game
@@ -33,10 +34,9 @@ Enemy.prototype.checkCollision = function() {
         this.x + this.width > player.x &&
         this.y < player.y + player.height &&
         this.height + this.y > player.y) {
-
             player.restart();
             player.lives -=1;
-            console.log(player.lives)
+
     }
 }
 
@@ -45,22 +45,33 @@ Enemy.prototype.checkCollision = function() {
 // a handleInput() method.
 
 var Player = function() {
-    this.lives = 5
+    this.lives = 3
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 400;
     this.width = 101;
-    this.height = 70;
+    this.height = 65;
+    this.gems = ['images/Gem Blue.png','images/Gem Green.png','images/Gem Orange.png'];
+    this.drawGem = true;
+    this.randomBlock = function (){return Math.floor((Math.random() * 5));}
+    this.gemblockChosenLeft = this.randomBlock()*100 + 20;
+    this.gemblockChosenUp = 30;
+    this.gem = 0;
 
 }
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    ctx.drawImage(Resources.get('images/score.png'), 350, 50);
-    ctx.font = "bold 22px lucida grande";
-    ctx.fillStyle = "#47dbd7";
-    ctx.fillText(this.lives, 440, 100);
 
+
+    this.lifes();
+    this.drawJewels(this.gem, this.gemblockChosenLeft, this.gemblockChosenUp);
+
+
+    if (player.lives === 0) {
+        this.x = 700;
+        ctx.drawImage(Resources.get('images/game_over.png'), 2, 200);
+            }
 };
 
 Player.prototype.update = function() {
@@ -71,6 +82,25 @@ Player.prototype.restart = function() {
     this.x = 200;
     this.y = 400;
 };
+
+Player.prototype.lifes = function() {
+    for (i = 0; i < this.lives; i++) {
+        ctx_2.drawImage(Resources.get('images/char-boy.png'), i*33, 80, 45, 75);
+    }
+};
+
+Player.prototype.drawJewels = function(gem, placeLeft, placeRight) {
+    ctx.drawImage(Resources.get(this.gems[gem]), placeLeft, placeRight, 60, 90);
+    }
+
+
+Player.prototype.catchJewels = function() {
+
+
+
+
+}
+
 
 Player.prototype.handleInput = function(keyPress) {
     var stepUpDown = 82;
@@ -122,7 +152,7 @@ var insertEnemy = function(levels, player){
     } else {
         chosenLevel = level[2];
     }
-    return new Enemy(levels[chosenLevel]["y_position"], levels[chosenLevel]["velocity"], player);
+    return new Enemy(levels[chosenLevel]["y_position"], levels[chosenLevel]["velocity"]);
 };
 
 
@@ -130,13 +160,8 @@ var player = new Player()
 
 
 setInterval(function () {
-    allEnemies.push(insertEnemy(typeEnemies, player));
+    allEnemies.push(insertEnemy(typeEnemies));
     }, 650);
-
-
-
-
-
 
 
 
@@ -152,3 +177,7 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+console.log(player.blockChosen)
+
+
