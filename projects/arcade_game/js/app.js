@@ -57,6 +57,7 @@ var Player = function() {
     this.gemblockChosenLeft = this.randomBlock();
     this.gemblockChosenUp = 30;
     this.gem = 0;
+    this.gemsCaught = [];
 
 }
 
@@ -65,13 +66,19 @@ Player.prototype.render = function() {
 
 
     this.lifes();
-    this.drawJewels(this.gem, this.gemblockChosenLeft, this.gemblockChosenUp);
+    if (this.gem < this.gems.length){
+        this.drawJewels(this.gem, this.gemblockChosenLeft, this.gemblockChosenUp);
+    }
 
 
     if (player.lives === 0) {
         this.x = 700;
         ctx.drawImage(Resources.get('images/game_over.png'), 2, 200);
             }
+
+    this.gemsCaught.forEach(function(gem, index){
+                ctx_2.drawImage(Resources.get(gem), 30, 80*index + 230, 60, 90)
+            })
 };
 
 Player.prototype.update = function() {
@@ -99,9 +106,11 @@ Player.prototype.catchJewels = function() {
         this.gemblockChosenLeft + 60> this.x &&
         this.gemblockChosenUp < this.y + this.height &&
         30 + this.gemblockChosenUp > this.y) {
-
             this.gemblockChosenLeft = this.randomBlock();
+            this.gemsCaught.push(this.gems[this.gem])
             this.gem += 1;
+            this.restart();
+
 
     }
 
@@ -113,15 +122,18 @@ Player.prototype.catchJewels = function() {
 Player.prototype.handleInput = function(keyPress) {
     var stepUpDown = 82;
     var stepLeftRight = 101;
-    if (keyPress === 'left' && this.x > 0) {
+    if (keyPress === 'left' && this.x > 0 && this.y > 0) {
         this.x -= stepLeftRight;
-    } else if (keyPress === 'right' && this.x < 400) {
+    } else if (keyPress === 'right' && this.x < 400 && this.y > 0) {
         this.x += stepLeftRight;
     } else if (keyPress === 'up' && this.y > 0) {
         this.y -= stepUpDown;
+        console.log(this.y)
     } else if (keyPress ==='down' && this.y <= 390) {
         this.y += stepUpDown;
+        console.log(this.y)
     }
+
 
 }
 
@@ -186,6 +198,8 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-console.log(player.blockChosen)
+player.gemsCaught.forEach(function(){
+    console.log("yes")
+})
 
 
