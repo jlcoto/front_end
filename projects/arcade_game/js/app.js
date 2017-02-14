@@ -36,7 +36,6 @@ Enemy.prototype.checkCollision = function() {
         this.height + this.y > player.y) {
             player.restart();
             player.lives -=1;
-
     }
 }
 
@@ -68,6 +67,9 @@ Player.prototype.render = function() {
     this.lifes();
     if (this.gem < this.gems.length){
         this.drawJewels(this.gem, this.gemblockChosenLeft, this.gemblockChosenUp);
+    } else {
+        this.x = 700;
+        ctx.drawImage(Resources.get('images/game_won.png'), 2, 200);
     }
 
 
