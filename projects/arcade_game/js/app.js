@@ -3,11 +3,7 @@ var startGame = false;
 var gameOver = true;
 var allEnemies = [];
 var nextPage = false;
-var characters = ['images/char-boy.png',
-                    'images/char-cat-girl.png',
-                    'images/char-horn-girl.png',
-                    'images/char-pink-girl.png',
-                    'images/char-princess-girl.png'];
+
 
 // Enemies our player must avoid
 var Enemy = function(y_position, velocity) {
@@ -149,20 +145,6 @@ Player.prototype.handleInput = function(keyPress) {
     }
 }
 
-// Player.prototype.newGame = function() {
-//     var elem = document.getElementById('first-canvas'),
-//         elemLeft = elem.offsetLeft,
-//         elemTop = elem.offsetTop;
-
-//     elem.addEventListener('click', function(event){
-//         var x = event.pageX - elemLeft,
-//             y = event.pageY - elemTop;
-
-//         console.log(x, y)
-
-//     });
-// }
-
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -234,16 +216,84 @@ var instructions = function() {
     ctx.drawImage(Resources.get('images/startbox.png'), 10, 50);
 }
 
+var characters = {
+        "players": [{"name": "boy",
+                    "image":'images/char-boy.png',
+                    "gray": "no"},
+                    {"name": "cat-girl",
+                     "image": 'images/char-cat-girl.png',
+                    "gray": "no"},
+                    {"name":"girl-horn",
+                    "image": 'images/char-horn-girl.png',
+                    "gray": "no"},
+                    {"name":"pink-girl",
+                    "image": 'images/char-pink-girl.png',
+                    "gray": "no"},
+                    {"name":"char-princess",
+                    "image": 'images/char-princess-girl.png',
+                    "gray": "no"}
+                    ]
+                };
+
+
 var charChooser = function() {
     ctx.drawImage(Resources.get('images/sel_char.png'), 10, 50);
-    characters.forEach(function(character, index) {
+    characters.players.forEach(function(character, index) {
         if (index < 3) {
-        ctx.drawImage(Resources.get(character), 120*index + 90, 100);
+            character.x = 120*index + 90;
+            character.y = 100;
         } else {
-            ctx.drawImage(Resources.get(character), 120*index - 210, 220);
+            character.x = (120*index) - 210;
+            character.y = 220
         }
-    })
+        ctx.drawImage(Resources.get(character.image), character.x, character.y);
+        if (character.gray == "yes") {
+            grayScale(ctx, character.x, character.y + 50, 90, 100);
+        }
+    });
 
+    var elem = document.getElementById('first-canvas'),
+        elemLeft = elem.offsetLeft,
+        elemTop = elem.offsetTop;
+
+    elem.addEventListener('click', function(event){
+        var x = event.pageX - elemLeft - 15,
+            y = event.pageY - elemTop - 60;
+
+
+    characters.players.forEach(function(character) {
+        if (charChooseChecker(x, y, character)) {
+
+        }
+    });
+    });
+
+    elem.addEventListener('mousemove', function(event){
+        var x = event.pageX - elemLeft - 15,
+            y = event.pageY - elemTop - 60;
+
+     characters.players.forEach(function(character) {
+        if (charChooseChecker(x, y, character)) {
+            character.gray = "no"
+        } else {
+            // Draw black and white
+            character.gray = "yes"
+
+        }
+
+
+      });
+    });
+
+}
+
+var charChooseChecker = function(x, y, character) {
+    if (x < character.x + 70 &&
+        x > character.x &&
+        y < character.y + 90 &&
+        y > character.y) {
+            return true;
+        }
 }
 
 document.addEventListener('keyup', function(e) {
@@ -255,7 +305,24 @@ document.addEventListener('keyup', function(e) {
 });
 
 
-newGame(player, allEnemies)
+var grayScale = function(context, posX, posY, imageWidth, imageHeight) {
+    //Turns image into black & white. Adapted from
+    //http://www.htmlgoodies.com/html5/javascript/display-images-in-black-and-white-using-the-html5-canvas.html#fbid=h7UVnlnpWef
+
+    var imgData = context.getImageData(posX, posY, imageWidth, imageHeight);
+    var pixels = imgData.data;
+    for (var i = 0, n = pixels.length; i < n; i += 4) {
+        var grayscale = pixels[i]*0.3 + pixels[i+1]*0.59 + pixels[i+2]*0.11;
+        pixels[i] = grayscale;
+        pixels[i+1] = grayscale;
+        pixels[i+2] = grayscale;
+    }
+
+    return context.putImageData(imgData, posX, posY);
+}
+
+
+newGame(player, allEnemies);
 
 
 
