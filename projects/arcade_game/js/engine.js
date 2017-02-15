@@ -29,6 +29,7 @@ var Engine = (function(global) {
 
 
     canvas.width = 505;
+    canvas.id = 'first-canvas'
     canvas.height = 606;
     canvas_2.width = 200;
     canvas_2.height = 606;
@@ -115,6 +116,7 @@ var Engine = (function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
+        if (!gameOver){
         var rowImages = [
                 'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
@@ -147,6 +149,11 @@ var Engine = (function(global) {
         ctx_2.drawImage(Resources.get('images/sidescore.png'), 0, 50)
 
         renderEntities();
+    } else if (!nextPage) {
+        instructions();
+    } else if (nextPage) {
+        charChooser();
+    }
     }
 
     /* This function is called by the render function and is called on each game
@@ -188,7 +195,14 @@ var Engine = (function(global) {
         'images/Gem Blue.png',
         'images/Gem Green.png',
         'images/Gem Orange.png',
-        'images/game_won.png'
+        'images/game_won.png',
+        'images/again.png',
+        'images/startbox.png',
+        'images/sel_char.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png'
     ]);
     Resources.onReady(init);
 

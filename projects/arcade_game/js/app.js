@@ -1,3 +1,14 @@
+// Initializing global variables
+var startGame = false;
+var gameOver = true;
+var allEnemies = [];
+var nextPage = false;
+var characters = ['images/char-boy.png',
+                    'images/char-cat-girl.png',
+                    'images/char-horn-girl.png',
+                    'images/char-pink-girl.png',
+                    'images/char-princess-girl.png'];
+
 // Enemies our player must avoid
 var Enemy = function(y_position, velocity) {
     // Variables applied to each of our instances go here,
@@ -21,6 +32,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.velocity*dt;
+
 };
 
 // Draw the enemy on the screen, required method for game
@@ -35,7 +47,7 @@ Enemy.prototype.checkCollision = function() {
         this.y < player.y + player.height &&
         this.height + this.y > player.y) {
             player.restart();
-            player.lives -=1;
+            player.numLifes -=1;
     }
 }
 
@@ -44,7 +56,7 @@ Enemy.prototype.checkCollision = function() {
 // a handleInput() method.
 
 var Player = function() {
-    this.lives = 3
+    this.numLifes = 3
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 400;
@@ -69,11 +81,13 @@ Player.prototype.render = function() {
         this.drawJewels(this.gem, this.gemblockChosenLeft, this.gemblockChosenUp);
     } else {
         this.x = 700;
-        ctx.drawImage(Resources.get('images/game_won.png'), 2, 200);
+        ctx.drawImage(Resources.get('images/game_won.png'), 2, 150);
+        ctx.drawImage(Resources.get('images/again.png'), 300, 400);
+
     }
 
 
-    if (player.lives === 0) {
+    if (player.numLifes === 0) {
         this.x = 700;
         ctx.drawImage(Resources.get('images/game_over.png'), 2, 200);
             }
@@ -93,7 +107,7 @@ Player.prototype.restart = function() {
 };
 
 Player.prototype.lifes = function() {
-    for (i = 0; i < this.lives; i++) {
+    for (i = 0; i < this.numLifes; i++) {
         ctx_2.drawImage(Resources.get('images/char-boy.png'), i*33, 80, 45, 75);
     }
 };
@@ -112,8 +126,6 @@ Player.prototype.catchJewels = function() {
             this.gemsCaught.push(this.gems[this.gem])
             this.gem += 1;
             this.restart();
-
-
     }
 
 
@@ -135,9 +147,21 @@ Player.prototype.handleInput = function(keyPress) {
         this.y += stepUpDown;
         console.log(this.y)
     }
-
-
 }
+
+// Player.prototype.newGame = function() {
+//     var elem = document.getElementById('first-canvas'),
+//         elemLeft = elem.offsetLeft,
+//         elemTop = elem.offsetTop;
+
+//     elem.addEventListener('click', function(event){
+//         var x = event.pageX - elemLeft,
+//             y = event.pageY - elemTop;
+
+//         console.log(x, y)
+
+//     });
+// }
 
 
 // Now instantiate your objects.
@@ -159,10 +183,9 @@ typeEnemies = {
     }
 }
 
-var endGame = false;
 
-var allEnemies = []
-
+// Function that controls enemies and inserts them randomly according
+// to level
 var insertEnemy = function(levels, player){
     var randomState = Math.random();
     var level = Object.keys(levels);
@@ -177,31 +200,65 @@ var insertEnemy = function(levels, player){
     return new Enemy(levels[chosenLevel]["y_position"], levels[chosenLevel]["velocity"]);
 };
 
-
+//Function that initializes game. Instantiates / Initializes Player and
+// Enemies
 var player = new Player()
 
+var newGame = function(player_inst, enemiesArray) {
 
-setInterval(function () {
-    allEnemies.push(insertEnemy(typeEnemies));
+
+
+
+    //Pushes an enemy in a given window of time.
+    setInterval(function () {
+    enemiesArray.push(insertEnemy(typeEnemies))
     }, 650);
 
+    // This listens for key presses and sends the keys to your
+    // Player.handleInput() method. You don't need to modify this.
+    document.addEventListener('keyup', function(e) {
+        var allowedKeys = {
+            37: 'left',
+            38: 'up',
+            39: 'right',
+            40: 'down'
+        };
+
+        player.handleInput(allowedKeys[e.keyCode]);
+    });
 
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+}
+
+var instructions = function() {
+    ctx.drawImage(Resources.get('images/startbox.png'), 10, 50);
+}
+
+var charChooser = function() {
+    ctx.drawImage(Resources.get('images/sel_char.png'), 10, 50);
+    characters.forEach(function(character, index) {
+        if (index < 3) {
+        ctx.drawImage(Resources.get(character), 120*index + 90, 100);
+        } else {
+            ctx.drawImage(Resources.get(character), 120*index - 210, 220);
+        }
+    })
+
+}
+
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
-
-    player.handleInput(allowedKeys[e.keyCode]);
+    if (e.keyCode == 39) {
+        nextPage = true;
+    } else if(e.keyCode == 37) {
+        nextPage = false;
+    }
 });
 
-player.gemsCaught.forEach(function(){
-    console.log("yes")
-})
+
+newGame(player, allEnemies)
+
+
+
+
 
 
