@@ -51,9 +51,9 @@ Enemy.prototype.checkCollision = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 
-var Player = function() {
+var Player = function(selectedChar) {
     this.numLifes = 3
-    this.sprite = 'images/char-boy.png';
+    this.sprite = selectedChar;
     this.x = 200;
     this.y = 400;
     this.width = 101;
@@ -93,9 +93,6 @@ Player.prototype.render = function() {
             })
 };
 
-Player.prototype.update = function() {
-
-};
 
 Player.prototype.restart = function() {
     this.x = 200;
@@ -104,7 +101,7 @@ Player.prototype.restart = function() {
 
 Player.prototype.lifes = function() {
     for (i = 0; i < this.numLifes; i++) {
-        ctx_2.drawImage(Resources.get('images/char-boy.png'), i*33, 80, 45, 75);
+        ctx_2.drawImage(Resources.get(this.sprite), i*33, 80, 45, 85);
     }
 };
 
@@ -138,10 +135,8 @@ Player.prototype.handleInput = function(keyPress) {
         this.x += stepLeftRight;
     } else if (keyPress === 'up' && this.y > 0) {
         this.y -= stepUpDown;
-        console.log(this.y)
     } else if (keyPress ==='down' && this.y <= 390) {
         this.y += stepUpDown;
-        console.log(this.y)
     }
 }
 
@@ -168,7 +163,7 @@ typeEnemies = {
 
 // Function that controls enemies and inserts them randomly according
 // to level
-var insertEnemy = function(levels, player){
+var insertEnemy = function(levels, randomInc){
     var randomState = Math.random();
     var level = Object.keys(levels);
     var chosenLevel;
@@ -184,17 +179,18 @@ var insertEnemy = function(levels, player){
 
 //Function that initializes game. Instantiates / Initializes Player and
 // Enemies
-var player = new Player()
+
+setInterval(function () {
+    if (!gameOver) {
+    allEnemies.push(insertEnemy(typeEnemies))
+    }
+    }, 650);
+
+
 
 var newGame = function(player_inst, enemiesArray) {
 
-
-
-
     //Pushes an enemy in a given window of time.
-    setInterval(function () {
-    enemiesArray.push(insertEnemy(typeEnemies))
-    }, 650);
 
     // This listens for key presses and sends the keys to your
     // Player.handleInput() method. You don't need to modify this.
@@ -206,7 +202,7 @@ var newGame = function(player_inst, enemiesArray) {
             40: 'down'
         };
 
-        player.handleInput(allowedKeys[e.keyCode]);
+        player_inst.handleInput(allowedKeys[e.keyCode]);
     });
 
 
@@ -241,10 +237,10 @@ var charChooser = function() {
     characters.players.forEach(function(character, index) {
         if (index < 3) {
             character.x = 120*index + 90;
-            character.y = 100;
+            character.y = 90;
         } else {
             character.x = (120*index) - 210;
-            character.y = 220
+            character.y = 210;
         }
         ctx.drawImage(Resources.get(character.image), character.x, character.y);
         if (character.gray == "yes") {
@@ -263,7 +259,9 @@ var charChooser = function() {
 
     characters.players.forEach(function(character) {
         if (charChooseChecker(x, y, character)) {
-
+            player = new Player(character.image)
+            newGame(player, allEnemies);
+            gameOver = false;
         }
     });
     });
@@ -278,9 +276,7 @@ var charChooser = function() {
         } else {
             // Draw black and white
             character.gray = "yes"
-
         }
-
 
       });
     });
@@ -322,7 +318,7 @@ var grayScale = function(context, posX, posY, imageWidth, imageHeight) {
 }
 
 
-newGame(player, allEnemies);
+
 
 
 
