@@ -85,7 +85,7 @@ Player.prototype.render = function() {
 
     if (player.numLifes === 0) {
         this.x = 700;
-        ctx.drawImage(Resources.get('images/game_over.png'), 2, 200);
+        playAgain();
             }
 
     this.gemsCaught.forEach(function(gem, index){
@@ -188,9 +188,8 @@ setInterval(function () {
 
 
 
-var newGame = function(player_inst, enemiesArray) {
+var Game = function(player_inst, enemiesArray) {
 
-    //Pushes an enemy in a given window of time.
 
     // This listens for key presses and sends the keys to your
     // Player.handleInput() method. You don't need to modify this.
@@ -204,9 +203,28 @@ var newGame = function(player_inst, enemiesArray) {
 
         player_inst.handleInput(allowedKeys[e.keyCode]);
     });
-
-
 }
+
+var playAgain = function(drawingWinLose){
+    ctx.drawImage(Resources.get('images/game_over.png'), 2, 200);
+
+    var elem = document.getElementById('first-canvas'),
+        elemLeft = elem.offsetLeft,
+        elemTop = elem.offsetTop;
+
+
+    var clickPlayAgain = function(event) {
+
+        var x = event.pageX - elemLeft ,
+            y = event.pageY - elemTop ;
+        if ((x > 0 && x < 500) &&
+            (y > 200 && y < 450)) {
+            console.log("yes")
+    }
+    }
+    elem.addEventListener('click', clickPlayAgain);
+}
+
 
 var instructions = function() {
     ctx.drawImage(Resources.get('images/startbox.png'), 10, 50);
@@ -252,19 +270,21 @@ var charChooser = function() {
         elemLeft = elem.offsetLeft,
         elemTop = elem.offsetTop;
 
-    elem.addEventListener('click', function(event){
+    var clicker = function(event) {
         var x = event.pageX - elemLeft - 15,
             y = event.pageY - elemTop - 60;
-
-
-    characters.players.forEach(function(character) {
-        if (charChooseChecker(x, y, character)) {
-            player = new Player(character.image)
-            newGame(player, allEnemies);
-            gameOver = false;
-        }
+        characters.players.forEach(function(character) {
+            if (charChooseChecker(x, y, character)) {
+                player = new Player(character.image)
+                Game(player, allEnemies);
+                gameOver = false;
+                elem.removeEventListener('click', clicker);
+                }
     });
-    });
+    };
+
+    elem.addEventListener('click', clicker);
+
 
     elem.addEventListener('mousemove', function(event){
         var x = event.pageX - elemLeft - 15,
