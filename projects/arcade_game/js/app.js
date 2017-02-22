@@ -12,7 +12,10 @@ var Enemy = function(y_position, velocity) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    // Setting initial position off canvas;
     this.x = -120;
+    // Y posistion  and velocity will be randomly determined according to level of bug (easy/medium/hard)
+    // see typeEnemies
     this.y = y_position;
     this.velocity = velocity;
     this.width = 101;
@@ -37,10 +40,14 @@ Enemy.prototype.render = function() {
 
 
 Enemy.prototype.checkCollision = function() {
+        //Checks if there is a colliton between player and bug
+        //Takes player parameters to check if there is a collision
         if (this.x < player.x + player.width &&
         this.x + this.width > player.x &&
         this.y < player.y + player.height &&
         this.height + this.y > player.y) {
+            // If there is a collision put player to beginning and
+            // subtract one life
             player.restart();
             player.numLifes -=1;
     }
@@ -52,39 +59,53 @@ Enemy.prototype.checkCollision = function() {
 
 var Player = function(selectedChar) {
     this.numLifes = 3
+    // This changes according to user selection. See function charChooser.
     this.sprite = selectedChar;
+    // Initial position
     this.x = 200;
     this.y = 400;
     this.width = 101;
     this.height = 65;
+    //Gems that player will have to pick up
     this.gems = ['images/Gem Blue.png','images/Gem Green.png','images/Gem Orange.png'];
     this.drawGem = true;
+    // Picks randomly position of the gem
     this.randomBlock = function (){return Math.floor((Math.random() * 5))*100 + 20;}
+    // Paints gem on canvas according to random position Chosen Left = x paramenter
+    // ChosenUp = y parameter
     this.gemblockChosenLeft = this.randomBlock();
     this.gemblockChosenUp = 30;
     this.gem = 0;
+    // Initialize to 0 the number of gems so far caught.
     this.gemsCaught = [];
 
 }
 
 Player.prototype.render = function() {
+    // Draws selected player on the canvas
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
-
+    // Calls method that draws remaining number of lives on canvas.
     this.lifes();
+
+    //Draws gem on a random x spot on top of canvas
     if (this.gem < this.gems.length){
         this.drawJewels(this.gem, this.gemblockChosenLeft, this.gemblockChosenUp);
     } else {
+        // When there are no more gems to draw -> user won game
         this.x = 700;
+        //Draws game won image
         playAgain('images/game_won.png')
     }
 
 
     if (player.numLifes === 0) {
+        // When player has no lifes more -> Lost. Draws lost canvas
         this.x = 700;
         playAgain('images/game_over.png');
             }
 
+    // Draws gems player has caught on right canvas
     this.gemsCaught.forEach(function(gem, index){
                 ctx_2.drawImage(Resources.get(gem), 30, 80*index + 230, 60, 90)
             })
@@ -92,22 +113,27 @@ Player.prototype.render = function() {
 
 
 Player.prototype.restart = function() {
+    // Positions player in beginning square.
     this.x = 200;
     this.y = 400;
 };
 
 Player.prototype.lifes = function() {
+    //Helper function to draw remaining lifes on right canvas.
     for (i = 0; i < this.numLifes; i++) {
         ctx_2.drawImage(Resources.get(this.sprite), i*33, 80, 45, 85);
     }
 };
 
 Player.prototype.drawJewels = function(gem, placeLeft, placeRight) {
+    //Helper function to draw jewels on canvas according to random position.
     ctx.drawImage(Resources.get(this.gems[gem]), placeLeft, placeRight, 60, 90);
     }
 
 
 Player.prototype.catchJewels = function() {
+    //Function that checks if jewel was picked up by player.
+    //If so puts player in initial position.
     if (this.gemblockChosenLeft  < this.x + this.width &&
         this.gemblockChosenLeft + 60> this.x &&
         this.gemblockChosenUp < this.y + this.height &&
@@ -124,6 +150,8 @@ Player.prototype.catchJewels = function() {
 
 
 Player.prototype.handleInput = function(keyPress) {
+    //Handles "steps" given by player
+    // When at top row player is not allowed to move left/right
     var stepUpDown = 82;
     var stepLeftRight = 101;
     if (keyPress === 'left' && this.x > 0 && this.y > 0) {
@@ -142,6 +170,10 @@ Player.prototype.handleInput = function(keyPress) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
+
+//We create three type of enemies easy/medium/hard.
+//easy always in the low panel with lower velocity.
+//medium and hard also change appropriately.
 typeEnemies = {
     "easy": {
         "y_position": 225,
@@ -161,6 +193,7 @@ typeEnemies = {
 // Function that controls enemies and inserts them randomly according
 // to level
 var insertEnemy = function(levels, randomInc){
+    //Inserts enemy randomly. 25% possibility easy/35% medium/40%hard
     var randomState = Math.random();
     var level = Object.keys(levels);
     var chosenLevel;
@@ -174,9 +207,8 @@ var insertEnemy = function(levels, randomInc){
     return new Enemy(levels[chosenLevel]["y_position"], levels[chosenLevel]["velocity"]);
 };
 
-//Function that initializes game. Instantiates / Initializes Player and
-// Enemies
-
+//This is a timer function that will be called once game starts
+//it inserts enemies at certain time intervals.
 setInterval(function () {
     if (!gameOver) {
     allEnemies.push(insertEnemy(typeEnemies))
@@ -186,10 +218,8 @@ setInterval(function () {
 
 
 var Game = function(player_inst, enemiesArray) {
-
-
-    // This listens for key presses and sends the keys to your
-    // Player.handleInput() method. You don't need to modify this.
+    // Handles new games
+    //listens to player moves
     document.addEventListener('keyup', function(e) {
         var allowedKeys = {
             37: 'left',
@@ -203,8 +233,12 @@ var Game = function(player_inst, enemiesArray) {
 }
 
 var playAgain = function(drawingWinLose){
+    //Function call each time player looses or wins
+
+    //Draws appropriate image (win or loose)
     ctx.drawImage(Resources.get(drawingWinLose), 2, 200);
 
+    //Listens to click event. If click -> Play again
     var elem = document.getElementById('first-canvas'),
         elemLeft = elem.offsetLeft,
         elemTop = elem.offsetTop;
@@ -227,9 +261,14 @@ var playAgain = function(drawingWinLose){
 
 
 var instructions = function() {
+    //Loads play instructions
     ctx.drawImage(Resources.get('images/startbox.png'), 10, 50);
 }
 
+//Here we put all the characters with their image.
+//We also add parameter gray. This helps for selection.
+//Only characters scroll over will be colored,
+//rest will be shown black/white.
 var characters = {
         "players": [{"name": "boy",
                     "image":'images/char-boy.png',
@@ -251,7 +290,12 @@ var characters = {
 
 
 var charChooser = function() {
+    //Function that handles character choosing part (comes after instructions)
+
+    //Show image for character choosing
     ctx.drawImage(Resources.get('images/sel_char.png'), 10, 50);
+
+    //Display each character on top of the image
     characters.players.forEach(function(character, index) {
         if (index < 3) {
             character.x = 120*index + 90;
@@ -260,6 +304,8 @@ var charChooser = function() {
             character.x = (120*index) - 210;
             character.y = 210;
         }
+
+        //If mouse not on top of character -> "paint" gray.
         ctx.drawImage(Resources.get(character.image), character.x, character.y);
         if (character.gray == "yes") {
             grayScale(ctx, character.x, character.y + 50, 90, 100);
@@ -270,6 +316,7 @@ var charChooser = function() {
         elemLeft = elem.offsetLeft,
         elemTop = elem.offsetTop;
 
+    //When click select player and initialize the game.
     var clicker = function(event) {
         var x = event.pageX - elemLeft - 15,
             y = event.pageY - elemTop - 60;
@@ -304,6 +351,7 @@ var charChooser = function() {
 }
 
 var charChooseChecker = function(x, y, character) {
+    //Check if click/mouse over character.
     if (x < character.x + 70 &&
         x > character.x &&
         y < character.y + 90 &&
@@ -312,6 +360,7 @@ var charChooseChecker = function(x, y, character) {
         }
 }
 
+//Switches from instructions to character picking page.
 document.addEventListener('keyup', function(e) {
     if (e.keyCode == 39) {
         nextPage = true;
