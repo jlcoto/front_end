@@ -1,5 +1,4 @@
 // Initializing global variables
-var startGame = false;
 var gameOver = true;
 var allEnemies = [];
 var nextPage = false;
@@ -77,15 +76,13 @@ Player.prototype.render = function() {
         this.drawJewels(this.gem, this.gemblockChosenLeft, this.gemblockChosenUp);
     } else {
         this.x = 700;
-        ctx.drawImage(Resources.get('images/game_won.png'), 2, 150);
-        ctx.drawImage(Resources.get('images/again.png'), 300, 400);
-
+        playAgain('images/game_won.png')
     }
 
 
     if (player.numLifes === 0) {
         this.x = 700;
-        playAgain();
+        playAgain('images/game_over.png');
             }
 
     this.gemsCaught.forEach(function(gem, index){
@@ -206,7 +203,7 @@ var Game = function(player_inst, enemiesArray) {
 }
 
 var playAgain = function(drawingWinLose){
-    ctx.drawImage(Resources.get('images/game_over.png'), 2, 200);
+    ctx.drawImage(Resources.get(drawingWinLose), 2, 200);
 
     var elem = document.getElementById('first-canvas'),
         elemLeft = elem.offsetLeft,
@@ -219,7 +216,10 @@ var playAgain = function(drawingWinLose){
             y = event.pageY - elemTop ;
         if ((x > 0 && x < 500) &&
             (y > 200 && y < 450)) {
-            console.log("yes")
+            allEnemies = [];
+            gameOver = true;
+            nextPage = false;
+            elem.removeEventListener('click', clickPlayAgain);
     }
     }
     elem.addEventListener('click', clickPlayAgain);
@@ -317,6 +317,7 @@ document.addEventListener('keyup', function(e) {
         nextPage = true;
     } else if(e.keyCode == 37) {
         nextPage = false;
+
     }
 });
 
