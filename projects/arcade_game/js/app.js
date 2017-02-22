@@ -1,7 +1,7 @@
 // Initializing global variables
 var gameOver = true;
 var allEnemies = [];
-var nextPage = "instructions";
+var nextPage = 'instructions';
 
 
 
@@ -44,15 +44,15 @@ Enemy.prototype.checkCollision = function() {
         //Checks if there is a colliton between player and bug
         //Takes player parameters to check if there is a collision
         if (this.x < player.x + player.width &&
-        this.x + this.width > player.x &&
-        this.y < player.y + player.height &&
-        this.height + this.y > player.y) {
+            this.x + this.width > player.x &&
+            this.y < player.y + player.height &&
+            this.height + this.y > player.y) {
             // If there is a collision put player to beginning and
             // subtract one life
             player.restart();
             player.numLifes -=1;
-    }
-};
+        }
+    };
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -95,23 +95,21 @@ Player.prototype.render = function() {
         // When there are no more gems to draw -> user won game
         this.x = 700;
         gameOver = true;
-        nextPage = "play again";
-    };
-
+        nextPage = 'play again';
+    }
 
     if (player.numLifes === 0) {
         // When player has no lifes more -> Lost. Draws lost canvas
 
         this.x = 700;
         gameOver = true;
-        nextPage = "play again";
-
-            }
+        nextPage = 'play again';
+    }
 
     // Draws gems player has caught on right canvas
     this.gemsCaught.forEach(function(gem, index){
-                ctx_2.drawImage(Resources.get(gem), 30, 80*index + 230, 60, 90)
-            });
+        ctx_2.drawImage(Resources.get(gem), 30, 80*index + 230, 60, 90);
+    });
 };
 
 
@@ -131,7 +129,7 @@ Player.prototype.lifes = function() {
 Player.prototype.drawJewels = function(gem, placeLeft, placeRight) {
     //Helper function to draw jewels on canvas according to random position.
     ctx.drawImage(Resources.get(this.gems[gem]), placeLeft, placeRight, 60, 90);
-    };
+};
 
 
 Player.prototype.catchJewels = function() {
@@ -141,14 +139,11 @@ Player.prototype.catchJewels = function() {
         this.gemblockChosenLeft + 60> this.x &&
         this.gemblockChosenUp < this.y + this.height &&
         30 + this.gemblockChosenUp > this.y) {
-            this.gemblockChosenLeft = this.randomBlock();
-            this.gemsCaught.push(this.gems[this.gem]);
-            this.gem += 1;
-            this.restart();
-    }
-
-
-
+        this.gemblockChosenLeft = this.randomBlock();
+    this.gemsCaught.push(this.gems[this.gem]);
+    this.gem += 1;
+    this.restart();
+}
 };
 
 
@@ -214,11 +209,9 @@ var insertEnemy = function(levels, randomInc){
 //it inserts enemies at certain time intervals.
 setInterval(function () {
     if (!gameOver) {
-    allEnemies.push(insertEnemy(typeEnemies))
+        allEnemies.push(insertEnemy(typeEnemies));
     }
-    }, 650);
-
-
+}, 650);
 
 var Game = function(player_inst, enemiesArray) {
     // Handles new games
@@ -233,15 +226,13 @@ var Game = function(player_inst, enemiesArray) {
 
         player_inst.handleInput(allowedKeys[e.keyCode]);
     });
-}
+};
 
 var playAgain = function(){
     //Function call each time player looses or wins
 
-
     //Draws appropriate image (win or loose)
-
-    if (player.lifes > 0) {
+    if (player.numLifes > 0) {
         ctx.drawImage(Resources.get('images/game_won.png'), 2, 200);
     } else {
         ctx.drawImage(Resources.get('images/game_over.png'), 2, 200);
@@ -250,54 +241,53 @@ var playAgain = function(){
 
     //Listens to click event. If click -> Play again
     var elem = document.getElementById('first-canvas'),
-        elemLeft = elem.offsetLeft,
-        elemTop = elem.offsetTop;
+    elemLeft = elem.offsetLeft,
+    elemTop = elem.offsetTop;
 
-
+    //Restarts game if click on board
     var clickPlayAgain = function(event) {
 
         var x = event.pageX - elemLeft ,
-            y = event.pageY - elemTop ;
+        y = event.pageY - elemTop ;
         if ((x > 0 && x < 500) &&
             (y > 200 && y < 450)) {
             allEnemies = [];
-            nextPage = "instructions";
-            endGame = false;
-            elem.removeEventListener('click', clickPlayAgain);
+        nextPage = 'instructions';
+        endGame = false;
+        elem.removeEventListener('click', clickPlayAgain);
     }
-    }
+};
     elem.addEventListener('click', clickPlayAgain);
-}
+};
 
 
 var instructions = function() {
-    //Loads play instructions
+    //Draws play instructions
     ctx.drawImage(Resources.get('images/startbox.png'), 10, 50);
-
-}
+};
 
 //Here we put all the characters with their image.
 //We also add parameter gray. This helps for selection.
 //Only characters scroll over will be colored,
 //rest will be shown black/white.
 var characters = {
-        "players": [{"name": "boy",
-                    "image":'images/char-boy.png',
-                    "gray": "no"},
-                    {"name": "cat-girl",
-                     "image": 'images/char-cat-girl.png',
-                    "gray": "no"},
-                    {"name":"girl-horn",
-                    "image": 'images/char-horn-girl.png',
-                    "gray": "no"},
-                    {"name":"pink-girl",
-                    "image": 'images/char-pink-girl.png',
-                    "gray": "no"},
-                    {"name":"char-princess",
-                    "image": 'images/char-princess-girl.png',
-                    "gray": "no"}
-                    ]
-                };
+    "players": [{"name": 'boy',
+    "image":'images/char-boy.png',
+    "gray": 'no'},
+    {"name": 'cat-girl',
+    "image": 'images/char-cat-girl.png',
+    "gray": 'no'},
+    {"name":'girl-horn',
+    "image": 'images/char-horn-girl.png',
+    "gray": 'no'},
+    {"name":'pink-girl',
+    "image": 'images/char-pink-girl.png',
+    "gray": 'no'},
+    {"name":'char-princess',
+    "image": 'images/char-princess-girl.png',
+    "gray": 'no'}
+    ]
+};
 
 
 var charChooser = function() {
@@ -318,48 +308,46 @@ var charChooser = function() {
 
         //If mouse not on top of character -> "paint" gray.
         ctx.drawImage(Resources.get(character.image), character.x, character.y);
-        if (character.gray == "yes") {
+        if (character.gray == 'yes') {
             grayScale(ctx, character.x, character.y + 50, 90, 100);
         }
     });
 
     var elem = document.getElementById('first-canvas'),
-        elemLeft = elem.offsetLeft,
-        elemTop = elem.offsetTop;
+    elemLeft = elem.offsetLeft,
+    elemTop = elem.offsetTop;
 
     //When click select player and initialize the game.
     var clicker = function(event) {
         var x = event.pageX - elemLeft - 15,
-            y = event.pageY - elemTop - 60;
+        y = event.pageY - elemTop - 60;
         characters.players.forEach(function(character) {
             if (charChooseChecker(x, y, character)) {
-                player = new Player(character.image)
+                player = new Player(character.image);
                 Game(player, allEnemies);
                 gameOver = false;
                 elem.removeEventListener('click', clicker);
-                }
-    });
+            }
+        });
     };
 
     elem.addEventListener('click', clicker);
 
-
     elem.addEventListener('mousemove', function(event){
         var x = event.pageX - elemLeft - 15,
-            y = event.pageY - elemTop - 60;
+        y = event.pageY - elemTop - 60;
 
-     characters.players.forEach(function(character) {
-        if (charChooseChecker(x, y, character)) {
-            character.gray = "no"
-        } else {
+        characters.players.forEach(function(character) {
+            if (charChooseChecker(x, y, character)) {
+                character.gray = 'no';
+            } else {
             // Draw black and white
-            character.gray = "yes"
+            character.gray = 'yes';
         }
-
-      });
+    });
     });
 
-}
+};
 
 var charChooseChecker = function(x, y, character) {
     //Check if click/mouse over character.
@@ -367,17 +355,16 @@ var charChooseChecker = function(x, y, character) {
         x > character.x &&
         y < character.y + 90 &&
         y > character.y) {
-            return true;
+        return true;
         }
-}
+};
 
 //Switches from instructions to character picking page.
 document.addEventListener('keyup', function(e) {
     if (e.keyCode == 39) {
-        nextPage = "player selection";
+        nextPage = 'player selection';
     } else if(e.keyCode == 37) {
-        nextPage = "instructions";
-    console.log("yes")
+        nextPage = 'instructions';
     }
 });
 
@@ -396,7 +383,7 @@ var grayScale = function(context, posX, posY, imageWidth, imageHeight) {
     }
 
     return context.putImageData(imgData, posX, posY);
-}
+};
 
 
 

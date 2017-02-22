@@ -149,11 +149,16 @@ var Engine = (function(global) {
         ctx_2.drawImage(Resources.get('images/sidescore.png'), 0, 50)
 
         renderEntities();
-    } else if (nextPage === "instructions") {
+
+    //Draws according to game stage
+    // instructions: calls function to draw instructions
+    // player selection: draws and handles player selection
+    // play again: shows draw when game won/over
+    } else if (nextPage === 'instructions') {
         instructions();
-    } else if (nextPage === "player selection") {
+    } else if (nextPage === 'player selection') {
         charChooser();
-    } else if (nextPage === "play again"){
+    } else if (nextPage === 'play again'){
         playAgain()
     }
     }
