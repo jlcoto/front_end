@@ -1,7 +1,8 @@
 // Initializing global variables
 var gameOver = true;
 var allEnemies = [];
-var nextPage = false;
+var nextPage = "instructions";
+
 
 
 // Enemies our player must avoid
@@ -51,14 +52,14 @@ Enemy.prototype.checkCollision = function() {
             player.restart();
             player.numLifes -=1;
     }
-}
+};
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 
 var Player = function(selectedChar) {
-    this.numLifes = 3
+    this.numLifes = 3;
     // This changes according to user selection. See function charChooser.
     this.sprite = selectedChar;
     // Initial position
@@ -70,7 +71,7 @@ var Player = function(selectedChar) {
     this.gems = ['images/Gem Blue.png','images/Gem Green.png','images/Gem Orange.png'];
     this.drawGem = true;
     // Picks randomly position of the gem
-    this.randomBlock = function (){return Math.floor((Math.random() * 5))*100 + 20;}
+    this.randomBlock = function (){return Math.floor((Math.random() * 5))*100 + 20;};
     // Paints gem on canvas according to random position Chosen Left = x paramenter
     // ChosenUp = y parameter
     this.gemblockChosenLeft = this.randomBlock();
@@ -78,8 +79,7 @@ var Player = function(selectedChar) {
     this.gem = 0;
     // Initialize to 0 the number of gems so far caught.
     this.gemsCaught = [];
-
-}
+};
 
 Player.prototype.render = function() {
     // Draws selected player on the canvas
@@ -94,21 +94,24 @@ Player.prototype.render = function() {
     } else {
         // When there are no more gems to draw -> user won game
         this.x = 700;
-        //Draws game won image
-        playAgain('images/game_won.png')
-    }
+        gameOver = true;
+        nextPage = "play again";
+    };
 
 
     if (player.numLifes === 0) {
         // When player has no lifes more -> Lost. Draws lost canvas
+
         this.x = 700;
-        playAgain('images/game_over.png');
+        gameOver = true;
+        nextPage = "play again";
+
             }
 
     // Draws gems player has caught on right canvas
     this.gemsCaught.forEach(function(gem, index){
                 ctx_2.drawImage(Resources.get(gem), 30, 80*index + 230, 60, 90)
-            })
+            });
 };
 
 
@@ -128,7 +131,7 @@ Player.prototype.lifes = function() {
 Player.prototype.drawJewels = function(gem, placeLeft, placeRight) {
     //Helper function to draw jewels on canvas according to random position.
     ctx.drawImage(Resources.get(this.gems[gem]), placeLeft, placeRight, 60, 90);
-    }
+    };
 
 
 Player.prototype.catchJewels = function() {
@@ -139,14 +142,14 @@ Player.prototype.catchJewels = function() {
         this.gemblockChosenUp < this.y + this.height &&
         30 + this.gemblockChosenUp > this.y) {
             this.gemblockChosenLeft = this.randomBlock();
-            this.gemsCaught.push(this.gems[this.gem])
+            this.gemsCaught.push(this.gems[this.gem]);
             this.gem += 1;
             this.restart();
     }
 
 
 
-}
+};
 
 
 Player.prototype.handleInput = function(keyPress) {
@@ -163,7 +166,7 @@ Player.prototype.handleInput = function(keyPress) {
     } else if (keyPress ==='down' && this.y <= 390) {
         this.y += stepUpDown;
     }
-}
+};
 
 
 // Now instantiate your objects.
@@ -187,7 +190,7 @@ typeEnemies = {
         "y_position": 59,
         "velocity": 600
     }
-}
+};
 
 
 // Function that controls enemies and inserts them randomly according
@@ -204,7 +207,7 @@ var insertEnemy = function(levels, randomInc){
     } else {
         chosenLevel = level[2];
     }
-    return new Enemy(levels[chosenLevel]["y_position"], levels[chosenLevel]["velocity"]);
+    return new Enemy(levels[chosenLevel].y_position, levels[chosenLevel].velocity);
 };
 
 //This is a timer function that will be called once game starts
@@ -232,11 +235,18 @@ var Game = function(player_inst, enemiesArray) {
     });
 }
 
-var playAgain = function(drawingWinLose){
+var playAgain = function(){
     //Function call each time player looses or wins
 
+
     //Draws appropriate image (win or loose)
-    ctx.drawImage(Resources.get(drawingWinLose), 2, 200);
+
+    if (player.lifes > 0) {
+        ctx.drawImage(Resources.get('images/game_won.png'), 2, 200);
+    } else {
+        ctx.drawImage(Resources.get('images/game_over.png'), 2, 200);
+    }
+
 
     //Listens to click event. If click -> Play again
     var elem = document.getElementById('first-canvas'),
@@ -251,8 +261,8 @@ var playAgain = function(drawingWinLose){
         if ((x > 0 && x < 500) &&
             (y > 200 && y < 450)) {
             allEnemies = [];
-            gameOver = true;
-            nextPage = false;
+            nextPage = "instructions";
+            endGame = false;
             elem.removeEventListener('click', clickPlayAgain);
     }
     }
@@ -263,6 +273,7 @@ var playAgain = function(drawingWinLose){
 var instructions = function() {
     //Loads play instructions
     ctx.drawImage(Resources.get('images/startbox.png'), 10, 50);
+
 }
 
 //Here we put all the characters with their image.
@@ -363,10 +374,10 @@ var charChooseChecker = function(x, y, character) {
 //Switches from instructions to character picking page.
 document.addEventListener('keyup', function(e) {
     if (e.keyCode == 39) {
-        nextPage = true;
+        nextPage = "player selection";
     } else if(e.keyCode == 37) {
-        nextPage = false;
-
+        nextPage = "instructions";
+    console.log("yes")
     }
 });
 

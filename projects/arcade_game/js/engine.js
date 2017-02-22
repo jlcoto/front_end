@@ -149,10 +149,12 @@ var Engine = (function(global) {
         ctx_2.drawImage(Resources.get('images/sidescore.png'), 0, 50)
 
         renderEntities();
-    } else if (!nextPage) {
+    } else if (nextPage === "instructions") {
         instructions();
-    } else if (nextPage) {
+    } else if (nextPage === "player selection") {
         charChooser();
+    } else if (nextPage === "play again"){
+        playAgain()
     }
     }
 
@@ -196,7 +198,6 @@ var Engine = (function(global) {
         'images/Gem Green.png',
         'images/Gem Orange.png',
         'images/game_won.png',
-        'images/again.png',
         'images/startbox.png',
         'images/sel_char.png',
         'images/char-cat-girl.png',
