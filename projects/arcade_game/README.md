@@ -1,6 +1,16 @@
-frontend-nanodegree-arcade-game
-===============================
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+# Arcade Game
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+Implements a frogger type game, where player needs to collect gems to win. Game implemented using JavaScript and HTML canvas functionality.
+
+Note that in order to prevent tainting the canvas, files need to be run using a local server. You can use python server by calling python -m SimpleHTTPServer 8000.
+
+## Files
+- resources.js: Helps loads images to the canvas, caches images so rendering is faster.
+- engine.js: Constantly calls the canvas and redraws it.
+- app.js: Implements main logic of the game. Draws player and includes bugs. Counts number of gems recover. Ends game and draws appropriate image according if player won / lose.
+
+## New (features added to implementation)
+
+Game includes an instruction page and also a character selection. Users can choose its own character. Also it includes the task of getting the gems which are randomly drawn at the top of the canvas. As an extra it includes a score board to keep track of number of lifes and gems already gathered.
+
