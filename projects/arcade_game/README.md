@@ -8,7 +8,7 @@ Implements a frogger type game, where player needs to collect gems to win. Game 
 1. Clone repository in your local machine.
 2. Go to file where repository is cloned.
 3. Run a local server. To run it with python, use `python -m SimpleHTTPServer <number>`.
-4. Go to browser and type in address: localhost:<number>.
+4. Go to browser and type in address: "localhost: <number>".
 
 ## Files
 - resources.js: Helps loads images to the canvas, caches images so rendering is faster.
