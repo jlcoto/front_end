@@ -1,4 +1,5 @@
 // Initializing global variables
+'use strict';
 var gameOver = true;
 var allEnemies = [];
 var nextPage = 'instructions';
@@ -150,16 +151,16 @@ Player.prototype.catchJewels = function() {
 Player.prototype.handleInput = function(keyPress) {
     //Handles "steps" given by player
     // When at top row player is not allowed to move left/right
-    var stepUpDown = 82;
-    var stepLeftRight = 101;
+    var STEPUPDOWN = 82;
+    var STEPLEFTRIGHT = 101;
     if (keyPress === 'left' && this.x > 0 && this.y > 0) {
-        this.x -= stepLeftRight;
+        this.x -= STEPLEFTRIGHT;
     } else if (keyPress === 'right' && this.x < 400 && this.y > 0) {
-        this.x += stepLeftRight;
+        this.x += STEPLEFTRIGHT;
     } else if (keyPress === 'up' && this.y > 0) {
-        this.y -= stepUpDown;
+        this.y -= STEPUPDOWN;
     } else if (keyPress ==='down' && this.y <= 390) {
-        this.y += stepUpDown;
+        this.y += STEPUPDOWN;
     }
 };
 
@@ -384,12 +385,3 @@ var grayScale = function(context, posX, posY, imageWidth, imageHeight) {
 
     return context.putImageData(imgData, posX, posY);
 };
-
-
-
-
-
-
-
-
-
