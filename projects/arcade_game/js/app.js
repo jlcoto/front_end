@@ -1,5 +1,4 @@
 // Initializing global variables
-'use strict';
 var gameOver = true;
 var allEnemies = [];
 var nextPage = 'instructions';
