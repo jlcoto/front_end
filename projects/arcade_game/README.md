@@ -10,6 +10,11 @@ Implements a frogger type game, where player needs to collect gems to win. Game 
 3. Run a local server. To run it with python, use `python -m SimpleHTTPServer <number>`.
 4. Go to browser and type in address: `localhost: <number>`.
 
+## Game instructions
+Objective: Collect all jewels.
+Move your characters with arrows in your keyboard: up: up arrow, down: down arrow, left: left arrow, right: right arrow.
+Avoid Bugs!
+
 ## Files
 - resources.js: Helps loads images to the canvas, caches images so rendering is faster.
 - engine.js: Constantly calls the canvas and redraws it.
