@@ -1,5 +1,6 @@
 $(function(){
 var data = {
+	"adminShow": true,
 	"cats": [{"name": "kitty 1",
 				"image": 'cat_pic.jpg',
 				"clicks": 0
@@ -25,7 +26,8 @@ var octopus = {
 		view.renderCatList()
 		view.renderCatImage()
 		view.catClicker()
-
+		view.adminClick()
+		view.processForm()
 	},
 	getCatName: function(){
 		var catName = [];
@@ -58,6 +60,23 @@ var octopus = {
 				cat.clicks += 1;
 			}
 		})
+	},
+	onAdmin: function(){
+		data.adminShow = true;
+		return data.adminShow;
+	},
+	offAdmin: function(){
+		data.adminShow = false;
+		return data.adminShow;
+	},
+	setNewValues: function(currentCat, newName, newPic, newValue) {
+		data.cats.forEach(function(cat){
+			if(cat.name == currentCat){
+				cat.name = newName;
+				cat.image = newPic;
+				cat.clicks = newValue;
+			}
+		})
 	}
 
 }
@@ -66,14 +85,16 @@ var octopus = {
 
 var view = {
 	init: function(){
-		$("body").append('<ul id="cat-list"> </ul>');
-		$("body").append('<img class="cat-image">');
-		$("body").append('<div id="click-counter"> Number of clicks: <span id=number> 0 </span></div>');
+		$(".cat-image").after('<div id="click-counter"> Number of clicks: <span id=number> 0 </span></div>');
+		if (octopus.onAdmin()) {
+			$("#click-counter").after('<input id="admin" type="button" value="Admin"/> <br>');
+		}
 		$("#click-counter").hide()
+		$("#update-form").hide()
 	},
 	renderCatList: function() {
 		octopus.getCatName().forEach(function(cat){
-			$("#cat-list").append('<li id='+ cat + '>'+cat+'</li>');
+			$("#cat-list").append('<li class="kittens" id='+ cat + '>'+cat+'</li>');
 		})
 	},
 	renderCatImage: function(){
@@ -96,9 +117,46 @@ var view = {
 			var clicks = octopus.getClick(picClicked);
 			$("#number").text(clicks);
 	});
-}
+	},
+	adminClick: function(){
+		$("#admin").on('click', function() {
+			if(octopus.onAdmin()){
+				$("#update-form").show();
+				octopus.offAdmin();
+			}
+		})
+	},
+	processForm: function(){
+		$(document).on('click', '#cancel', function() {
+			$("#update-form").hide();
+			$("#field-form")[0].reset();
+			octopus.onAdmin()
+		});
+		$(document).on('click', '#save', function(){
+			var currentCat = $(".cat-image").attr('id');
+			var newName = $('[name=firstname]').val();
+			var newImage = $('[name=image]').val();
+			var newClicks = $('[name=numclicks]').val();
+			octopus.setNewValues(currentCat, newName, newImage, newClicks);
+			$(".cat-image").attr({
+				id:  newName,
+				src: 'img/' + newImage,
+			});
+			$(".kittens").each(function(element){
+				if ($(this).text() == currentCat) {
+					$(this).text(newName)
+				}
+			})
+			$("#number").text(newClicks);
+			$("#update-form").hide();
+			$("#field-form")[0].reset();
+			octopus.onAdmin()
+		})
+	},
+
 }
 octopus.init()
+
 });
 
 
