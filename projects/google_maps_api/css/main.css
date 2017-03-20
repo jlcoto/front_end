@@ -1,0 +1,100 @@
+
+
+* {
+	box-sizing: border-box;
+}
+
+.title, .city {
+	font-family: 'Julius Sans One', sans-serif;
+	color: #F5F00C;
+	padding-left: 0px;
+	padding-right: 0px;
+
+}
+
+.city {
+	font-size: 1.5em;
+	padding: 4px 4px ;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #F5F00C;
+}
+
+.city-title {
+	max-width: 550px;
+}
+
+.header-style {
+	background-color: #6D777D;
+	padding-bottom: 10px;
+}
+
+.sandwich {
+	height: 100px;
+	width: 40px;
+	fill: #B8C3D7;
+	display: none;
+}
+
+#berlin-logo {
+	margin-top: 15px;
+	max-width: 80px;
+}
+
+#menu {
+	background-color: #AAB1B5;
+}
+
+#time-line {
+	min-height: 25px;
+	min-width: 160px;
+
+}
+
+#map {
+	min-height: 600px;
+}
+
+button.accordion {
+    background-color: #AAB1B5;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+button.accordion:after {
+    content: "\003E"; /* Unicode character for "plus" sign (+) */
+    font-size: 15px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+button.accordion.active:after {
+    content: "\2335"; /* Unicode character for "minus" sign (-) */
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+button.accordion:hover {
+    background-color: #ddd;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+div.panel {
+    padding: 0 18px;
+    background-color: #AAB1B5;
+    display: none;
+}
+
+.slider {
+	width: 293px;
+}
+
+.event-image {
+	display: inline;
+}
