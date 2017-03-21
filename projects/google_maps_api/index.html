@@ -35,10 +35,16 @@
 		<button class="accordion" >
 			 Time of Event
 		</button>
-		<div class="panel">
+		<div class="panel row">
  		 	<form>
+ 		 	<div class="col-md-3">
+				<input class="img-responsive check-all-time" type="checkbox" data-bind="checked: timedEvent" value="All" />
+				<img class="cost-image img-responsive" src="img/all_small.png">
+			</div>
+ 		 	<div class="col-md-9">
 				<img  id="time-line" class="img-responsive" data-bind="attr: {src: timeOfEvent().image}">
-				<input class="slider img-responsive" type="range" id="Filter" name="points" min="0" max="2" />
+				<input class="slider img-responsive" type="range" data-bind="value: slider" id="Filter" name="points" min="0" max="2" />
+			</div>
 			</form>
 			</div>
 		<button class="accordion" >
@@ -56,22 +62,26 @@
 			</div>
 		</form>
 		</div>
+		<button class="accordion" >
+			Cost of Event
+		</button>
+		<div class="panel">
+			<form class="row">
+			<div data-bind="foreach: costEvent">
+					<div class="col-xs-6">
+						<input class="img-responsive check-price" type="checkbox" data-bind="checked: $root.costEventChecked, attr: {value: name}" />
+						<img class="cost-image img-responsive" data-bind="attr: {src: img}">
+					</div>
+				</div>
 
-
-
-
-
-<!--
-		Time of Event:
-		<img  id="time-line" class="img-responsive" src="img/time_line.png">
-
-
-
-		<section class="row">
-			<img class="col-xs-3 img-responsive events-img" src="img/city.png">
-			<img class="col-xs-3 img-responsive events-img" src="img/sport_half.png">
-		</section> -->
-
+			</form>
+		</div>
+		<button class="accordion">
+			By Area
+		</button>
+		<div class="panel row">
+          <input class="col-xs-10" id="zoom-to-area-text" type="text" placeholder="Enter your favorite area">
+        <input class="col-xs-2" id="zoom-to-area" type="button" value="Zoom">
 		</aside>
 		<div id="map" class="col-xs-6">
 

@@ -45,10 +45,15 @@
 	background-color: #AAB1B5;
 }
 
-#time-line {
+/*#time-line {
 	min-height: 25px;
 	min-width: 160px;
 
+}*/
+
+.check-all-time {
+	float: left;
+	margin-right: 10px;
 }
 
 #map {
