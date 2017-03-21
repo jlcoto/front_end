@@ -274,7 +274,9 @@ var ViewModel = function() {
 
 	this.costEventChecked = ko.observableArray(["All"]);
 
+    this.filterEvent = ko.observable();
 
+    this.eventDescription = ko.observableArray([]);
 
 
 	data.forEach(function(data){
@@ -289,6 +291,10 @@ var ViewModel = function() {
 		})
 		}
 	});
+
+    dataEvents.forEach(function(data){
+        self.eventDescription.push(data);
+    })
 
 	this.grouped = ko.computed(function(){
 		var rows = [], current = [];
@@ -311,7 +317,7 @@ var ViewModel = new ViewModel()
 ViewModel.likedEvent(eventCategories);
 ViewModel.costEventChecked(costCategories);
 
-
+console.log(ViewModel.eventDescription());
 
 ko.applyBindings(ViewModel)
 

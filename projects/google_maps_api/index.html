@@ -30,8 +30,25 @@
 		</a>
 	</header>
 	<body>
+
+
 	<div class="row">
 	<aside id="menu" class="col-xs-6">
+
+			<button class="accordion" >
+				 Filter by Event
+			</button>
+		<div class="panel row">
+			<input class="col-md-12" data-bind="textInput: filterEvent" />
+		</div>
+
+			<ul  data-bind="foreach:eventDescription">
+				<li><span data-bind="text:title"></span>
+				<p><span data-bind="text:description"></span></p></li>
+
+			</ul>
+
+
 		<button class="accordion" >
 			 Time of Event
 		</button>
