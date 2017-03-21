@@ -313,7 +313,13 @@ var ViewModel = function() {
         var filter = self.filterEvent();
         if (!filter) {
             return self.eventDescription();
+        } else {
+            filter = filter.toLowerCase();
+            return ko.utils.arrayFilter(self.eventDescription(), function(item) {
+                return item.title.toLowerCase().indexOf(filter) !== -1;
+        });
         }
+
     });
 
 	};

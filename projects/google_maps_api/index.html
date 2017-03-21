@@ -30,8 +30,6 @@
 		</a>
 	</header>
 	<body>
-
-
 		<div class="row">
 			<aside id="menu" class="col-xs-6">
 
@@ -40,10 +38,10 @@
 				</button>
 				<div class="panel">
 					<div class="row">
-						<input class="col-md-12" data-bind="textInput: filterEvent" />
+						<input class="col-md-12" data-bind="textInput:filterEvent" />
 					</div>
 					<div class="row">
-						<ul  class="col-xs-12" data-bind="foreach:eventDescription">
+						<ul  class="col-xs-12" data-bind="foreach:filteredEvents">
 							<li>
 								<span data-bind="text:title"></span>
 								<p><span data-bind="text:description"></span></p>
