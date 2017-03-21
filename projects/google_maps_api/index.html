@@ -32,92 +32,99 @@
 	<body>
 
 
-	<div class="row">
-	<aside id="menu" class="col-xs-6">
+		<div class="row">
+			<aside id="menu" class="col-xs-6">
 
-			<button class="accordion" >
-				 Filter by Event
-			</button>
-		<div class="panel row">
-			<input class="col-md-12" data-bind="textInput: filterEvent" />
-		</div>
-
-			<ul  data-bind="foreach:eventDescription">
-				<li><span data-bind="text:title"></span>
-				<p><span data-bind="text:description"></span></p></li>
-
-			</ul>
-
-
-		<button class="accordion" >
-			 Time of Event
-		</button>
-		<div class="panel row">
- 		 	<form>
- 		 	<div class="col-md-3">
-				<input class="img-responsive check-all-time" type="checkbox" data-bind="checked: timedEvent" value="All" />
-				<img class="cost-image img-responsive" src="img/all_small.png">
-			</div>
- 		 	<div class="col-md-9">
-				<img  id="time-line" class="img-responsive" data-bind="attr: {src: timeOfEvent().image}">
-				<input class="slider img-responsive" type="range" data-bind="value: slider" id="Filter" name="points" min="0" max="2" />
-			</div>
-			</form>
-			</div>
-		<button class="accordion" >
-			 Type of Event
-		</button>
-		<div class="panel">
-			<form>
-				<div data-bind="foreach:grouped">
-				<div data-bind="foreach: $data" class="row">
-					<div class="col-xs-6">
-						<label><input class="img-responsive check-event" type="checkbox" data-bind="checked: $root.likedEvent, attr: {value: name}" /><span data-bind="text: name"></span></label>
-						<img class="event-image img-responsive" data-bind="attr: {src: img}">
+				<button class="accordion" >
+					Filter by Event
+				</button>
+				<div class="panel">
+					<div class="row">
+						<input class="col-md-12" data-bind="textInput: filterEvent" />
 					</div>
-				</div>
-			</div>
-		</form>
-		</div>
-		<button class="accordion" >
-			Cost of Event
-		</button>
-		<div class="panel">
-			<form class="row">
-			<div data-bind="foreach: costEvent">
-					<div class="col-xs-6">
-						<input class="img-responsive check-price" type="checkbox" data-bind="checked: $root.costEventChecked, attr: {value: name}" />
-						<img class="cost-image img-responsive" data-bind="attr: {src: img}">
+					<div class="row">
+						<ul  class="col-xs-12" data-bind="foreach:eventDescription">
+							<li>
+								<span data-bind="text:title"></span>
+								<p><span data-bind="text:description"></span></p>
+							</li>
+							</ul>
 					</div>
 				</div>
 
-			</form>
-		</div>
-		<button class="accordion">
-			By Area
-		</button>
-		<div class="panel row">
-          <input class="col-xs-10" id="zoom-to-area-text" type="text" placeholder="Enter your favorite area">
-        <input class="col-xs-2" id="zoom-to-area" type="button" value="Zoom">
-		</aside>
-		<div id="map" class="col-xs-6">
 
-		</div>
 
-	</div>
+
+
+						<button class="accordion" >
+							Time of Event
+						</button>
+						<div class="panel row">
+							<form>
+								<div class="col-md-3">
+									<input class="img-responsive check-all-time" type="checkbox" data-bind="checked: timedEvent" value="All" />
+									<img class="cost-image img-responsive" src="img/all_small.png">
+								</div>
+								<div class="col-md-9">
+									<img  id="time-line" class="img-responsive" data-bind="attr: {src: timeOfEvent().image}">
+									<input class="slider img-responsive" type="range" data-bind="value: slider" id="Filter" name="points" min="0" max="2" />
+								</div>
+							</form>
+						</div>
+						<button class="accordion" >
+							Type of Event
+						</button>
+						<div class="panel">
+							<form>
+								<div data-bind="foreach:grouped">
+									<div data-bind="foreach: $data" class="row">
+										<div class="col-xs-6">
+											<label><input class="img-responsive check-event" type="checkbox" data-bind="checked: $root.likedEvent, attr: {value: name}" /><span data-bind="text: name"></span></label>
+											<img class="event-image img-responsive" data-bind="attr: {src: img}">
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<button class="accordion" >
+							Cost of Event
+						</button>
+						<div class="panel">
+							<form class="row">
+								<div data-bind="foreach: costEvent">
+									<div class="col-xs-6">
+										<input class="img-responsive check-price" type="checkbox" data-bind="checked: $root.costEventChecked, attr: {value: name}" />
+										<img class="cost-image img-responsive" data-bind="attr: {src: img}">
+									</div>
+								</div>
+
+							</form>
+						</div>
+						<button class="accordion">
+							By Area
+						</button>
+						<div class="panel row">
+							<input class="col-xs-10" id="zoom-to-area-text" type="text" placeholder="Enter your favorite area">
+							<input class="col-xs-2" id="zoom-to-area" type="button" value="Zoom">
+						</aside>
+						<div id="map" class="col-xs-6">
+
+						</div>
+
+					</div>
+
+				</body>
+			</div>
+			<script src="js/lib/knockout-3.2.0.js"></script>
+			<script src="js/app.js"></script>
+			<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKhbUL5y3A9gVGGz5QN0bdXEIYbfW43pk&v=3&callback=initMap">
+		</script>
 
 	</body>
-</div>
-    <script src="js/lib/knockout-3.2.0.js"></script>
-    <script src="js/app.js"></script>
-    <script async defer
-	    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKhbUL5y3A9gVGGz5QN0bdXEIYbfW43pk&v=3&callback=initMap">
-	</script>
-
-</body>
 
 
 
-</html>
+	</html>
 
 

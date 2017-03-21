@@ -309,6 +309,13 @@ var ViewModel = function() {
 		return rows;
 	}, this);
 
+    this.filteredEvents = ko.computed(function(){
+        var filter = self.filterEvent();
+        if (!filter) {
+            return self.eventDescription();
+        }
+    });
+
 	};
 
 var ViewModel = new ViewModel()
@@ -317,7 +324,6 @@ var ViewModel = new ViewModel()
 ViewModel.likedEvent(eventCategories);
 ViewModel.costEventChecked(costCategories);
 
-console.log(ViewModel.eventDescription());
 
 ko.applyBindings(ViewModel)
 
