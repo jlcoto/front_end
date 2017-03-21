@@ -604,14 +604,6 @@ var styles = [
 
 	    showMarkers(markers);
 
-
-      // This function will loop through the listings and hide them all.
-      function hideListings() {
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(null);
-        }
-      }
-
       var collectedTitles = ViewModel.collectedTitles();
 
       var bounds = new google.maps.LatLngBounds();
@@ -635,7 +627,6 @@ var styles = [
             $('#apply-filter').click();
         }
       });
-
 
       // Changes when Time of Event Changes
        $('body').on("change", ".slider",function(){
@@ -689,6 +680,15 @@ var styles = [
             if(e.which === 13){//Enter key pressed
                 $('#zoom-to-area').click();//Trigger search button click event
             }
+        });
+
+        //Animating marker when event on list is selected
+        $('body').on("click",'.list-events', function(){
+            $('.list-events').removeClass('selected-event');
+            $(this).addClass('selected-event');
+            console.log($(this).find('.tooltip'))
+            $(this).find('.tooltip').show();
+            $(this).find('.tooltiptext').show();
         });
 
 
