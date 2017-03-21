@@ -316,10 +316,10 @@ var ViewModel = function() {
         } else {
             filter = filter.toLowerCase();
             return ko.utils.arrayFilter(self.eventDescription(), function(item) {
-                return item.title.toLowerCase().indexOf(filter) !== -1;
+                return (item.title.toLowerCase().indexOf(filter) !== -1 ||
+                    item.description.toLowerCase().indexOf(filter) !== -1 );
         });
         }
-
     });
 
 	};
