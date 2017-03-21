@@ -274,7 +274,7 @@ var ViewModel = function() {
 
 	this.costEventChecked = ko.observableArray(["All"]);
 
-    this.filterEvent = ko.observable();
+    this.filter = ko.observable();
 
     this.eventDescription = ko.observableArray([]);
 
@@ -310,7 +310,7 @@ var ViewModel = function() {
 	}, this);
 
     this.filteredEvents = ko.computed(function(){
-        var filter = self.filterEvent();
+        var filter = self.filter();
         if (!filter) {
             return self.eventDescription();
         } else {
@@ -320,6 +320,12 @@ var ViewModel = function() {
                     item.description.toLowerCase().indexOf(filter) !== -1 );
         });
         }
+    });
+
+    this.collectedTitles = ko.computed(function(){
+        return ko.utils.arrayMap(self.filteredEvents(), function(item) {
+            return item.title;
+        });
     });
 
 	};
@@ -567,6 +573,10 @@ var styles = [
           mapTypeControl: false
         });
 
+        var zoomAutocomplete = new google.maps.places.Autocomplete(document.getElementById('zoom-to-area-text'));
+        //Bias the boundaries within the map for the zoom to area text.
+        zoomAutocomplete.bindTo('bounds', map);
+
         dataEvents.forEach(function(location, index){
 			var position = location.location;
 			var title = location.title;
@@ -602,13 +612,37 @@ var styles = [
         }
       }
 
+      var collectedTitles = ViewModel.collectedTitles();
+
+      var bounds = new google.maps.LatLngBounds();
+
+      //Changes when text is filtered
+      $('#apply-filter').click(function(){
+         collectedTitles = ViewModel.collectedTitles();
+            dataEvents.forEach(function(event, i){
+                 if (filterByText(event.title, collectedTitles)){
+                    markers[i].setVisible(true);
+                    bounds.extend(markers[i].position);
+                } else {
+                    markers[i].setVisible(false);
+                }
+            });
+            map.fitBounds(bounds);
+      });
+
+      $('#filter-text').keypress(function(e){
+        if (e.which === 13) {
+            $('#apply-filter').click();
+        }
+      });
+
 
       // Changes when Time of Event Changes
        $('body').on("change", ".slider",function(){
        		$('.check-all-time').prop('checked', false);
             ViewModel.timedEvent([""])
         	dataEvents.forEach(function(event, i){
-        		 if (jointFilters(event)){
+        		 if (jointFilters(event, collectedTitles)){
         			markers[i].setVisible(true)
         		} else {
         			markers[i].setVisible(false)
@@ -618,7 +652,7 @@ var styles = [
 
         $('body').on("change", ".check-event",function(){
         	dataEvents.forEach(function(event, i){
-        		if (jointFilters(event)){
+        		if (jointFilters(event, collectedTitles)){
         			markers[i].setVisible(true)
         		} else {
         			markers[i].setVisible(false)
@@ -628,7 +662,7 @@ var styles = [
 
         $('body').on("change", ".check-price",function(){
         	dataEvents.forEach(function(event, i){
-        		if (jointFilters(event)){
+        		if (jointFilters(event, collectedTitles)){
         			markers[i].setVisible(true);
         		} else {
         			markers[i].setVisible(false);
@@ -639,14 +673,22 @@ var styles = [
         $('body').on("change", ".check-all-time",function(){
             ViewModel.timedEvent(["All"])
         	dataEvents.forEach(function(event, i){
-        		if (filterEventsLiked(event.category) && filterCost(event.costcat) ) {
+        		if (filterEventsLiked(event.category) &&
+                    filterCost(event.costcat) &&
+                    filterByText(event.title, collectedTitles)) {
         		markers[i].setVisible(true);
         	}
         	});
         });
 
-        $("#zoom-to-area").click(function(){
+        $('#zoom-to-area').click(function(){
             zoomToArea();
+        });
+
+        $('#zoom-to-area-text').keypress(function(e){
+            if(e.which === 13){//Enter key pressed
+                $('#zoom-to-area').click();//Trigger search button click event
+            }
         });
 
 
@@ -689,8 +731,16 @@ var styles = [
         }
       }
 
+        function filterByText(title, collectedTitles) {
+            if ($.inArray(title, collectedTitles) !== -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         function filterEventsLiked(liked) {
-            if ($.inArray(liked, ViewModel.likedEvent()) != -1) {
+            if ($.inArray(liked, ViewModel.likedEvent()) !== -1) {
                 return true;
             } else {
                 return false;
@@ -698,7 +748,7 @@ var styles = [
         }
 
         function filterEventsTime(time) {
-            if (ViewModel.timedEvent()[0] == "All") {
+            if (ViewModel.timedEvent()[0] === "All") {
                 return true;
             }
             else if (time == timesDic[ViewModel.slider()]) {
@@ -710,17 +760,18 @@ var styles = [
         }
 
         function filterCost(cost) {
-            if($.inArray(cost, ViewModel.costEventChecked()) != -1){
+            if($.inArray(cost, ViewModel.costEventChecked()) !== -1){
                 return true;
             } else {
                 return false;
             }
         }
 
-        function jointFilters(event) {
+        function jointFilters(event, collectedTitles) {
             if (filterEventsTime(event.timesumm) &&
                     filterEventsLiked(event.category) &&
-                    filterCost(event.costcat)){
+                    filterCost(event.costcat) &&
+                    filterByText(event.title, collectedTitles)){
                 return true;
             } else {
                 return false;

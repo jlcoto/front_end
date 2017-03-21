@@ -38,7 +38,8 @@
 				</button>
 				<div class="panel">
 					<div class="row">
-						<input class="col-md-12" data-bind="textInput:filterEvent" />
+						<input id="filter-text" class="col-xs-10" data-bind="textInput:filter" />
+						<input class="col-xs-2" id="apply-filter" type="button" value="Apply">
 					</div>
 					<div class="row">
 						<ul  class="col-xs-12" data-bind="foreach:filteredEvents">
@@ -116,7 +117,7 @@
 			<script src="js/lib/knockout-3.2.0.js"></script>
 			<script src="js/app.js"></script>
 			<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKhbUL5y3A9gVGGz5QN0bdXEIYbfW43pk&v=3&callback=initMap">
+			src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBKhbUL5y3A9gVGGz5QN0bdXEIYbfW43pk&v=3&callback=initMap">
 		</script>
 
 	</body>
