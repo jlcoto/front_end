@@ -221,12 +221,12 @@ var timesDic = {"0":"morning",
 var accordMenu = $(".accordion");
 
 accordMenu.on("click", function(){
-	if ($(this).next().css('display') == 'none'){
+	if ($(this).parent().next().children().css('display') == 'none'){
 		$(this).addClass("active");
-		$(this).next().fadeIn("slow");
+		$(this).parent().next().children().fadeIn("slow");
 	} else {
 		$(this).removeClass("active");
-		$(this).next().hide();
+		$(this).parent().next().children().hide();
 	}
 })
 

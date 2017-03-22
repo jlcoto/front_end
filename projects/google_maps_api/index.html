@@ -9,7 +9,6 @@
 	<link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet" >
 	<link href="css/responsive.css" rel="stylesheet">
-
 	<script src="js/jquery-3.1.1.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 
@@ -32,13 +31,16 @@
 				<img  class="img-responsive" id="berlin-logo" src="img/berlin_logo.svg" alt="berlin logo tv tower">
 			</a>
 		</header>
-		<body>
-			<div class="row">
-				<aside id="menu" class="col-xs-6">
 
-					<button class="accordion" >
-						Filter by Event
-					</button>
+		<body>
+
+				<aside id="menu">
+					<div class="row">
+						<button class="accordion col-xs-12" >
+							Filter by Event
+						</button>
+					</div>
+					<div class="row">
 					<div class="panel">
 						<div class="row">
 							<input id="filter-text" class="col-xs-10" data-bind="textInput:filter" />
@@ -59,13 +61,15 @@
 							</div>
 						</div>
 					</div>
-
-
-
+					</div>
+					<div class="row">
 					<button class="accordion" >
 						Time of Event
 					</button>
-					<div class="panel row">
+					</div>
+					<div class="row">
+					<div class="panel">
+					<div class="row">
 						<form>
 							<div class="col-md-3">
 								<input class="img-responsive check-all-time" type="checkbox" data-bind="checked: timedEvent" value="All" />
@@ -77,9 +81,14 @@
 							</div>
 						</form>
 					</div>
+					</div>
+					</div>
+					<div class="row">
 					<button class="accordion" >
 						Type of Event
 					</button>
+					</div>
+					<div class="row">
 					<div class="panel">
 						<form>
 							<div data-bind="foreach:grouped">
@@ -92,9 +101,13 @@
 							</div>
 						</form>
 					</div>
+					</div>
+					<div class="row">
 					<button class="accordion" >
 						Cost of Event
 					</button>
+					</div>
+					<div class="row">
 					<div class="panel">
 						<form class="row">
 							<div data-bind="foreach: costEvent">
@@ -103,27 +116,39 @@
 									<img class="cost-image img-responsive" data-bind="attr: {src: img}">
 								</div>
 							</div>
-
 						</form>
 					</div>
+					</div>
+					<div class="row">
 					<button class="accordion">
 						By Area
 					</button>
-					<div class="panel row">
+					</div>
+					<div class="row">
+					<div class="panel">
+					<div class="row">
 						<input class="col-xs-10" id="zoom-to-area-text" type="text" placeholder="Enter your favorite area">
 						<input class="col-xs-2" id="zoom-to-area" type="button" value="Zoom">
-					</aside>
-					<div id="wrapper" class="col-xs-6">
-					<div id="map" > </div>
-					<table class="weather"></table>
 					</div>
+					</div>
+					</div>
+					</aside>
+
+
+				<div class="row">
+					<main>
+						<div id="wrapper" class="col-xs-12">
+							<div id="map" > </div>
+							<table class="weather"></table>
+						</div>
+					</main>
 				</div>
-			</div>
 		</body>
 
 
 		<script src="js/lib/knockout-3.2.0.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/responsive.js"></script>
 		<script async defer
 		src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBKhbUL5y3A9gVGGz5QN0bdXEIYbfW43pk&v=3&callback=initMap">
 	</script>
