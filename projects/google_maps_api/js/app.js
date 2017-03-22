@@ -256,7 +256,6 @@ data.forEach(function(data){
     }
 });
 
-
 var ViewModel = function() {
 	var self = this;
 
@@ -682,16 +681,6 @@ var styles = [
             }
         });
 
-        //Animating marker when event on list is selected
-        $('body').on("click",'.list-events', function(){
-            $('.list-events').removeClass('selected-event');
-            $(this).addClass('selected-event');
-            console.log($(this).find('.tooltip'))
-            $(this).find('.tooltip').show();
-            $(this).find('.tooltiptext').show();
-        });
-
-
 
         var infowindow = new google.maps.InfoWindow({
           content: 'This is an infowindow!!'
@@ -729,7 +718,19 @@ var styles = [
               }
             });
         }
-      }
+      };
+
+
+        $('body').on("click", '#event-title', function(){
+            console.log($(this).next());
+            if ($(this).next().css('display') == 'none'){
+                $(this).next().fadeIn("slow");
+            } else {
+                $(this).removeClass("active");
+                $(this).next().hide();
+            }
+            });
+
 
         function filterByText(title, collectedTitles) {
             if ($.inArray(title, collectedTitles) !== -1) {
