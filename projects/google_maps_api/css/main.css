@@ -96,6 +96,11 @@ div.panel {
     display: none;
 }
 
+#infowindow-title {
+	text-align: center;
+	font-weight: bold;
+}
+
 .slider {
 	width: 293px;
 }
@@ -107,6 +112,25 @@ div.panel {
 .event-description {
 	display: none;
 }
+
+#wrapper {
+	position: relative;
+	padding: 0px;
+}
+
+.weather {
+	position: absolute;
+	top: 10px;
+	left:50%;
+	z-index: 99;
+	background-color: rgba(255,255,255,0.7);
+	padding: 7px;
+	border-radius: 10px;
+	border-spacing: 7px;
+	border-collapse: separate;
+}
+
+
 
 /*.selected-event {
 	color: red;

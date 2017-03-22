@@ -70,7 +70,7 @@ category: "Highlights",
 location: {lat:52.5532493, lng:13.30530090000002},
 },
 {title: "Music Festival Green Heart",
-description: "The Festival is a invitation into Spring at Sony Center in Potsdammer Platz",
+description: "The Festival is an invitation into Spring at the Sony Center in Potsdammer Platz",
 address: "Potsdamer Straße 4 10784  Berlin, Germany",
 time:"18:00",
 timesumm: "afternoon",
@@ -147,7 +147,7 @@ location: {lat:52.4761146, lng:13.351218700000004}
 },
 {
 title: "Kids' Flea market",
-description: "Soon to be parents can go to the flea market to find used children clothes.",
+description: "Soon to be parents can go to the flea market to find used children's clothes.",
 address: "Am Borsigturm 2 13507 Berlin",
 time: "12:00-16:00",
 timesumm: "morning",
@@ -572,6 +572,10 @@ var styles = [
           mapTypeControl: false
         });
 
+        var largeInfowindow = new google.maps.InfoWindow();
+        var defaultIcon = makeMarkerIcon('577da6');
+        var highlightedIcon = makeMarkerIcon('f6c43e');
+
         var zoomAutocomplete = new google.maps.places.Autocomplete(document.getElementById('zoom-to-area-text'));
         //Bias the boundaries within the map for the zoom to area text.
         zoomAutocomplete.bindTo('bounds', map);
@@ -585,9 +589,25 @@ var styles = [
 				title: title,
 				animation: google.maps.Animation.DROP,
 				id: index,
-				visible: location.visible
+				visible: location.visible,
+                icon: defaultIcon
         		});
-			markers.push(marker);
+            markers.push(marker);
+            // Create an onclick event to open the large infowindow at each marker.
+              marker.addListener('click', function() {
+                markers.forEach(function(marker){
+                    marker.setIcon(defaultIcon);
+                })
+                populateInfoWindow(this, largeInfowindow);
+              });
+
+            marker.addListener('mouseover', function() {
+                  this.setIcon(highlightedIcon);
+                });
+                marker.addListener('mouseout', function() {
+                  this.setIcon(defaultIcon);
+                });
+
 		});
 
 	     // This function will loop through the markers array and display them all.
@@ -606,6 +626,44 @@ var styles = [
       var collectedTitles = ViewModel.collectedTitles();
 
       var bounds = new google.maps.LatLngBounds();
+
+      function populateInfoWindow(marker, infowindow) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+          // Clear the infowindow content to give the streetview time to load.
+          infowindow.setContent('');
+          infowindow.marker = marker;
+          dataEvents.forEach(function(event){
+            if (marker.title === event.title){
+                infowindow.setContent("<div><span id='infowindow-title'>" + marker.title + "</span></br>"
+                    + event.description + "</br>Time: " + event.time + "</br>Cost: " + event.cost +"</div>" );
+            }
+          })
+
+          infowindow.open(map, marker);
+          // Make sure the marker property is cleared if the infowindow is closed.
+          infowindow.addListener('closeclick', function() {
+            infowindow.marker = null;
+          });
+      }
+
+      };
+
+      //Animating marker when element from list is selected
+      $('body').on("click", '#event-title', function(){
+        var titleClicked = $(this).text();
+        markers.forEach(function(marker){
+            if (titleClicked === marker.title){
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                marker.setIcon(highlightedIcon);
+                populateInfoWindow(marker, largeInfowindow);
+                setTimeout(function(){ marker.setAnimation(null); }, 1450);
+            } else {
+                marker.setAnimation(null);
+                marker.setIcon(defaultIcon);
+            }
+        })
+      });
 
       //Changes when text is filtered
       $('#apply-filter').click(function(){
@@ -680,14 +738,6 @@ var styles = [
                 $('#zoom-to-area').click();//Trigger search button click event
             }
         });
-
-
-        var infowindow = new google.maps.InfoWindow({
-          content: 'This is an infowindow!!'
-        });
-        // marker.addListener('click', function(){
-        //   infowindow.open(map, marker);
-        // });
       }
 
 
@@ -722,7 +772,7 @@ var styles = [
 
 
         $('body').on("click", '#event-title', function(){
-            console.log($(this).next());
+            $('.event-description').hide();
             if ($(this).next().css('display') == 'none'){
                 $(this).next().fadeIn("slow");
             } else {
@@ -779,6 +829,38 @@ var styles = [
             }
         }
 
+        function makeMarkerIcon(markerColor) {
+            var markerImage = new google.maps.MarkerImage(
+              'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+              '|40|_|%E2%80%A2',
+              new google.maps.Size(21, 34),
+              new google.maps.Point(0, 0),
+              new google.maps.Point(10, 34),
+              new google.maps.Size(21,34));
+            return markerImage;
+        }
+
+var apiServer = 'https://query.yahooapis.com/v1/public/yql';
+
+var queryString = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="Berlin") and u="c"';
+
+$.ajax({
+  url: apiServer,
+  data: {format: 'json',
+        q:queryString},
+    success: function(response){
+        response.query.results.channel.item.forecast.forEach(function(day){
+            if (day.day === "Sat" || day.day === "Sun"){
+                $(".weather").append("<tr><td id='day'>" + day.day + "</td> <td id='forecast'>"+ day.text +
+                    "</td><td id='high-temp'> " + day.high + "</td> <td id='high-temp'> " + day.low + "</td></br><tr>")
+            }
+        })
+  }, error: function(){
+    $('.weather').append("There was an Error while loading weather data.")
+
+
+  }
+});
 
 
 
