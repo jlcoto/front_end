@@ -856,11 +856,18 @@ $.ajax({
             }
         })
   }, error: function(){
-    $('.weather').append("There was an Error while loading weather data.")
+    $('.weather').append("There was an Error while loading weather data.");
 
 
   }
 });
 
+$.ajax({
+        url: "https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBKhbUL5y3A9gVGGz5QN0bdXEIYbfW43pk&v=3&callback=initMap",
+        crossdomain: true,
+        dataType: 'script'
+        , error: function(){
+            $('#map').append('Map could not load. Try refreshing the page or checking your Internet connection.');
+        }});
 
 
