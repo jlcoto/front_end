@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Jose's Portfolio</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Open+Sans+Condensed:300" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet" >
 	<link href="css/responsive.css" rel="stylesheet">
 	<script src="js/jquery-3.1.1.js"></script>
@@ -41,19 +41,19 @@
 					</div>
 					<div class="row">
 					<div class="panel">
-						<div class="row">
-							<input id="filter-text" class="col-xs-10" data-bind="textInput:filter" />
-							<input class="col-xs-2" id="apply-filter" type="image" alt="apply filter" src="img/filter_button.png">
+						<div class="row filter-results">
+							<input id="filter-text" class="col-xs-9" data-bind="textInput:filter" />
+							<input class="col-xs-3" id="apply-filter" type="image" alt="apply filter" src="img/filter_button.png">
 						</div>
 						<div class="row">
 							<div  class="col-xs-12" data-bind="foreach:filteredEvents">
 								<div class="list-events">
 									<p id="event-title" data-bind="{text:title}">
 										<ul class="event-description">
-											<li>Description: <span data-bind="text:description"></span></li>
-											<li>Time: <span data-bind="text:time"></span></li>
-											<li>Category: <span data-bind="text:category"></span></li>
-											<li>Address: <span data-bind="text:address"></span></li>
+											<li><b>Description:</b> <span data-bind="text:description"></span></li>
+											<li><b>Time: </b><span data-bind="text:time"></span></li>
+											<li><b>Category: </b><span data-bind="text:category"></span></li>
+											<li><b>Address: </b><span data-bind="text:address"></span></li>
 										</ul>
 									</p>
 								</div>

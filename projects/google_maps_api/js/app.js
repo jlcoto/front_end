@@ -849,7 +849,6 @@ $.ajax({
   data: {format: 'json',
         q:queryString},
     success: function(response){
-        console.log(response);
         response.query.results.channel.item.forecast.forEach(function(day){
             if (day.date === "25 Mar 2017" || day.date === "26 Mar 2017"){
                 $(".weather").append("<tr><td id='day'>" + day.day + "</td> <td id='forecast'>"+ day.text +

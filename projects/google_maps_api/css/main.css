@@ -4,6 +4,14 @@
 	box-sizing: border-box;
 }
 
+
+body {
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 16px;
+}
+
+/*Header*/
+
 .title, .city {
 	font-family: 'Julius Sans One', sans-serif;
 	color: #F5F00C;
@@ -45,11 +53,6 @@
 	background-color: #AAB1B5;
 }
 
-/*#time-line {
-	min-height: 25px;
-	min-width: 160px;
-
-}*/
 
 .check-all-time {
 	float: left;
@@ -74,6 +77,10 @@
     width: 100%;
 }
 
+button {
+	font-size: 18px;
+}
+
 button.accordion {
     background-color: #AAB1B5;
     color: #444;
@@ -94,8 +101,13 @@ button.accordion:after {
     margin-left: 5px;
 }
 
+button.accordion.active {
+	background-color: #7E8A91;
+}
+
 button.accordion.active:after {
     content: "\2335"; /* Unicode character for "minus" sign (-) */
+	color: #ddd;
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
@@ -127,7 +139,13 @@ div.panel {
 }
 
 .event-description {
+	padding-left: 15px;
 	display: none;
+	list-style-type: none;
+}
+
+.event-description li {
+	padding-top: 10px;
 }
 
 #wrapper {
@@ -179,6 +197,10 @@ div.panel {
 
 /*Styling the menu*/
 
+.filter-results {
+	margin-bottom: 25px;
+}
+
 #filter-text {
 	min-height: 32px;
 }
@@ -187,6 +209,10 @@ div.panel {
 	min-height: 26px;
 	width: auto;
 	padding: 0px;
+}
+
+.list-events {
+	padding: 12px 0px;
 }
 
 
