@@ -42,7 +42,7 @@
 					<div class="row">
 					<div class="panel">
 						<div class="row filter-results">
-							<input id="filter-text" class="col-xs-9" data-bind="textInput:filter" />
+							<input id="filter-text" class="col-xs-9" placeholder="Enter type of event" data-bind="textInput:filter" />
 							<input class="col-xs-3" id="apply-filter" type="image" alt="apply filter" src="img/filter_button.png">
 						</div>
 						<div class="row">
@@ -70,12 +70,12 @@
 					<div class="panel">
 					<div class="row">
 						<form>
-							<div class="col-md-3">
+							<div class="col-md-4">
 								<input class="img-responsive check-all-time" type="checkbox" data-bind="checked: timedEvent" value="All" />
-								<img class="cost-image img-responsive" src="img/all_small.png">
+								<img class="all-time-img img-responsive" src="img/all_small.png">
 							</div>
-							<div class="col-md-9">
-								<img  id="time-line" class="img-responsive" data-bind="attr: {src: timeOfEvent().image}">
+							<div class="col-md-8">
+								<img  id="time-line" class="img-responsive" data-bind="attr: {src: timeOfEvent().image, srcset: timeOfEvent().srcset}">
 								<input class="slider img-responsive" type="range" data-bind="value: slider" id="Filter" name="points" min="0" max="2" />
 							</div>
 						</form>
@@ -127,7 +127,7 @@
 					<div class="panel">
 					<div class="row">
 						<input class="col-xs-10" id="zoom-to-area-text" type="text" placeholder="Enter your favorite area">
-						<input class="col-xs-2" id="zoom-to-area" type="button" value="Zoom">
+						<input class="col-xs-2" id="zoom-to-area" type="image" alt="zoom button" src="img/zoom_button.png">
 					</div>
 					</div>
 					</div>

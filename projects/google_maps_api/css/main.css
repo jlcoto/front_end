@@ -1,4 +1,6 @@
 
+/*General Styles*/
+
 
 * {
 	box-sizing: border-box;
@@ -49,32 +51,11 @@ body {
 	max-width: 80px;
 }
 
+
+/*Style Menu*/
+
 #menu {
 	background-color: #AAB1B5;
-}
-
-
-.check-all-time {
-	float: left;
-	margin-right: 10px;
-}
-
-#map{
-    position: relative;
-    width: 100%;
-    padding-bottom: 80%; /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
-}
-#map > *{
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
 }
 
 button {
@@ -125,17 +106,24 @@ div.panel {
   	margin-top: -3px;
 }
 
-#infowindow-title {
-	text-align: center;
-	font-weight: bold;
+/*Styling the Filtering results*/
+
+.filter-results {
+	margin-bottom: 25px;
 }
 
-.slider {
-	width: 293px;
+#filter-text, #zoom-to-area-text {
+	min-height: 32px;
 }
 
-.event-image {
-	display: inline;
+#apply-filter, #zoom-to-area {
+	min-height: 26px;
+	width: auto;
+	padding: 0px;
+}
+
+.list-events {
+	padding: 12px 0px;
 }
 
 .event-description {
@@ -148,22 +136,29 @@ div.panel {
 	padding-top: 10px;
 }
 
-#wrapper {
-	position: relative;
-	padding: 0px;
+/*Time of Event*/
+
+.slider {
+	width: 293px;
 }
 
-.weather {
-	position: absolute;
-	top: 10px;
-	left:50%;
-	z-index: 99;
-	background-color: rgba(255,255,255,0.7);
-	padding: 7px;
-	border-radius: 10px;
-	border-spacing: 7px;
-	border-collapse: separate;
+.check-all-time {
+	float: left;
+	margin-right: 10px;
 }
+
+/*Events menu*/
+
+.event-image {
+	display: inline;
+}
+
+label {
+	font-weight: normal;
+}
+
+
+/*Weather Box*/
 
 #day {
 	color: #577da6;
@@ -195,29 +190,46 @@ div.panel {
 	font-weight: bold;
 }
 
-/*Styling the menu*/
-
-.filter-results {
-	margin-bottom: 25px;
+.weather {
+	position: absolute;
+	top: 10px;
+	left:45%;
+	z-index: 99;
+	background-color: rgba(255,255,255,0.7);
+	padding: 7px;
+	border-radius: 10px;
+	border-spacing: 7px;
+	border-collapse: separate;
 }
 
-#filter-text {
-	min-height: 32px;
-}
+/*Styling Map*/
 
-#apply-filter {
-	min-height: 26px;
-	width: auto;
+#wrapper {
+	position: relative;
 	padding: 0px;
 }
 
-.list-events {
-	padding: 12px 0px;
+#map{
+    position: relative;
+    width: 100%;
+    padding-bottom: 80%; /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
+}
+#map > *{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
 }
 
-
-/*.selected-event {
-	color: red;
+#infowindow-title {
+	text-align: center;
+	font-weight: bold;
 }
-*/
+
 

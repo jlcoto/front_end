@@ -4,7 +4,8 @@ var data =
 		[{
 		section: "Time",
 		name: "Time of Event",
-		img: "img/time_line.png",
+		img: "img/time_line_small.png",
+        srcattr: "img/time_line_small.png 194w, img/time_line_standard.png 250w",
 		times: ["morning", "afternoon", "evening"]
 		},
 		{
@@ -236,6 +237,7 @@ accordMenu.on("click", function(){
 var TimeOfEvent = function(data) {
 	this.name = ko.observable(data.name);
 	this.image = ko.observable(data.img);
+    this.srcset = ko.observable(data.srcattr);
 }
 
 var timeCategories,
