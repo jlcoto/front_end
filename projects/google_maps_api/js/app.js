@@ -849,10 +849,11 @@ $.ajax({
   data: {format: 'json',
         q:queryString},
     success: function(response){
+        console.log(response);
         response.query.results.channel.item.forecast.forEach(function(day){
-            if (day.day === "Sat" || day.day === "Sun"){
+            if (day.date === "25 Mar 2017" || day.date === "26 Mar 2017"){
                 $(".weather").append("<tr><td id='day'>" + day.day + "</td> <td id='forecast'>"+ day.text +
-                    "</td><td id='high-temp'> " + day.high + "</td> <td id='high-temp'> " + day.low + "</td></br><tr>")
+                    "</td><td id='high-temp'> " + day.high + "</td> <td id='low-temp'> " + day.low + "</td></br><tr>")
             }
         })
   }, error: function(){

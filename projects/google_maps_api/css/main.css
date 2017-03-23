@@ -147,6 +147,47 @@ div.panel {
 	border-collapse: separate;
 }
 
+#day {
+	color: #577da6;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#forecast {
+	padding-top: 7px;
+	color: #6A7379;
+	font-style: italic;
+}
+
+#high-temp {
+	margin-top: 7px;
+	background: #F6C43E;
+	padding: 3px 7px 1px 7px;
+	border-radius: 6px;
+	color: #a18128;
+	font-weight: bold;
+}
+
+#low-temp {
+	margin-top: 7px;
+	background: #6E90E6;
+	padding: 3px 10px 1px 10px;
+	border-radius: 6px;
+	color: #3A4D7A;
+	font-weight: bold;
+}
+
+/*Styling the menu*/
+
+#filter-text {
+	min-height: 32px;
+}
+
+#apply-filter {
+	min-height: 26px;
+	width: auto;
+	padding: 0px;
+}
 
 
 /*.selected-event {
