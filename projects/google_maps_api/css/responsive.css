@@ -1,4 +1,5 @@
 @media screen and (max-width: 549px) {
+
   svg.sandwich {
     display: inline-block;
   }
@@ -22,10 +23,7 @@
   }
 
   div.panel {
-  	margin: 0px;
-  	border: 0px;
-  	padding-top: 20px;
-  	margin-top: -3px;
+
   }
 
 
