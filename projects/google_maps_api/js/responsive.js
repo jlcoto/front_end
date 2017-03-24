@@ -1,5 +1,5 @@
 /*
- * Open the drawer when the menu ison is clicked.
+ * Open the drawer when the sandwich icon is clicked is clicked.
  */
 var clickSandwich = document.querySelector('#sandwich-menu');
 var main = document.querySelector('main');

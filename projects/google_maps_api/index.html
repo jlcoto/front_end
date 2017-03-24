@@ -95,7 +95,7 @@
 								<div data-bind="foreach: $data" class="row">
 									<div class="col-xs-6">
 										<label><input class="img-responsive check-event" type="checkbox" data-bind="checked: $root.likedEvent, attr: {value: name}" /><span data-bind="text: name"></span></label>
-										<img class="event-image img-responsive" data-bind="attr: {src: img}">
+										<img class="event-image img-responsive" data-bind="attr: {src: img, alt: alt}">
 									</div>
 								</div>
 							</div>
@@ -146,7 +146,7 @@
 
 			<div class="row">
 				<div class="col-md-12 text-center">
-					Information on Events provided by <a target=# href="https://www.berlin.de/wochenend-tipps/"> Berlin Wochenendtipp</a> / Mapping functionality by <a target=# href="https://developers.google.com/maps/">Google Maps API</a> / Extra information by <a target=# href="https://www.mediawiki.org/wiki/API:Main_page"> Wikipedia API</a>.
+					Information on Events provided by <a target=# href="https://www.berlin.de/wochenend-tipps/"> Berlin Wochenendtipp</a> / Mapping functionality by <a target=# href="https://developers.google.com/maps/">Google Maps API</a> / Extra information by <a target=# href="https://www.mediawiki.org/wiki/API:Main_page"> Wikipedia API</a> / Weather information by <a target=# href="https://developer.yahoo.com/weather/">Yahoo Weather API</a>.
 				</div>
 			</div>
 		</body>
