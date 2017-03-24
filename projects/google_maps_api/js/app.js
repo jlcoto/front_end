@@ -662,7 +662,6 @@ var styles = [
 
       };
 
-
       //Animating marker when element from list is selected
       $('body').on("click", '#event-title', function(){
         var titleClicked = $(this).text();
@@ -888,5 +887,42 @@ $.ajax({
         , error: function(){
             $('#map').append('Map could not load. Try refreshing the page or checking your Internet connection.');
         }});
+
+function wikiRequest(coordinates, id) {
+
+var wikiURL = "https://en.wikipedia.org/w/api.php";
+    wikiURL += '?' + $.param({
+        'action': 'query',
+        'list': 'geosearch',
+        'format': 'json',
+        'gsradius': '1000',
+        'gscoord': coordinates.lat + "|" + coordinates.lng,
+        'callback': 'wikiCallback'
+    });
+
+
+    $.ajax({
+        url: wikiURL,
+        dataType: 'jsonp',
+        success: function(data) {
+            if (data.query.geosearch.length !== 0) {
+                $(".wiki-info" + "#"  + id).append("<a target=#  href=http://en.wikipedia.org/?curid=" + data.query.geosearch[0].pageid + ">"
+                    + data.query.geosearch[0].title +"</a>");
+            } else  {
+                $(".wiki-info" + "#"  + id).append("No wikipedia article found.");
+            }
+            }, error: function(){
+                $(".wiki-info" + "#"  + id).append("Could not connect to wikipedia.");
+        }
+    })
+}
+
+$("document").ready(
+    dataEvents.forEach(function(data, index){
+        wikiRequest(data.location, index)
+    }));
+
+
+
 
 
