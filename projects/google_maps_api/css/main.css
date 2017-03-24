@@ -36,7 +36,6 @@ body {
 }
 
 .sandwich {
-	display: none;
 	fill: #b8c3d7;
 	height: 100px;
 	width: 40px;
@@ -49,6 +48,23 @@ body {
 
 
 /*Style Menu*/
+
+#menu {
+	z-index: 10;
+	background-color: #fff;
+	width: 200px;
+	position: absolute;
+	/* This trasform moves the drawer off canvas. */
+	-webkit-transform: translate(-350px, 0);
+	transform: translate(-350px, 0);
+	/* Optionally, we animate the drawer. */
+	transition: transform 0.3s ease;
+}
+
+#menu.open {
+	-webkit-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
 
 #menu {
 	background-color: #aab1b5;
@@ -191,7 +207,7 @@ label {
 	border-collapse: separate;
 	border-radius: 10px;
 	border-spacing: 7px;
-	left:45%;
+	left: 55%;
 	padding: 7px;
 	position: absolute;
 	top: 10px;

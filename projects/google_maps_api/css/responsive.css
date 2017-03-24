@@ -5,43 +5,47 @@
 		display: inline-block;
 	}
 
-	#menu {
-		z-index: 10;
-		background-color: #fff;
-		width: 200px;
-		position: absolute;
-		/* This trasform moves the drawer off canvas. */
-		-webkit-transform: translate(-350px, 0);
-		transform: translate(-350px, 0);
-		/* Optionally, we animate the drawer. */
-		transition: transform 0.3s ease;
-	}
-
-	#menu.open {
-		-webkit-transform: translate(0, 0);
-		transform: translate(0, 0);
-	}
-
 	.weather {
 		display: none;
 	}
 }
 
+@media (min-width: 550px) {
+
+	#menu {
+		width: 250px;
+	}
+}
+
 @media (min-width: 768px) {
 	.weather {
-		left: 55%;
+		left: 70%;
+	}
+
+	#menu {
+		width: 270px;
 	}
 }
 
 @media (min-width: 1000px) {
+
+	#menu {
+		width: 300px;
+	}
+
 	.weather {
-		left: 60%;
+		left: 75%;
 	}
 }
 
 @media (min-width: 1200px) {
+
+	#menu {
+		width: 320px;
+	}
+
 	.weather {
-		left: 68%;
+		left: 80%;
 	}
 }
 
