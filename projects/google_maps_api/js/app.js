@@ -223,6 +223,7 @@ var accordMenu = $(".accordion");
 
 accordMenu.on("click", function(){
 	if ($(this).parent().next().children().css('display') == 'none'){
+        $('.panel').hide();
 		$(this).addClass("active");
 		$(this).parent().next().children().fadeIn("slow");
 	} else {
@@ -232,6 +233,8 @@ accordMenu.on("click", function(){
 })
 
 
+// TODO
+// When I search for something all the categories must go back.
 
 
 var TimeOfEvent = function(data) {
@@ -629,8 +632,16 @@ var styles = [
 
       var bounds = new google.maps.LatLngBounds();
 
+      function isInfoWindowOpen(infoWindow){
+            var map = infoWindow.getMap();
+            return (map !== null && typeof map !== "undefined");
+        };
+
       function populateInfoWindow(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
+        if (!isInfoWindowOpen(infowindow)){
+            infowindow.open(map, marker);
+        }
         if (infowindow.marker != marker) {
           // Clear the infowindow content to give the streetview time to load.
           infowindow.setContent('');
@@ -650,6 +661,7 @@ var styles = [
       }
 
       };
+
 
       //Animating marker when element from list is selected
       $('body').on("click", '#event-title', function(){
@@ -689,9 +701,11 @@ var styles = [
 
       // Changes when Time of Event Changes
        $('body').on("change", ".slider",function(){
+            largeInfowindow.close();
        		$('.check-all-time').prop('checked', false);
             ViewModel.timedEvent([""])
         	dataEvents.forEach(function(event, i){
+                // markers[i].infoWindow = null;
         		 if (jointFilters(event, collectedTitles)){
         			markers[i].setVisible(true)
         		} else {
@@ -701,6 +715,7 @@ var styles = [
         });
 
         $('body').on("change", ".check-event",function(){
+            largeInfowindow.close();
         	dataEvents.forEach(function(event, i){
         		if (jointFilters(event, collectedTitles)){
         			markers[i].setVisible(true)
@@ -711,6 +726,7 @@ var styles = [
         });
 
         $('body').on("change", ".check-price",function(){
+            largeInfowindow.close();
         	dataEvents.forEach(function(event, i){
         		if (jointFilters(event, collectedTitles)){
         			markers[i].setVisible(true);
@@ -721,6 +737,7 @@ var styles = [
         });
 
         $('body').on("change", ".check-all-time",function(){
+            largeInfowindow.close();
             ViewModel.timedEvent(["All"])
         	dataEvents.forEach(function(event, i){
         		if (filterEventsLiked(event.category) &&

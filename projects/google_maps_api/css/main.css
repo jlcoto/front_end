@@ -8,26 +8,22 @@
 
 
 body {
-	font-family: 'Open Sans Condensed', sans-serif;
-	font-size: 16px;
+	font: 16px 'Open Sans Condensed', sans-serif;
 }
 
 /*Header*/
 
 .title, .city {
+	color: #f5f00c;
 	font-family: 'Julius Sans One', sans-serif;
-	color: #F5F00C;
 	padding-left: 0px;
 	padding-right: 0px;
-
 }
 
 .city {
+	border: 2px solid #f5f00c;
 	font-size: 1.5em;
 	padding: 4px 4px ;
-	border-style: solid;
-	border-width: 2px;
-	border-color: #F5F00C;
 }
 
 .city-title {
@@ -35,15 +31,15 @@ body {
 }
 
 .header-style {
-	background-color: #6D777D;
+	background-color: #6d777d;
 	padding-bottom: 10px;
 }
 
 .sandwich {
+	display: none;
+	fill: #b8c3d7;
 	height: 100px;
 	width: 40px;
-	fill: #B8C3D7;
-	display: none;
 }
 
 #berlin-logo {
@@ -55,7 +51,7 @@ body {
 /*Style Menu*/
 
 #menu {
-	background-color: #AAB1B5;
+	background-color: #aab1b5;
 }
 
 button {
@@ -63,32 +59,32 @@ button {
 }
 
 button.accordion {
-    background-color: #AAB1B5;
+    background-color: #aab1b5;
+    border: none;
     color: #444;
     cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    text-align: left;
-    border: none;
     outline: none;
+    padding: 18px;
+    text-align: left;
     transition: 0.4s;
+    width: 100%;
 }
 
 button.accordion:after {
-    content: "\003E"; /* Unicode character for "plus" sign (+) */
-    font-size: 15px;
     color: #777;
+    content: "\003E"; /* Unicode character for "plus" sign (+) */
     float: right;
+    font-size: 15px;
     margin-left: 5px;
 }
 
 button.accordion.active {
-	background-color: #7E8A91;
+	background-color: #7e8a91;
 }
 
 button.accordion.active:after {
-    content: "\2335"; /* Unicode character for "minus" sign (-) */
 	color: #ddd;
+    content: "\2335"; /* Unicode character for "minus" sign (-) */
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
@@ -98,12 +94,12 @@ button.accordion:hover {
 
 /* Style the accordion panel. Note: hidden by default */
 div.panel {
-    padding: 20px 18px;
-    background-color: #AAB1B5;
-    display: none;
-    margin: 0px;
   	border: 0px;
   	margin-top: -3px;
+    background-color: #aab1b5;
+    display: none;
+    margin: 0px;
+    padding: 20px 18px;
 }
 
 /*Styling the Filtering results*/
@@ -118,8 +114,8 @@ div.panel {
 
 #apply-filter, #zoom-to-area {
 	min-height: 26px;
-	width: auto;
 	padding: 0px;
+	width: auto;
 }
 
 .list-events {
@@ -127,9 +123,9 @@ div.panel {
 }
 
 .event-description {
-	padding-left: 15px;
 	display: none;
 	list-style-type: none;
+	padding-left: 15px;
 }
 
 .event-description li {
@@ -167,69 +163,69 @@ label {
 }
 
 #forecast {
-	padding-top: 7px;
-	color: #6A7379;
+	color: #6a7379;
 	font-style: italic;
+	padding-top: 7px;
 }
 
 #high-temp {
-	margin-top: 7px;
-	background: #F6C43E;
-	padding: 3px 7px 1px 7px;
+	background: #f6c43e;
 	border-radius: 6px;
 	color: #a18128;
 	font-weight: bold;
+	margin-top: 7px;
+	padding: 3px 7px 1px 7px;
 }
 
 #low-temp {
-	margin-top: 7px;
-	background: #6E90E6;
-	padding: 3px 10px 1px 10px;
+	background: #6e90e6;
 	border-radius: 6px;
 	color: #3A4D7A;
 	font-weight: bold;
+	margin-top: 7px;
+	padding: 3px 10px 1px 10px;
 }
 
 .weather {
-	position: absolute;
-	top: 10px;
-	left:45%;
-	z-index: 99;
 	background-color: rgba(255,255,255,0.7);
-	padding: 7px;
+	border-collapse: separate;
 	border-radius: 10px;
 	border-spacing: 7px;
-	border-collapse: separate;
+	left:45%;
+	padding: 7px;
+	position: absolute;
+	top: 10px;
+	z-index: 99;
 }
 
 /*Styling Map*/
 
 #wrapper {
-	position: relative;
 	padding: 0px;
+	position: relative;
 }
 
 #map{
+    padding-bottom: 80%; /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
     position: relative;
     width: 100%;
-    padding-bottom: 80%; /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
 }
 #map > *{
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
     bottom: 0;
+    display: block;
+    height: 100%;
     left: 0;
     margin: 0;
     padding: 0;
-    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
     width: 100%;
 }
 
 #infowindow-title {
-	text-align: center;
 	font-weight: bold;
+	text-align: center;
 }
 
 
