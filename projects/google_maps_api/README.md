@@ -22,5 +22,5 @@ This applications uses de following Apis.
 ## Desing
 The application aims to be responsive and should seamlessly adapt to different devices.
 
-![Image of Berlin Weekend application]()
+![Image of Berlin Weekend application](https://github.com/jlcoto/front_end/blob/master/projects/google_maps_api/img/general_look.png)
 
