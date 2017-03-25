@@ -11,20 +11,21 @@
 	<link href="css/responsive.css" rel="stylesheet">
 	<script src="js/jquery-3.1.1.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-
 </head>
 <body>
-<div class="container-fluid">
-	<header class="row header-style">
-		<a id="sandwich-menu" class="col-xs-2 header__menu">
-			<svg class="sandwich img-responsive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-				<path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
-			</svg>
-		</a>
-		<section class="col-xs-7 title text-center">
-			<h2> What to do this Weekend? </h2>
-			<div class="text-right city-title">
-				<span class="city"> Berlin <span>
+	<div class="container-fluid">
+		<header class="row header-style">
+			<a id="sandwich-menu" class="col-xs-2 header__menu">
+				<svg class="sandwich img-responsive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+					<path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
+				</svg>
+			</a>
+			<section class="col-xs-7 title text-center">
+				<h2>
+					What to do this Weekend?
+				</h2>
+				<div class="text-right city-title">
+					<span class="city"> Berlin <span>
 				</div>
 			</section>
 			<a class="col-xs-3">
@@ -32,8 +33,8 @@
 			</a>
 		</header>
 
-			<div class="row">
-				<aside id="menu">
+		<div class="row">
+			<aside id="menu">
 					<div class="row">
 						<button class="accordion col-xs-12" >
 							Filter by Event
@@ -45,6 +46,7 @@
 								<input id="filter-text" class="col-xs-9" placeholder="Enter type of event" data-bind="textInput:filter" />
 								<input class="col-xs-3" id="apply-filter" type="image" alt="apply filter" src="img/filter_button.png">
 							</div>
+
 							<div class="row">
 								<div  class="col-xs-12" data-bind="foreach:filteredEvents">
 									<div class="list-events">
@@ -149,17 +151,11 @@
 					Information on Events provided by <a target=# href="https://www.berlin.de/wochenend-tipps/"> Berlin Wochenendtipp</a> / Mapping functionality by <a target=# href="https://developers.google.com/maps/">Google Maps API</a> / Extra information by <a target=# href="https://www.mediawiki.org/wiki/API:Main_page"> Wikipedia API</a> / Weather information by <a target=# href="https://developer.yahoo.com/weather/">Yahoo Weather API</a>.
 				</div>
 			</div>
-		</body>
-
-
+		</div>
 		<script src="js/lib/knockout-3.2.0.js"></script>
 		<script async defer src="js/app.js"></script>
 		<script src="js/responsive.js"></script>
-
 	</body>
-
-
-
-	</html>
+</html>
 
 
