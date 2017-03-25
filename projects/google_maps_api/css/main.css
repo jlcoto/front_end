@@ -42,9 +42,9 @@ body {
 }
 
 #berlin-logo {
-	margin-top: 15px;
-	max-width: 80px;
+	max-width: 150px;
 }
+
 
 
 /*Style Menu*/
@@ -89,7 +89,7 @@ button.accordion {
 
 button.accordion:after {
     color: #777;
-    content: "\003E"; /* Unicode character for "plus" sign (+) */
+    content: "\003E";
     float: right;
     font-size: 15px;
     margin-left: 5px;
@@ -101,10 +101,11 @@ button.accordion.active {
 
 button.accordion.active:after {
 	color: #ddd;
-    content: "\2335"; /* Unicode character for "minus" sign (-) */
+    content: "\2335";
 }
 
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+/* Add a background color to the button if it is clicked on
+(add the .active class with JS), and when you move the mouse over it (hover) */
 button.accordion:hover {
     background-color: #ddd;
 }

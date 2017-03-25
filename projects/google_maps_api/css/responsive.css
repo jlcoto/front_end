@@ -1,12 +1,21 @@
 
 @media screen and (max-width: 549px) {
 
+	.title {
+		font-size: 12px;
+	}
+
 	#map {
 		padding-bottom: 100%;
 	}
 
 	.weather {
 		display: none;
+	}
+
+	#berlin-logo {
+		margin-top: 30px;
+		width: 100%;
 	}
 
 }
@@ -38,6 +47,10 @@
 }
 
 @media (min-width: 1000px) {
+
+	.title {
+		padding-top: 25x;
+	}
 
 	#map {
 		padding-bottom: 45%;
