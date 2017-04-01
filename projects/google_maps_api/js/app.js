@@ -579,12 +579,11 @@ return rows;
         var largeInfowindow = new google.maps.InfoWindow();
         var defaultIcon = makeMarkerIcon('577da6');
         var highlightedIcon = makeMarkerIcon('f6c43e');
-        var collectedTitles = ViewModel.collectedTitles(); // checks what titles are currently available in list.
         var zoomAutocomplete = new google.maps.places.Autocomplete(document.getElementById('zoom-to-area-text'));
         //Bias the boundaries within the map for the zoom to area text.
         zoomAutocomplete.bindTo('bounds', map);
 
-        ko.utils.forEach(this.eventDescription(), function(item){
+        ko.utils.arrayForEach(this.eventDescription(), function(item, index){
            var position = item.location;
            var title = item.title;
             // Create a marker per location, and put into markers array.
@@ -596,7 +595,7 @@ return rows;
                 visible: location.visible,
                 icon: defaultIcon
             });
-            markers.push(marker);
+            self.markers.push(marker);
             // Create an onclick event to open the large infowindow at each marker.
 
           //   marker.addListener('click', function() {
