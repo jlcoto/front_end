@@ -288,6 +288,230 @@ var ViewModel = function() {
 
     this.eventDescription = ko.observableArray([]);
 
+    this.markers = ko.observableArray([]);
+
+    this.styles = [
+    {
+        "featureType": "administrative",
+        "elementType": "labels.text.fill",
+        "stylers": [
+        {
+            "color": "#444444"
+        }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+        {
+            "color": "#f2f2f2"
+        }
+        ]
+    },
+    {
+        "featureType": "landscape.man_made",
+        "elementType": "geometry.fill",
+        "stylers": [
+        {
+            "color": "#e5e6e6"
+        },
+        {
+            "saturation": "-61"
+        },
+        {
+            "lightness": "-2"
+        }
+        ]
+    },
+    {
+        "featureType": "landscape.natural.landcover",
+        "elementType": "geometry.fill",
+        "stylers": [
+        {
+            "saturation": "-3"
+        },
+        {
+            "color": "#c1aeae"
+        }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [
+        {
+            "visibility": "off"
+        }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry.fill",
+        "stylers": [
+        {
+            "saturation": "-14"
+        },
+        {
+            "visibility": "on"
+        },
+        {
+            "color": "#b2b5b6"
+        },
+        {
+            "lightness": "9"
+        },
+        {
+            "gamma": "1.10"
+        }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+        {
+            "saturation": -100
+        },
+        {
+            "lightness": 45
+        }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry.fill",
+        "stylers": [
+        {
+            "visibility": "on"
+        },
+        {
+            "color": "#b4b9ba"
+        },
+        {
+            "lightness": "30"
+        }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "all",
+        "stylers": [
+        {
+            "visibility": "simplified"
+        }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+        {
+            "visibility": "on"
+        },
+        {
+            "color": "#fad93e"
+        }
+        ]
+    },
+    {
+        "featureType": "road.highway.controlled_access",
+        "elementType": "geometry.fill",
+        "stylers": [
+        {
+            "color": "#afbaba"
+        },
+        {
+            "visibility": "on"
+        }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry.fill",
+        "stylers": [
+        {
+            "visibility": "on"
+        },
+        {
+            "color": "#faf67f"
+        }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry.stroke",
+        "stylers": [
+        {
+            "visibility": "on"
+        }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.text.fill",
+        "stylers": [
+        {
+            "lightness": "-40"
+        }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.icon",
+        "stylers": [
+        {
+            "visibility": "off"
+        }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+        {
+            "visibility": "on"
+        },
+        {
+            "weight": "1.00"
+        }
+        ]
+    },
+    {
+        "featureType": "transit.line",
+        "elementType": "geometry.fill",
+        "stylers": [
+        {
+            "color": "#b3bbbc"
+        },
+        {
+            "visibility": "on"
+        }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+        {
+            "color": "#b2babe"
+        },
+        {
+            "visibility": "on"
+        }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry.fill",
+        "stylers": [
+        {
+            "lightness": "29"
+        }
+        ]
+    }
+    ];
+
     //Populating our observables with the data
     data.forEach(function(data){
       if (data.section == 'Time') {
@@ -343,248 +567,13 @@ return rows;
         });
     });
 
-};
+    var map;
 
-var ViewModel = new ViewModel();
-
-// Initialize with all boxes checked
-ViewModel.likedEvent(eventCategories);
-ViewModel.costEventChecked(costCategories);
-
-ko.applyBindings(ViewModel);
-
-//Choosing google maps styles
-var styles = [
-{
-    "featureType": "administrative",
-    "elementType": "labels.text.fill",
-    "stylers": [
-    {
-        "color": "#444444"
-    }
-    ]
-},
-{
-    "featureType": "landscape",
-    "elementType": "all",
-    "stylers": [
-    {
-        "color": "#f2f2f2"
-    }
-    ]
-},
-{
-    "featureType": "landscape.man_made",
-    "elementType": "geometry.fill",
-    "stylers": [
-    {
-        "color": "#e5e6e6"
-    },
-    {
-        "saturation": "-61"
-    },
-    {
-        "lightness": "-2"
-    }
-    ]
-},
-{
-    "featureType": "landscape.natural.landcover",
-    "elementType": "geometry.fill",
-    "stylers": [
-    {
-        "saturation": "-3"
-    },
-    {
-        "color": "#c1aeae"
-    }
-    ]
-},
-{
-    "featureType": "poi",
-    "elementType": "all",
-    "stylers": [
-    {
-        "visibility": "off"
-    }
-    ]
-},
-{
-    "featureType": "poi.park",
-    "elementType": "geometry.fill",
-    "stylers": [
-    {
-        "saturation": "-14"
-    },
-    {
-        "visibility": "on"
-    },
-    {
-        "color": "#b2b5b6"
-    },
-    {
-        "lightness": "9"
-    },
-    {
-        "gamma": "1.10"
-    }
-    ]
-},
-{
-    "featureType": "road",
-    "elementType": "all",
-    "stylers": [
-    {
-        "saturation": -100
-    },
-    {
-        "lightness": 45
-    }
-    ]
-},
-{
-    "featureType": "road",
-    "elementType": "geometry.fill",
-    "stylers": [
-    {
-        "visibility": "on"
-    },
-    {
-        "color": "#b4b9ba"
-    },
-    {
-        "lightness": "30"
-    }
-    ]
-},
-{
-    "featureType": "road.highway",
-    "elementType": "all",
-    "stylers": [
-    {
-        "visibility": "simplified"
-    }
-    ]
-},
-{
-    "featureType": "road.highway",
-    "elementType": "geometry.fill",
-    "stylers": [
-    {
-        "visibility": "on"
-    },
-    {
-        "color": "#fad93e"
-    }
-    ]
-},
-{
-    "featureType": "road.highway.controlled_access",
-    "elementType": "geometry.fill",
-    "stylers": [
-    {
-        "color": "#afbaba"
-    },
-    {
-        "visibility": "on"
-    }
-    ]
-},
-{
-    "featureType": "road.arterial",
-    "elementType": "geometry.fill",
-    "stylers": [
-    {
-        "visibility": "on"
-    },
-    {
-        "color": "#faf67f"
-    }
-    ]
-},
-{
-    "featureType": "road.arterial",
-    "elementType": "geometry.stroke",
-    "stylers": [
-    {
-        "visibility": "on"
-    }
-    ]
-},
-{
-    "featureType": "road.arterial",
-    "elementType": "labels.text.fill",
-    "stylers": [
-    {
-        "lightness": "-40"
-    }
-    ]
-},
-{
-    "featureType": "road.arterial",
-    "elementType": "labels.icon",
-    "stylers": [
-    {
-        "visibility": "off"
-    }
-    ]
-},
-{
-    "featureType": "transit",
-    "elementType": "all",
-    "stylers": [
-    {
-        "visibility": "on"
-    },
-    {
-        "weight": "1.00"
-    }
-    ]
-},
-{
-    "featureType": "transit.line",
-    "elementType": "geometry.fill",
-    "stylers": [
-    {
-        "color": "#b3bbbc"
-    },
-    {
-        "visibility": "on"
-    }
-    ]
-},
-{
-    "featureType": "water",
-    "elementType": "all",
-    "stylers": [
-    {
-        "color": "#b2babe"
-    },
-    {
-        "visibility": "on"
-    }
-    ]
-},
-{
-    "featureType": "water",
-    "elementType": "geometry.fill",
-    "stylers": [
-    {
-        "lightness": "29"
-    }
-    ]
-}
-];
-
-//Creating map - Using google API
-var map;
-var markers = [];
-function initMap() {
-        // Constructor creates a new map - only center and zoom are required.
-        map = new google.maps.Map(document.getElementById('map'), {
+    // Constructor creates a new map - only center and zoom are required.
+    map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 52.52000659999999, lng: 13.404953999999975},
           zoom: 13,
-          styles: styles,
+          styles: self.styles,
           mapTypeControl: false
       });
         var largeInfowindow = new google.maps.InfoWindow();
@@ -595,50 +584,73 @@ function initMap() {
         //Bias the boundaries within the map for the zoom to area text.
         zoomAutocomplete.bindTo('bounds', map);
 
-        dataEvents.forEach(function(location, index){
-           var position = location.location;
-           var title = location.title;
-			// Create a marker per location, and put into markers array.
-			var marker = new google.maps.Marker({
-				position: position,
-				title: title,
-				animation: google.maps.Animation.DROP,
-				id: index,
-				visible: location.visible,
+        ko.utils.forEach(this.eventDescription(), function(item){
+           var position = item.location;
+           var title = item.title;
+            // Create a marker per location, and put into markers array.
+            var marker = new google.maps.Marker({
+                position: position,
+                title: title,
+                animation: google.maps.Animation.DROP,
+                id: index,
+                visible: location.visible,
                 icon: defaultIcon
             });
             markers.push(marker);
             // Create an onclick event to open the large infowindow at each marker.
-            marker.addListener('click', function() {
-                markers.forEach(function(marker){
-                    marker.setIcon(defaultIcon);
-                });
-                populateInfoWindow(this, largeInfowindow);
-            });
 
-            marker.addListener('mouseover', function() {
-              this.setIcon(highlightedIcon);
-          });
-            marker.addListener('mouseout', function() {
-              this.setIcon(defaultIcon);
-          });
+          //   marker.addListener('click', function() {
+          //       markers.forEach(function(marker){
+          //           marker.setIcon(defaultIcon);
+          //       });
+          //       populateInfoWindow(this, largeInfowindow);
+          //   });
+
+          //   marker.addListener('mouseover', function() {
+          //     this.setIcon(highlightedIcon);
+          // });
+          //   marker.addListener('mouseout', function() {
+          //     this.setIcon(defaultIcon);
+          // });
 
         });
 
-	     // This function will loop through the markers array and display them all.
-	     function showMarkers(markers) {
+         // This function will loop through the markers array and display them all.
+         function showMarkers() {
          var bounds = new google.maps.LatLngBounds();
-	        // Extend the boundaries of the map for each marker and display the marker
-	        for (var i = 0; i < markers.length; i++) {
-               markers[i].setMap(map);
-               bounds.extend(markers[i].position);
-           }
+            // Extend the boundaries of the map for each marker and display the marker
+            ko.utils.arrayForEach(self.markers(), function(marker){
+                marker.setMap(map);
+                bounds.extend(marker.position);
+            })
            map.fitBounds(bounds);
        }
 
-       showMarkers(markers);
+       showMarkers();
 
-       var bounds = new google.maps.LatLngBounds();
+};
+
+
+
+// // Initialize with all boxes checked
+// ViewModel.likedEvent(eventCategories);
+// ViewModel.costEventChecked(costCategories);
+
+function runApp() {
+  ko.applyBindings(new ViewModel());
+}
+
+//Choosing google maps styles
+
+
+//Creating map - Using google API
+
+
+
+
+
+
+
 
      //Function that checks if a infowindow is
      //currently opened
@@ -702,133 +714,133 @@ function initMap() {
       }
   }
 
-      //Animating marker when element from list is selected
-      $('body').on('click', '#event-title', function(){
-        var titleClicked = $(this).text();
-        markers.forEach(function(marker){
-            //Checkin that the title selected correspond to the title
-            // of the marker
-            if (titleClicked === marker.title){
-                marker.setAnimation(google.maps.Animation.BOUNCE);
-                marker.setIcon(highlightedIcon);
-                populateInfoWindow(marker, largeInfowindow);
-                setTimeout(function(){ marker.setAnimation(null); }, 1450);
-            } else {
-                marker.setAnimation(null);
-                marker.setIcon(defaultIcon);
-            }
-        });
-    });
+//       //Animating marker when element from list is selected
+//       $('body').on('click', '#event-title', function(){
+//         var titleClicked = $(this).text();
+//         markers.forEach(function(marker){
+//             //Checkin that the title selected correspond to the title
+//             // of the marker
+//             if (titleClicked === marker.title){
+//                 marker.setAnimation(google.maps.Animation.BOUNCE);
+//                 marker.setIcon(highlightedIcon);
+//                 populateInfoWindow(marker, largeInfowindow);
+//                 setTimeout(function(){ marker.setAnimation(null); }, 1450);
+//             } else {
+//                 marker.setAnimation(null);
+//                 marker.setIcon(defaultIcon);
+//             }
+//         });
+//     });
 
-      //Changes when text is filtered
-      //Call all the titles shown with collected titles
-      //and only show when you find a match within displayed titles
-      $('#apply-filter').click(function(){
-         collectedTitles = ViewModel.collectedTitles();
-         dataEvents.forEach(function(event, i){
-             if (filterByText(event.title, collectedTitles)){
-                markers[i].setVisible(true);
-                bounds.extend(markers[i].position);
-            } else {
-                markers[i].setVisible(false);
-            }
-        });
-         map.fitBounds(bounds);
-     });
+//       //Changes when text is filtered
+//       //Call all the titles shown with collected titles
+//       //and only show when you find a match within displayed titles
+//       $('#apply-filter').click(function(){
+//          collectedTitles = ViewModel.collectedTitles();
+//          dataEvents.forEach(function(event, i){
+//              if (filterByText(event.title, collectedTitles)){
+//                 markers[i].setVisible(true);
+//                 bounds.extend(markers[i].position);
+//             } else {
+//                 markers[i].setVisible(false);
+//             }
+//         });
+//          map.fitBounds(bounds);
+//      });
 
-      //Also filter when user presses enter key
-      $('#filter-text').keypress(function(e){
-        if (e.which === 13) {
-            $('#apply-filter').click();
-        }
-    });
+//       //Also filter when user presses enter key
+//       $('#filter-text').keypress(function(e){
+//         if (e.which === 13) {
+//             $('#apply-filter').click();
+//         }
+//     });
 
-      // Changes markers displayed
-      // when Time of Event Changes
-      $('body').on('change', '.slider',function(){
-        //Close all the infowindows
-        largeInfowindow.close();
-        $('.check-all-time').prop('checked', false);
-        //De chech all time in model
-        ViewModel.timedEvent(['']);
-        dataEvents.forEach(function(event, i){
-                //Check if we can display event based on
-                //multiple filtering criteria.
-                if (jointFilters(event, collectedTitles)){
-                   markers[i].setVisible(true);
-               } else {
-                   markers[i].setVisible(false);
-               }
-           });
-    });
+//       // Changes markers displayed
+//       // when Time of Event Changes
+//       $('body').on('change', '.slider',function(){
+//         //Close all the infowindows
+//         largeInfowindow.close();
+//         $('.check-all-time').prop('checked', false);
+//         //De chech all time in model
+//         ViewModel.timedEvent(['']);
+//         dataEvents.forEach(function(event, i){
+//                 //Check if we can display event based on
+//                 //multiple filtering criteria.
+//                 if (jointFilters(event, collectedTitles)){
+//                    markers[i].setVisible(true);
+//                } else {
+//                    markers[i].setVisible(false);
+//                }
+//            });
+//     });
 
-      //Changes markes when events occurring all
-      //day long (All option) is checked
-      $('body').on('change', '.check-all-time',function(){
-        largeInfowindow.close();
-        ViewModel.timedEvent(["All"]);
-        dataEvents.forEach(function(event, i){
-          if (filterEventsLiked(event.category) &&
-            filterCost(event.costcat) &&
-            filterByText(event.title, collectedTitles)) {
-              markers[i].setVisible(true);
-      }
-  });
-    });
+//       //Changes markes when events occurring all
+//       //day long (All option) is checked
+//       $('body').on('change', '.check-all-time',function(){
+//         largeInfowindow.close();
+//         ViewModel.timedEvent(["All"]);
+//         dataEvents.forEach(function(event, i){
+//           if (filterEventsLiked(event.category) &&
+//             filterCost(event.costcat) &&
+//             filterByText(event.title, collectedTitles)) {
+//               markers[i].setVisible(true);
+//       }
+//   });
+//     });
 
-      //Changes markers when Type of
-      //event changes
-      $('body').on('change', '.check-event',function(){
-        largeInfowindow.close();
-        dataEvents.forEach(function(event, i){
-            //Apply joint filters
-            if (jointFilters(event, collectedTitles)){
-               markers[i].setVisible(true);
-           } else {
-               markers[i].setVisible(false);
-           }
-       });
-    });
+//       //Changes markers when Type of
+//       //event changes
+//       $('body').on('change', '.check-event',function(){
+//         largeInfowindow.close();
+//         dataEvents.forEach(function(event, i){
+//             //Apply joint filters
+//             if (jointFilters(event, collectedTitles)){
+//                markers[i].setVisible(true);
+//            } else {
+//                markers[i].setVisible(false);
+//            }
+//        });
+//     });
 
-      //Changes markers according to price
-      //options
-      $('body').on('change', '.check-price',function(){
-        largeInfowindow.close();
-        dataEvents.forEach(function(event, i){
-          if (jointFilters(event, collectedTitles)){
-           markers[i].setVisible(true);
-       } else {
-           markers[i].setVisible(false);
-       }
-   });
-    });
+//       //Changes markers according to price
+//       //options
+//       $('body').on('change', '.check-price',function(){
+//         largeInfowindow.close();
+//         dataEvents.forEach(function(event, i){
+//           if (jointFilters(event, collectedTitles)){
+//            markers[i].setVisible(true);
+//        } else {
+//            markers[i].setVisible(false);
+//        }
+//    });
+//     });
 
-      //Zooms to a particular area when user
-      //searches based on area
-      $('#zoom-to-area').click(function(){
-        zoomToArea();
-    });
+//       //Zooms to a particular area when user
+//       //searches based on area
+//       $('#zoom-to-area').click(function(){
+//         zoomToArea();
+//     });
 
-      //Same zoom to area functionality when
-      //enter key is pressed
-      $('#zoom-to-area-text').keypress(function(e){
-            if(e.which === 13){//Enter key pressed
-                $('#zoom-to-area').click();//Trigger search button click event
-            }
-        });
-  }
+//       //Same zoom to area functionality when
+//       //enter key is pressed
+//       $('#zoom-to-area-text').keypress(function(e){
+//             if(e.which === 13){//Enter key pressed
+//                 $('#zoom-to-area').click();//Trigger search button click event
+//             }
+//         });
 
-//Provides accordion menu type functionality for
-//the menu with differen filtering criteria
-$('body').on('click', '#event-title', function(){
-    $('.event-description').hide();
-    if ($(this).next().css('display') == 'none'){
-        $(this).next().fadeIn('slow');
-    } else {
-        $(this).removeClass('active');
-        $(this).next().hide();
-    }
-});
+
+// //Provides accordion menu type functionality for
+// //the menu with differen filtering criteria
+// $('body').on('click', '#event-title', function(){
+//     $('.event-description').hide();
+//     if ($(this).next().css('display') == 'none'){
+//         $(this).next().fadeIn('slow');
+//     } else {
+//         $(this).removeClass('active');
+//         $(this).next().hide();
+//     }
+// });
 
 //Checks if item in dataEvent is displayed
 //in list.
@@ -899,7 +911,13 @@ function makeMarkerIcon(markerColor) {
 }
 
 
+
+
 //Connecting with different Apis
+
+function errorMessage() {
+    alert("Google Maps failed to load. Please check your Internet connection and refresh your page.")
+}
 
 var apiServer = 'https://query.yahooapis.com/v1/public/yql';
 var queryString = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="Berlin") and u="c"';
@@ -924,17 +942,6 @@ $.ajax({
 }
 });
 
-
-//Connects to google maps api and handles
-//possible connections errors
-$.ajax({
-    url: 'https://maps.googleapis.com/maps/api/js?libraries=places' +
-          '&key=AIzaSyBKhbUL5y3A9gVGGz5QN0bdXEIYbfW43pk&v=3&callback=initMap',
-    crossdomain: true,
-    dataType: 'script'
-    , error: function(){
-        $('#map').append('Map could not load. Try refreshing the page or checking your Internet connection.');
-    }});
 
 //Connect to wikipedia and produces
 //a query based on location
