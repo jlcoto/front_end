@@ -227,6 +227,7 @@ var timesDic = {'0':'morning',
 //Creates map
 var map;
 
+
 // Creates accordion menu
 var accordMenu = $('.accordion');
 
@@ -260,7 +261,21 @@ var Event = function(data) {
     this.category = data.category;
     this.location = data.location;
     this.visible = ko.observable(true);
-    this.wikipedia = ''
+    this.wikipedia = '';
+
+
+    this.makeMarkerIcon = function(markerColor){
+        var markerImage = new google.maps.MarkerImage(
+          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+          '|40|_|%E2%80%A2',
+          new google.maps.Size(21, 34),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(10, 34),
+          new google.maps.Size(21,34));
+    return markerImage;
+    }
+    this.defaultIcon = this.makeMarkerIcon('577da6');
+    this.highlightedIcon = this.makeMarkerIcon('f6c43e');
 
     var wikiURL = 'https://en.wikipedia.org/w/api.php';
     wikiURL += '?' + $.param({
@@ -273,26 +288,32 @@ var Event = function(data) {
     });
 
 
-    $.ajax({
+$.ajax({
         url: wikiURL,
         dataType: 'jsonp',
-        success: function(data) {
-            if (data.query.geosearch.length !== 0) {
-                    self.wikipedia = "<a target=#  href=http://en.wikipedia.org/?curid="
-                        + data.query.geosearch[0].pageid + ">"
-                        + data.query.geosearch[0].title +"</a>";
-            } else  {
-                    self.wikipedia = 'No wikipedia article found.';
-            }
-        }, error: function(){
-            self.wikipedia = 'Could not connect to wikipedia. Please, check your Internet connection.';
-        }
-    });
+    }).done(function(data){
+        if (data.query.geosearch.length !== 0) {
+            self.wikipedia = "<a target=#  href=http://en.wikipedia.org/?curid="
+                + data.query.geosearch[0].pageid + ">"
+                + data.query.geosearch[0].title +"</a>";
 
-    this.infoWindowDetails = '<div class="infowindow -content">' + '<div id="info-title">' + self.title + '</br></div>' +
-     '<em> Description: </em>'+ self.description + '</br>' + '<em>Address:</em>' + self.address + '</br>' +
-     '<em> Time:</em>' + self.time + '</br>' + '<em>Nearby by Wikipedia</em>' + self.wikipedia +
-     '</div>';
+    } else  {
+            self.wikipedia =  'No wikipedia article found.';
+    }
+    }).fail( function() {
+        self.wikipedia = "Failed while loading wikipedia. Please check your connection"
+    }
+        );
+
+
+
+
+
+
+
+    this.infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + self.title + '</br></div>' +
+     '<em> Description: </em>'+ self.description + '</br>' + '<em>Address: </em>' + self.address + '</br>' +
+     '<em> Time: </em>' + self.time + '</br>' + '<em>Nearby by Wikipedia: </em>';
 
     this.infowindow = new google.maps.InfoWindow({content: self.infoWindowDetails});
 
@@ -300,8 +321,21 @@ var Event = function(data) {
         position: new google.maps.LatLng(self.location.lat, self.location.lng),
         animation: google.maps.Animation.DROP,
         map: map,
-        title: self.title
+        title: self.title,
+        icon: self.defaultIcon
      });
+
+
+
+
+
+    this.marker.addListener('click', function(){
+        self.infoWindowDetails += self.wikipedia + '</div>';
+        self.infowindow.setContent(self.infoWindowDetails);
+        self.infowindow.open(map, this);
+    })
+
+
 
     this.showMarker = ko.computed(function() {
         if(this.visible() === true) {
@@ -738,7 +772,8 @@ var ViewModel = function() {
 
 //Runs app when called by Google Maps
 function runApp() {
-  ko.applyBindings(new ViewModel());
+  ViewModel = new ViewModel()
+  ko.applyBindings(ViewModel);
 }
 
 
@@ -966,16 +1001,7 @@ function jointFilters(event, collectedTitles) {
 }
 
 // Styles a marker according to color given.
-function makeMarkerIcon(markerColor) {
-    var markerImage = new google.maps.MarkerImage(
-      'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
-      '|40|_|%E2%80%A2',
-      new google.maps.Size(21, 34),
-      new google.maps.Point(0, 0),
-      new google.maps.Point(10, 34),
-      new google.maps.Size(21,34));
-    return markerImage;
-}
+
 
 
 
