@@ -732,8 +732,6 @@ var ViewModel = function() {
         var filter = self.filter();
         if (!filter) {
             return ko.utils.arrayFilter(self.eventDescription(), function(item) {
-                console.log()
-                console.log(item.category)
                 return (self.filterByTime(item) && self.filterByEvent(item) && self.filterByCost(item));
             });
         } else if (filter) {
@@ -742,25 +740,36 @@ var ViewModel = function() {
                 return (self.filterByInput(item, filter) && self.filterByTime(item)
                         && self.filterByEvent(item) && self.filterByCost(item));
             });
+
         }
     });
 
 
 
+    this.applySelectionChanges = ko.computed(function(){
+            var eventLikes = [];
+
+            ko.utils.arrayForEach(self.filteredEvents(), function(item){
+            console.log(item.category)
+            if (eventLikes.indexOf(item.category) === -1){
+               eventLikes.push(item.category);
+            }
+        })
+        self.likedEvent(eventLikes)
+       });
 
 
-    // this.applySelectionChanges = ko.computed(function(){
-    //     self.likedEvent([]);
-    //     self.costEventChecked([]);
-    //     ko.utils.arrayForEach(self.filteredEvents(), function(item){
-    //         if (self.likedEvent().indexOf(item.category) === -1){
-    //            self.likedEvent.push(item.category);
-    //     }
-    //     if (self.costEventChecked().indexOf(item.costcat) === -1){
-    //         self.costEventChecked.push(item.costcat)
-    //     }
-    //     })
-    //     console.log(self.likedEvent().length)
+        // // self.costEventChecked([]);
+        // console.log(self.filteredEvents())
+        // ko.utils.arrayForEach(self.filteredEvents(), function(item){
+        //     console.log(item.category)
+        //     if (self.likedEvent().indexOf(item.category) === -1){
+        //        self.likedEvent.push(item.category);
+        // }
+        // if (self.costEventChecked().indexOf(item.costcat) === -1){
+        //     self.costEventChecked.push(item.costcat)
+        // }
+        // })
     // });
 
 
