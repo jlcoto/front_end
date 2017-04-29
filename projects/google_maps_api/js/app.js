@@ -220,9 +220,7 @@ location: {lat:52.5100083, lng:13.373286699999994}
 }
 ];
 
-var timesDic = {'0':'morning',
-'1': 'afternoon',
-'2': 'evening'};
+
 
 //Creates map
 var map;
@@ -310,13 +308,6 @@ $.ajax({
 
 
 
-
-    this.infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + self.title + '</br></div>' +
-     '<em> Description: </em>'+ self.description + '</br>' + '<em>Address: </em>' + self.address + '</br>' +
-     '<em> Time: </em>' + self.time + '</br>' + '<em>Nearby by Wikipedia: </em>';
-
-    this.infowindow = new google.maps.InfoWindow({content: self.infoWindowDetails});
-
     this.marker = new google.maps.Marker({
         position: new google.maps.LatLng(self.location.lat, self.location.lng),
         animation: google.maps.Animation.DROP,
@@ -325,17 +316,35 @@ $.ajax({
         icon: self.defaultIcon
      });
 
-
-
-
+    this.infowindow = new google.maps.InfoWindow({marker: self.marker});
 
     this.marker.addListener('click', function(){
-        self.infoWindowDetails += self.wikipedia + '</div>';
-        self.infowindow.setContent(self.infoWindowDetails);
+        var infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + self.title + '</br></div>' +
+            '<em> Description: </em>'+ self.description + '</br>' + '<em>Address: </em>' + self.address + '</br>' +
+            '<em> Time: </em>' + self.time + '</br>' + '<em>Nearby by Wikipedia: </em>' + self.wikipedia + '</div>';
+
+        self.infowindow.setContent(infoWindowDetails);
+
         self.infowindow.open(map, this);
+
+
+        self.marker.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function() {
+                self.marker.setAnimation(null);
+            }, 2100);
     })
 
+    this.marker.addListener('mouseover', function() {
+          this.setIcon(self.highlightedIcon);
+      });
 
+    this.marker.addListener('mouseout', function() {
+          this.setIcon(self.defaultIcon);
+      });
+
+    this.infowindow.addListener('closeclick', function() {
+            self.infowindow.marker = null;
+        });
 
     this.showMarker = ko.computed(function() {
         if(this.visible() === true) {
@@ -347,8 +356,9 @@ $.ajax({
     }, this);
 
 
-}
 
+
+}
 
 //Variables for keeping track of each of the categories
 var timeCategories,
@@ -374,13 +384,15 @@ data.forEach(function(data){
 var ViewModel = function() {
 	var self = this;
 
-
+    this.timesDic = {'0':'morning',
+                    '1': 'afternoon',
+                    '2': 'evening'};
 
 	this.timeOfEvent = ko.observable();
 
 	this.sectionList = ko.observableArray([]);
 
-	this.likedEvent = ko.observableArray(['All']);
+	this.likedEvent = ko.observableArray(["Explore Berlin", "Exhibitions", "Shopping", "Night Life", "Eating & Drinking", "Kids", "Highlights"]);
 
 	this.slider = ko.observableArray();
 
@@ -388,7 +400,7 @@ var ViewModel = function() {
 
 	this.costEvent = ko.observableArray([]);
 
-	this.costEventChecked = ko.observableArray(['All']);
+	this.costEventChecked = ko.observableArray(["Paid", "Free"]);
 
     this.filter = ko.observable();
 
@@ -659,19 +671,101 @@ var ViewModel = function() {
     return rows;
     }, this);
 
+    this.slideClick = function(){
+        self.timedEvent([])
+    }
+
+    this.filterByInput = function(item, filter){
+        //Check if filtering term in title or description
+        if (item.title.toLowerCase().indexOf(filter) !== -1 ||
+                    item.description.toLowerCase().indexOf(filter) !== -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    this.filterByTime = function(item) {
+        if (item.timesumm === self.timesDic[self.slider()] || self.timedEvent()[0] == 'All') {
+            return true;
+        } else {
+            return false;
+    }
+    }
+
+    this.filterByEvent = function(item) {
+        if (self.likedEvent().indexOf(item.category) !== -1 ){
+            return true;
+        } else {
+            false
+        }
+    }
+
+    this.filterByCost = function(item) {
+        if (self.costEventChecked().indexOf(item.costcat) !== -1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Initial Condition all events and costs checked
+    // this.applySelectionChanges = ko.computed(function(){
+    //     self.likedEvent([]);
+    //     self.costEventChecked([]);
+    //     ko.utils.arrayForEach(self.eventDescription(), function(item){
+    //         if (self.likedEvent().indexOf(item.category) === -1){
+    //            self.likedEvent.push(item.category);
+    //     }
+    //     if (self.costEventChecked().indexOf(item.costcat) === -1){
+    //         self.costEventChecked.push(item.costcat)
+    //     }
+    //     })
+    // });
+
+
+
+
+
     //Filters events according to user input.
     this.filteredEvents = ko.computed(function(){
         var filter = self.filter();
         if (!filter) {
-            return self.eventDescription();
-        } else {
+            return ko.utils.arrayFilter(self.eventDescription(), function(item) {
+                console.log()
+                console.log(item.category)
+                return (self.filterByTime(item) && self.filterByEvent(item) && self.filterByCost(item));
+            });
+        } else if (filter) {
             filter = filter.toLowerCase();
             return ko.utils.arrayFilter(self.eventDescription(), function(item) {
-                return (item.title.toLowerCase().indexOf(filter) !== -1 ||
-                    item.description.toLowerCase().indexOf(filter) !== -1 );
+                return (self.filterByInput(item, filter) && self.filterByTime(item)
+                        && self.filterByEvent(item) && self.filterByCost(item));
             });
         }
     });
+
+
+
+
+
+    // this.applySelectionChanges = ko.computed(function(){
+    //     self.likedEvent([]);
+    //     self.costEventChecked([]);
+    //     ko.utils.arrayForEach(self.filteredEvents(), function(item){
+    //         if (self.likedEvent().indexOf(item.category) === -1){
+    //            self.likedEvent.push(item.category);
+    //     }
+    //     if (self.costEventChecked().indexOf(item.costcat) === -1){
+    //         self.costEventChecked.push(item.costcat)
+    //     }
+    //     })
+    //     console.log(self.likedEvent().length)
+    // });
+
+
+
+
 
     ko.utils.arrayForEach(self.eventDescription(), function(event){
         event.visible(true);
@@ -944,61 +1038,61 @@ function runApp() {
 //     }
 // });
 
-//Checks if item in dataEvent is displayed
-//in list.
-function filterByText(title, collectedTitles) {
-    if ($.inArray(title, collectedTitles) !== -1) {
-        return true;
-    } else {
-        return false;
-    }
-}
+// //Checks if item in dataEvent is displayed
+// //in list.
+// function filterByText(title, collectedTitles) {
+//     if ($.inArray(title, collectedTitles) !== -1) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
-//Checks if events in dataEvent is within the
-//category of type of events that have been checked.
-function filterEventsLiked(liked) {
-    if ($.inArray(liked, ViewModel.likedEvent()) !== -1) {
-        return true;
-    } else {
-        return false;
-    }
-}
+// //Checks if events in dataEvent is within the
+// //category of type of events that have been checked.
+// function filterEventsLiked(liked) {
+//     if ($.inArray(liked, ViewModel.likedEvent()) !== -1) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
-//Checks if events in dataEvent is within the
-//time span according to time selection.
-function filterEventsTime(time) {
-    if (ViewModel.timedEvent()[0] === 'All') {
-        return true;
-    }
-    else if (time == timesDic[ViewModel.slider()]) {
-        return true;
-    } else {
-        return false;
-    }
+// //Checks if events in dataEvent is within the
+// //time span according to time selection.
+// function filterEventsTime(time) {
+//     if (ViewModel.timedEvent()[0] === 'All') {
+//         return true;
+//     }
+//     else if (time == timesDic[ViewModel.slider()]) {
+//         return true;
+//     } else {
+//         return false;
+//     }
 
-}
+// }
 
-//Checks if events' cost are within
-//cost selected
-function filterCost(cost) {
-    if($.inArray(cost, ViewModel.costEventChecked()) !== -1){
-        return true;
-    } else {
-        return false;
-    }
-}
+// //Checks if events' cost are within
+// //cost selected
+// function filterCost(cost) {
+//     if($.inArray(cost, ViewModel.costEventChecked()) !== -1){
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
-//Applies all the previous filters jointly
-function jointFilters(event, collectedTitles) {
-    if (filterEventsTime(event.timesumm) &&
-        filterEventsLiked(event.category) &&
-        filterCost(event.costcat) &&
-        filterByText(event.title, collectedTitles)){
-        return true;
-} else {
-    return false;
-}
-}
+// //Applies all the previous filters jointly
+// function jointFilters(event, collectedTitles) {
+//     if (filterEventsTime(event.timesumm) &&
+//         filterEventsLiked(event.category) &&
+//         filterCost(event.costcat) &&
+//         filterByText(event.title, collectedTitles)){
+//         return true;
+// } else {
+//     return false;
+// }
+// }
 
 // Styles a marker according to color given.
 

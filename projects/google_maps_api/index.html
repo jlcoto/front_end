@@ -79,7 +79,7 @@
 									</div>
 									<div class="col-md-8">
 										<img  id="time-line" class="img-responsive" data-bind="attr: {src: timeOfEvent().image, srcset: timeOfEvent().srcset}">
-										<input class="slider img-responsive" type="range" data-bind="value: slider" id="Filter" name="points" min="0" max="2" />
+										<input class="slider img-responsive" type="range" data-bind="{value: slider, click: slideClick}" id="Filter" name="points" min="0" max="2" />
 									</div>
 								</form>
 							</div>
@@ -96,7 +96,7 @@
 								<div data-bind="foreach:grouped">
 									<div data-bind="foreach: $data" class="row">
 										<div class="col-xs-6">
-											<label><input class="img-responsive check-event" type="checkbox" data-bind="checked: $root.likedEvent, attr: {value: name}" /><span data-bind="text: name"></span></label>
+											<label><input class="img-responsive check-event" type="checkbox" data-bind="checked: $root.likedEvent, attr: {value: name}, click: $root.clickChecked" /><span data-bind="text: name"></span></label>
 											<img class="event-image img-responsive" data-bind="attr: {src: img, alt: alt}">
 										</div>
 									</div>
