@@ -404,7 +404,32 @@ var ViewModel = function() {
 
     this.markers = ko.observableArray([]);
 
-    this.selectArea = ko.observable()
+    this.selectArea = ko.observable();
+
+    this.weather = ko.observable();
+
+    var apiServer = 'https://query.yahooapis.com/v1/public/yql';
+    var queryString = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="Berlin") and u="c"';
+
+    //Connects to Yahoo Weather and pass information to
+    //relevant parts of page
+    $.ajax({
+      url: apiServer,
+      data: {format: 'json',
+      q:queryString}
+    }).done(function(data){
+        var weatherData = [];
+        data.query.results.channel.item.forecast.forEach(function(day){
+            if (day.date === '06 May 2017' || day.date === '07 May 2017'){
+                weatherData.push("<tr><td id='day'>" + day.day + "</td> <td id='forecast'>"+ day.text +
+                "</td><td id='high-temp'> " + day.high + "</td> <td id='low-temp'> " + day.low + "</td></br><tr>");
+            }
+        })
+        self.weather(weatherData.join(''))
+    }).fail( function() {
+        self.weather("Failed while loading weather. Please check your connection")
+    })
+
 
     this.styles = [
     {
@@ -790,28 +815,6 @@ function errorMessage() {
     alert("Google Maps failed to load. Please check your Internet connection and refresh your page.")
 }
 
-var apiServer = 'https://query.yahooapis.com/v1/public/yql';
-var queryString = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="Berlin") and u="c"';
-
-//Connects to Yahoo Weather and pass information to
-//relevant parts of page
-$.ajax({
-  url: apiServer,
-  data: {format: 'json',
-  q:queryString},
-  success: function(response){
-    response.query.results.channel.item.forecast.forEach(function(day){
-        if (day.date === '06 May 2017' || day.date === '07 May 2017'){
-            $('.weather').append("<tr><td id='day'>" + day.day + "</td> <td id='forecast'>"+ day.text +
-                "</td><td id='high-temp'> " + day.high + "</td> <td id='low-temp'> " + day.low + "</td></br><tr>");
-        }
-    })
-}, error: function(){
-    $('.weather').append('There was an Error while loading weather data.');
-
-
-}
-});
 
 
 
