@@ -95,9 +95,6 @@ button.accordion:after {
     margin-left: 5px;
 }
 
-button.accordion.active {
-	background-color: #7e8a91;
-}
 
 button.accordion.active:after {
 	color: #ddd;

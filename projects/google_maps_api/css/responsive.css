@@ -10,7 +10,16 @@
 	}
 
 	.weather {
-		display: none;
+		font-size: 10px;
+	}
+
+	#day {
+		font-size: 18px;
+
+	}
+
+	#forecast {
+		font-style: normal;
 	}
 
 	#berlin-logo {

@@ -795,6 +795,22 @@ var ViewModel = function() {
         }
         );
 
+    this.clickEvent = function() {
+        self = this;
+        var infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + self.title + '</br></div>' +
+            '<em> Description: </em>'+ self.description + '</br>' + '<em>Address: </em>' + self.address + '</br>' +
+            '<em> Time: </em>' + self.time + '</br>' + '<em>Nearby by Wikipedia: </em>' + self.wikipedia + '</div>';
+
+        self.infowindow.setContent(infoWindowDetails);
+
+        self.infowindow.open(map, self.marker);
+
+        self.marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function() {
+                self.marker.setAnimation(null);
+            }, 2100);
+    }
+
 };
 
 
@@ -814,16 +830,6 @@ function runApp() {
 function errorMessage() {
     alert("Google Maps failed to load. Please check your Internet connection and refresh your page.")
 }
-
-
-
-
-//Use wikiRequest function to populate
-//web page
-// $('document').ready(
-//     dataEvents.forEach(function(data, index){
-//         wikiRequest(data.location, index);
-//     }));
 
 
 
