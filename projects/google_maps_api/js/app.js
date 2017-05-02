@@ -304,10 +304,6 @@ $.ajax({
         );
 
 
-
-
-
-
     this.marker = new google.maps.Marker({
         position: new google.maps.LatLng(self.location.lat, self.location.lng),
         animation: google.maps.Animation.DROP,
@@ -407,6 +403,8 @@ var ViewModel = function() {
     this.eventDescription = ko.observableArray([]);
 
     this.markers = ko.observableArray([]);
+
+    this.selectArea = ko.observable()
 
     this.styles = [
     {
@@ -633,7 +631,7 @@ var ViewModel = function() {
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 52.52000659999999, lng: 13.404953999999975},
-          zoom: 13,
+          zoom: 12,
           styles: self.styles,
           mapTypeControl: false
       });
@@ -772,101 +770,10 @@ var ViewModel = function() {
         }
         );
 
-
-
-
-
-
-
-
-
-       //  var largeInfowindow = new google.maps.InfoWindow();
-       //  var defaultIcon = makeMarkerIcon('577da6');
-       //  var highlightedIcon = makeMarkerIcon('f6c43e');
-       //  var zoomAutocomplete = new google.maps.places.Autocomplete(document.getElementById('zoom-to-area-text'));
-       //  //Bias the boundaries within the map for the zoom to area text.
-       //  zoomAutocomplete.bindTo('bounds', map);
-
-       //  ko.utils.arrayForEach(this.eventDescription(), function(item, index){
-       //     var position = item.location;
-       //     var title = item.title;
-       //      // Create a marker per location, and put into markers array.
-       //      var marker = new google.maps.Marker({
-       //          position: position,
-       //          title: title,
-       //          animation: google.maps.Animation.DROP,
-       //          id: index,
-       //          visible: location.visible,
-       //          icon: defaultIcon
-       //      });
-       //      self.markers.push(marker);
-       //  });
-
-       //      // Create an onclick event to open the large infowindow at each marker.
-       //      ko.utils.arrayForEach(self.markers(), function(marker){
-       //          marker.addListener('click', function() {
-       //              marker.setIcon(defaultIcon);
-       //          });
-       //          //Populating infowindows when marker is clicked
-       //          if (largeInfowindow.marker != marker) {
-       //              largeInfowindow.setContent("<div><span id='infowindow-title'>" + marker.title
-       //              + "</span></br>"+ event.description +
-       //              "</br>Time: " + event.time +
-       //              "</br>Cost: " + event.cost +"</div>" );
-       //          }
-       //          infowindow.open(map, marker);
-       //      });
-
-       //      marker.addListener('mouseover', function() {
-       //        this.setIcon(highlightedIcon);
-       //    });
-       //      marker.addListener('mouseout', function() {
-       //        this.setIcon(defaultIcon);
-       //    });
-
-       //   // This function will loop through the markers array and display them all.
-       //   function showMarkers() {
-       //   var bounds = new google.maps.LatLngBounds();
-       //      // Extend the boundaries of the map for each marker and display the marker
-       //      ko.utils.arrayForEach(self.markers(), function(marker){
-       //          marker.setMap(map);
-       //          bounds.extend(marker.position);
-       //      })
-       //     map.fitBounds(bounds);
-       // }
-
-       // showMarkers();
-
-  //       function populateInfoWindow(marker, infowindow) {
-  //       //Check if the infowindow was closed (when user runs other type of selection)
-
-  //         // Clear the infowindow content to give the streetview time to load.
-  //         infowindow.setContent('');
-  //         infowindow.marker = marker;
-  //         dataEvents.forEach(function(event){
-  //           if (marker.title === event.title){
-  //               infowindow.setContent("<div><span id='infowindow-title'>" + marker.title
-  //                   + "</span></br>"+ event.description +
-  //                   "</br>Time: " + event.time +
-  //                   "</br>Cost: " + event.cost +"</div>" );
-  //           }
-  //       });
-
-  //         infowindow.open(map, marker);
-  //         // Make sure the marker property is cleared if the infowindow is closed.
-  //         infowindow.addListener('closeclick', function() {
-  //           infowindow.marker = null;
-  //       });
-
-  // }
-
 };
 
 
 
-// // Initialize with all boxes checked
-// ViewModel.likedEvent(eventCategories);
-// ViewModel.costEventChecked(costCategories);
 
 
 //Runs app when called by Google Maps
@@ -874,234 +781,6 @@ function runApp() {
   ViewModel = new ViewModel()
   ko.applyBindings(ViewModel);
 }
-
-
-
-     //Function that checks if a infowindow is
-     //currently opened
-     function isInfoWindowOpen(infoWindow){
-        var map = infoWindow.getMap();
-        return (map !== null && typeof map !== 'undefined');
-    }
-
-
-
-  // This function takes the input value in the find nearby area text input
-  // locates it, and then zooms into that area. This is so that the user can
-  // show all listings, then decide to focus on one area of the map.
-  function zoomToArea() {
-      //   // Initialize the geocoder.
-      var geocoder = new google.maps.Geocoder();
-        // Get the address or place that the user entered.
-        var address = $('#zoom-to-area-text').val();
-        // Make sure the address isn't blank.
-        if (address === '') {
-          window.alert('You must enter an area, or address.');
-      } else {
-          // Geocode the address/area entered to get the center. Then, center the map
-          // on it and zoom in
-          geocoder.geocode(
-            { address: address,
-              componentRestrictions: {locality: 'Berlin'}
-          }, function(results, status) {
-              if (status === google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-                map.setZoom(15);
-            } else {
-                window.alert('We could not find that location - try entering a more' +
-                    ' specific place.');
-            }
-        });
-      }
-  }
-
-//       //Animating marker when element from list is selected
-//       $('body').on('click', '#event-title', function(){
-//         var titleClicked = $(this).text();
-//         markers.forEach(function(marker){
-//             //Checkin that the title selected correspond to the title
-//             // of the marker
-//             if (titleClicked === marker.title){
-//                 marker.setAnimation(google.maps.Animation.BOUNCE);
-//                 marker.setIcon(highlightedIcon);
-//                 populateInfoWindow(marker, largeInfowindow);
-//                 setTimeout(function(){ marker.setAnimation(null); }, 1450);
-//             } else {
-//                 marker.setAnimation(null);
-//                 marker.setIcon(defaultIcon);
-//             }
-//         });
-//     });
-
-//       //Changes when text is filtered
-//       //Call all the titles shown with collected titles
-//       //and only show when you find a match within displayed titles
-//       $('#apply-filter').click(function(){
-//          collectedTitles = ViewModel.collectedTitles();
-//          dataEvents.forEach(function(event, i){
-//              if (filterByText(event.title, collectedTitles)){
-//                 markers[i].setVisible(true);
-//                 bounds.extend(markers[i].position);
-//             } else {
-//                 markers[i].setVisible(false);
-//             }
-//         });
-//          map.fitBounds(bounds);
-//      });
-
-//       //Also filter when user presses enter key
-//       $('#filter-text').keypress(function(e){
-//         if (e.which === 13) {
-//             $('#apply-filter').click();
-//         }
-//     });
-
-//       // Changes markers displayed
-//       // when Time of Event Changes
-//       $('body').on('change', '.slider',function(){
-//         //Close all the infowindows
-//         largeInfowindow.close();
-//         $('.check-all-time').prop('checked', false);
-//         //De chech all time in model
-//         ViewModel.timedEvent(['']);
-//         dataEvents.forEach(function(event, i){
-//                 //Check if we can display event based on
-//                 //multiple filtering criteria.
-//                 if (jointFilters(event, collectedTitles)){
-//                    markers[i].setVisible(true);
-//                } else {
-//                    markers[i].setVisible(false);
-//                }
-//            });
-//     });
-
-//       //Changes markes when events occurring all
-//       //day long (All option) is checked
-//       $('body').on('change', '.check-all-time',function(){
-//         largeInfowindow.close();
-//         ViewModel.timedEvent(["All"]);
-//         dataEvents.forEach(function(event, i){
-//           if (filterEventsLiked(event.category) &&
-//             filterCost(event.costcat) &&
-//             filterByText(event.title, collectedTitles)) {
-//               markers[i].setVisible(true);
-//       }
-//   });
-//     });
-
-//       //Changes markers when Type of
-//       //event changes
-//       $('body').on('change', '.check-event',function(){
-//         largeInfowindow.close();
-//         dataEvents.forEach(function(event, i){
-//             //Apply joint filters
-//             if (jointFilters(event, collectedTitles)){
-//                markers[i].setVisible(true);
-//            } else {
-//                markers[i].setVisible(false);
-//            }
-//        });
-//     });
-
-//       //Changes markers according to price
-//       //options
-//       $('body').on('change', '.check-price',function(){
-//         largeInfowindow.close();
-//         dataEvents.forEach(function(event, i){
-//           if (jointFilters(event, collectedTitles)){
-//            markers[i].setVisible(true);
-//        } else {
-//            markers[i].setVisible(false);
-//        }
-//    });
-//     });
-
-//       //Zooms to a particular area when user
-//       //searches based on area
-//       $('#zoom-to-area').click(function(){
-//         zoomToArea();
-//     });
-
-//       //Same zoom to area functionality when
-//       //enter key is pressed
-//       $('#zoom-to-area-text').keypress(function(e){
-//             if(e.which === 13){//Enter key pressed
-//                 $('#zoom-to-area').click();//Trigger search button click event
-//             }
-//         });
-
-
-// //Provides accordion menu type functionality for
-// //the menu with differen filtering criteria
-// $('body').on('click', '#event-title', function(){
-//     $('.event-description').hide();
-//     if ($(this).next().css('display') == 'none'){
-//         $(this).next().fadeIn('slow');
-//     } else {
-//         $(this).removeClass('active');
-//         $(this).next().hide();
-//     }
-// });
-
-// //Checks if item in dataEvent is displayed
-// //in list.
-// function filterByText(title, collectedTitles) {
-//     if ($.inArray(title, collectedTitles) !== -1) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
-// //Checks if events in dataEvent is within the
-// //category of type of events that have been checked.
-// function filterEventsLiked(liked) {
-//     if ($.inArray(liked, ViewModel.likedEvent()) !== -1) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
-// //Checks if events in dataEvent is within the
-// //time span according to time selection.
-// function filterEventsTime(time) {
-//     if (ViewModel.timedEvent()[0] === 'All') {
-//         return true;
-//     }
-//     else if (time == timesDic[ViewModel.slider()]) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-
-// }
-
-// //Checks if events' cost are within
-// //cost selected
-// function filterCost(cost) {
-//     if($.inArray(cost, ViewModel.costEventChecked()) !== -1){
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
-// //Applies all the previous filters jointly
-// function jointFilters(event, collectedTitles) {
-//     if (filterEventsTime(event.timesumm) &&
-//         filterEventsLiked(event.category) &&
-//         filterCost(event.costcat) &&
-//         filterByText(event.title, collectedTitles)){
-//         return true;
-// } else {
-//     return false;
-// }
-// }
-
-// Styles a marker according to color given.
-
-
 
 
 
@@ -1122,7 +801,7 @@ $.ajax({
   q:queryString},
   success: function(response){
     response.query.results.channel.item.forecast.forEach(function(day){
-        if (day.date === '25 Mar 2017' || day.date === '26 Mar 2017'){
+        if (day.date === '06 May 2017' || day.date === '07 May 2017'){
             $('.weather').append("<tr><td id='day'>" + day.day + "</td> <td id='forecast'>"+ day.text +
                 "</td><td id='high-temp'> " + day.high + "</td> <td id='low-temp'> " + day.low + "</td></br><tr>");
         }
@@ -1135,19 +814,13 @@ $.ajax({
 });
 
 
-//Connect to wikipedia and produces
-//a query based on location
-function wikiRequest(coordinates, id) {
-
-
-}
 
 //Use wikiRequest function to populate
 //web page
-$('document').ready(
-    dataEvents.forEach(function(data, index){
-        wikiRequest(data.location, index);
-    }));
+// $('document').ready(
+//     dataEvents.forEach(function(data, index){
+//         wikiRequest(data.location, index);
+//     }));
 
 
 
