@@ -258,7 +258,7 @@ var Event = function(data) {
     this.costcat = data.costcat;
     this.category = data.category;
     this.location = data.location;
-    this.visible = ko.observable(true);
+    this.visible = ko.observable(false);
     this.wikipedia = '';
 
 
@@ -756,12 +756,25 @@ var ViewModel = function() {
 
 
 
+    // Updates map marker changes in the page.
+    this.applyMarkerChanges = ko.computed(function(){
+        var activate = [];
+        ko.utils.arrayForEach(self.filteredEvents(), function(item){
+            activate.push(item.title);
+        })
+        ko.utils.arrayForEach(self.eventDescription(), function(item){
+            if (activate.indexOf(item.title) !== -1) {
+                item.visible(true);
+            } else {
+                item.visible(false);
+            }
+        })
+        }
+        );
 
 
 
-    ko.utils.arrayForEach(self.eventDescription(), function(event){
-        event.visible(true);
-    })
+
 
 
 
