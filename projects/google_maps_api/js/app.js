@@ -226,7 +226,7 @@ location: {lat:52.5100083, lng:13.373286699999994}
 var map;
 
 
-// Creates accordion menu
+//Creates accordion menu
 var accordMenu = $('.accordion');
 
 accordMenu.on('click', function(){
@@ -709,23 +709,6 @@ var ViewModel = function() {
         }
     }
 
-    //Initial Condition all events and costs checked
-    // this.applySelectionChanges = ko.computed(function(){
-    //     self.likedEvent([]);
-    //     self.costEventChecked([]);
-    //     ko.utils.arrayForEach(self.eventDescription(), function(item){
-    //         if (self.likedEvent().indexOf(item.category) === -1){
-    //            self.likedEvent.push(item.category);
-    //     }
-    //     if (self.costEventChecked().indexOf(item.costcat) === -1){
-    //         self.costEventChecked.push(item.costcat)
-    //     }
-    //     })
-    // });
-
-
-
-
 
     //Filters events according to user input.
     this.filteredEvents = ko.computed(function(){
@@ -740,37 +723,37 @@ var ViewModel = function() {
                 return (self.filterByInput(item, filter) && self.filterByTime(item)
                         && self.filterByEvent(item) && self.filterByCost(item));
             });
-
         }
     });
 
 
 
     this.applySelectionChanges = ko.computed(function(){
+        var filter = self.filter();
+        if (!filter) {
+            //Go back to degault when nothing is selected
+            self.likedEvent(["Explore Berlin", "Exhibitions", "Shopping", "Night Life", "Eating & Drinking", "Kids", "Highlights"]);
+            self.costEventChecked(["Paid", "Free"]);
+        }
+        else if (filter) {
+            //Updates other categories when user uses text input
             var eventLikes = [];
-
+            var costEvents = [];
             ko.utils.arrayForEach(self.filteredEvents(), function(item){
-            console.log(item.category)
             if (eventLikes.indexOf(item.category) === -1){
                eventLikes.push(item.category);
             }
         })
         self.likedEvent(eventLikes)
+            ko.utils.arrayForEach(self.filteredEvents(), function(item){
+            if (costEvents.indexOf(item.costcat) === -1){
+               costEvents.push(item.costcat);
+            }
+        self.costEventChecked(costEvents)
+            })
+        }
        });
 
-
-        // // self.costEventChecked([]);
-        // console.log(self.filteredEvents())
-        // ko.utils.arrayForEach(self.filteredEvents(), function(item){
-        //     console.log(item.category)
-        //     if (self.likedEvent().indexOf(item.category) === -1){
-        //        self.likedEvent.push(item.category);
-        // }
-        // if (self.costEventChecked().indexOf(item.costcat) === -1){
-        //     self.costEventChecked.push(item.costcat)
-        // }
-        // })
-    // });
 
 
 
