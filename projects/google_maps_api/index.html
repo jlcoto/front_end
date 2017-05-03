@@ -51,13 +51,6 @@
 								<div  class="col-xs-12" data-bind="foreach:filteredEvents">
 									<div class="list-events">
 										<p id="event-title" data-bind="{text:title, click:$root.clickEvent}">
-											<ul class="event-description">
-												<li><b>Description:</b> <span data-bind="text:description"></span></li>
-												<li><b>Time: </b><span data-bind="text:time"></span></li>
-												<li><b>Category: </b><span data-bind="text:category"></span></li>
-												<li><b>Address: </b><span data-bind="text:address"></span></li>
-												<li class="wiki-info" data-bind= "attr: {id: $index }" ><b>Nearby by Wikipedia:</b>  </li>
-											</ul>
 										</p>
 									</div>
 								</div>

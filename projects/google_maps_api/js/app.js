@@ -247,6 +247,8 @@ var TimeOfEvent = function(data) {
     this.srcset = ko.observable(data.srcattr);
 };
 
+
+//Creates event class that will be instantiated for each object
 var Event = function(data) {
     var self = this;
     this.title = data.title;
@@ -260,8 +262,6 @@ var Event = function(data) {
     this.location = data.location;
     this.visible = ko.observable(false);
     this.wikipedia = '';
-
-
     this.makeMarkerIcon = function(markerColor){
         var markerImage = new google.maps.MarkerImage(
           'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -271,7 +271,7 @@ var Event = function(data) {
           new google.maps.Point(10, 34),
           new google.maps.Size(21,34));
     return markerImage;
-    }
+    };
     this.defaultIcon = this.makeMarkerIcon('577da6');
     this.highlightedIcon = this.makeMarkerIcon('f6c43e');
 
@@ -286,7 +286,8 @@ var Event = function(data) {
     });
 
 
-$.ajax({
+    //Makes the ajax query for each event. Connects to wikipedia API
+    $.ajax({
         url: wikiURL,
         dataType: 'jsonp',
     }).done(function(data){
@@ -299,9 +300,9 @@ $.ajax({
             self.wikipedia =  'No wikipedia article found.';
     }
     }).fail( function() {
-        self.wikipedia = "Failed while loading wikipedia. Please check your connection"
+        self.wikipedia = "Failed while loading wikipedia. Please check your connection";
     }
-        );
+    );
 
 
     this.marker = new google.maps.Marker({
@@ -314,6 +315,8 @@ $.ajax({
 
     this.infowindow = new google.maps.InfoWindow({marker: self.marker});
 
+    // Adds an event listener to each event that will display the info window
+    // and further details per each event.
     this.marker.addListener('click', function(){
         var infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + self.title + '</br></div>' +
             '<em> Description: </em>'+ self.description + '</br>' + '<em>Address: </em>' + self.address + '</br>' +
@@ -328,7 +331,7 @@ $.ajax({
             setTimeout(function() {
                 self.marker.setAnimation(null);
             }, 2100);
-    })
+    });
 
     this.marker.addListener('mouseover', function() {
           this.setIcon(self.highlightedIcon);
@@ -350,30 +353,7 @@ $.ajax({
         }
         return true;
     }, this);
-
-
-
-
-}
-
-//Variables for keeping track of each of the categories
-var timeCategories,
-eventCategories = [],
-costCategories = [];
-
-//Populate variables to give us all the times, costs and categories
-data.forEach(function(data){
-    if (data.section === 'Time') {
-        timeCategories = data.times;
-    } else if (data.section === 'Type of Event'){
-        data.menucontent.forEach(function(data){
-            eventCategories.push(data.name);
-        })}  else if (data.section === 'Cost of Event') {
-            data.menucontent.forEach(function(data){
-                costCategories.push(data.name);
-            });
-        }
-    });
+};
 
 
 //Declaring our viewmodel
@@ -408,6 +388,7 @@ var ViewModel = function() {
 
     this.weather = ko.observable();
 
+    //Variables to connect to Yahoo weather API
     var apiServer = 'https://query.yahooapis.com/v1/public/yql';
     var queryString = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="Berlin") and u="c"';
 
@@ -424,13 +405,13 @@ var ViewModel = function() {
                 weatherData.push("<tr><td id='day'>" + day.day + "</td> <td id='forecast'>"+ day.text +
                 "</td><td id='high-temp'> " + day.high + "</td> <td id='low-temp'> " + day.low + "</td></br><tr>");
             }
-        })
-        self.weather(weatherData.join(''))
+        });
+        self.weather(weatherData.join(''));
     }).fail( function() {
-        self.weather("Failed while loading weather. Please check your connection")
-    })
+        self.weather("Failed while loading weather. Please check your connection");
+    });
 
-
+    //Defining google maps styles
     this.styles = [
     {
         "featureType": "administrative",
@@ -663,18 +644,20 @@ var ViewModel = function() {
 
     //Populating our observables with the data
     data.forEach(function(data){
-      if (data.section == 'Time') {
+      if (data.section === 'Time') {
        self.timeOfEvent(new TimeOfEvent(data));
-   } else if (data.section == 'Type of Event'){
+   } else if (data.section === 'Type of Event'){
        data.menucontent.forEach(function(data){
            self.sectionList.push(data);
-       })}  else if (data.section == 'Cost of Event') {
+       });
+   }  else if (data.section === 'Cost of Event') {
            data.menucontent.forEach(function(data){
                self.costEvent.push(data);
            });
        }
    });
 
+    //Instantiates an Event object per each event in the data
     dataEvents.forEach(function(data){
         self.eventDescription.push(new Event(data));
     });
@@ -695,8 +678,8 @@ var ViewModel = function() {
     }, this);
 
     this.slideClick = function(){
-        self.timedEvent([])
-    }
+        self.timedEvent([]);
+    };
 
     this.filterByInput = function(item, filter){
         //Check if filtering term in title or description
@@ -706,7 +689,7 @@ var ViewModel = function() {
         } else {
             return false;
         }
-    }
+    };
 
     this.filterByTime = function(item) {
         if (item.timesumm === self.timesDic[self.slider()] || self.timedEvent()[0] == 'All') {
@@ -714,15 +697,15 @@ var ViewModel = function() {
         } else {
             return false;
     }
-    }
+    };
 
     this.filterByEvent = function(item) {
         if (self.likedEvent().indexOf(item.category) !== -1 ){
             return true;
         } else {
-            false
+            return false;
         }
-    }
+    };
 
     this.filterByCost = function(item) {
         if (self.costEventChecked().indexOf(item.costcat) !== -1){
@@ -730,7 +713,7 @@ var ViewModel = function() {
         } else {
             return false;
         }
-    }
+    };
 
 
     //Filters events according to user input.
@@ -753,10 +736,10 @@ var ViewModel = function() {
     var costEvents = [];
 
     this.applySelectionChanges = ko.computed(function(){
-
+        //Controls filtering per other inputs
         var filter = self.filter();
         if (!filter) {
-            //Go back to degault when nothing is selected
+            //Go back to default when nothing is filtered by text input
             self.likedEvent(["Explore Berlin", "Exhibitions", "Shopping", "Night Life", "Eating & Drinking", "Kids", "Highlights"]);
             self.costEventChecked(["Paid", "Free"]);
         }
@@ -766,14 +749,14 @@ var ViewModel = function() {
             if (eventLikes.indexOf(item.category) === -1){
                eventLikes.push(item.category);
             }
-        })
-        self.likedEvent(eventLikes)
+        });
+        self.likedEvent(eventLikes);
             ko.utils.arrayForEach(self.filteredEvents(), function(item){
             if (costEvents.indexOf(item.costcat) === -1){
                costEvents.push(item.costcat);
             }
-        self.costEventChecked(costEvents)
-            })
+        self.costEventChecked(costEvents);
+            });
         }
        });
 
@@ -784,22 +767,23 @@ var ViewModel = function() {
         var activate = [];
         ko.utils.arrayForEach(self.filteredEvents(), function(item){
             activate.push(item.title);
-        })
+        });
         ko.utils.arrayForEach(self.eventDescription(), function(item){
             if (activate.indexOf(item.title) !== -1) {
                 item.visible(true);
             } else {
                 item.visible(false);
             }
-        })
+        });
         }
         );
 
+    //Animates and shows information when users click on event list.
     this.clickEvent = function() {
         var selfItem = this;
         ko.utils.arrayForEach(self.eventDescription(), function(event){
             event.marker.setAnimation(null);
-        })
+        });
 
 
         var infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + selfItem.title + '</br></div>' +
@@ -814,26 +798,22 @@ var ViewModel = function() {
         setTimeout(function() {
                 selfItem.marker.setAnimation(null);
             }, 2100);
-    }
+    };
 
 };
 
 
-
-
-
-//Runs app when called by Google Maps
+//Runs app
 function runApp() {
-  ViewModel = new ViewModel()
+  ViewModel = new ViewModel();
   ko.applyBindings(ViewModel);
 }
 
 
 
-//Connecting with different Apis
-
+//Error message in case connection with Google Maps fails.
 function errorMessage() {
-    alert("Google Maps failed to load. Please check your Internet connection and refresh your page.")
+    alert("Google Maps failed to load. Please check your Internet connection and refresh your page.");
 }
 
 
