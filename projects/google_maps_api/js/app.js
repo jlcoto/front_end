@@ -749,9 +749,11 @@ var ViewModel = function() {
         }
     });
 
-
+    var eventLikes = [];
+    var costEvents = [];
 
     this.applySelectionChanges = ko.computed(function(){
+
         var filter = self.filter();
         if (!filter) {
             //Go back to degault when nothing is selected
@@ -760,8 +762,6 @@ var ViewModel = function() {
         }
         else if (filter) {
             //Updates other categories when user uses text input
-            var eventLikes = [];
-            var costEvents = [];
             ko.utils.arrayForEach(self.filteredEvents(), function(item){
             if (eventLikes.indexOf(item.category) === -1){
                eventLikes.push(item.category);
@@ -796,18 +796,23 @@ var ViewModel = function() {
         );
 
     this.clickEvent = function() {
-        self = this;
-        var infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + self.title + '</br></div>' +
-            '<em> Description: </em>'+ self.description + '</br>' + '<em>Address: </em>' + self.address + '</br>' +
-            '<em> Time: </em>' + self.time + '</br>' + '<em>Nearby by Wikipedia: </em>' + self.wikipedia + '</div>';
+        var selfItem = this;
+        ko.utils.arrayForEach(self.eventDescription(), function(event){
+            event.marker.setAnimation(null);
+        })
 
-        self.infowindow.setContent(infoWindowDetails);
 
-        self.infowindow.open(map, self.marker);
+        var infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + selfItem.title + '</br></div>' +
+            '<em> Description: </em>'+ selfItem.description + '</br>' + '<em>Address: </em>' + selfItem.address + '</br>' +
+            '<em> Time: </em>' + selfItem.time + '</br>' + '<em>Nearby by Wikipedia: </em>' + selfItem.wikipedia + '</div>';
 
-        self.marker.setAnimation(google.maps.Animation.BOUNCE);
+        selfItem.infowindow.setContent(infoWindowDetails);
+
+        selfItem.infowindow.open(map, selfItem.marker);
+
+        selfItem.marker.setAnimation(google.maps.Animation.BOUNCE);
         setTimeout(function() {
-                self.marker.setAnimation(null);
+                selfItem.marker.setAnimation(null);
             }, 2100);
     }
 
