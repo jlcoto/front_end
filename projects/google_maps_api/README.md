@@ -16,8 +16,11 @@ Follow these steps to run locally the app:
 1. Download / clone the repository.
 2.  run app on `localhost:8080`. If you have Python installed, you can launch a local server with:
 
-- Python 3: `python -m http.server 8080`
--Python 2: `python -m SimpleHTTPServer 8080`
+- Python 3:
+`python -m http.server 8080`
+
+-Python 2:
+`python -m SimpleHTTPServer 8080`
 
 If you want to explore the app, feel check it [here](http://htmlpreview.github.io/?https://github.com/jlcoto/front_end/blob/master/projects/google_maps_api/index.html).
 
