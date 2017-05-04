@@ -10,50 +10,50 @@ var data =
   section: "Type of Event",
   menucontent: [
   {
-   name: "Exhibitions",
-   img: "img/exhibitions.png",
-   alt: "exhibitions icon"
+     name: "Exhibitions",
+     img: "img/exhibitions.png",
+     alt: "exhibitions icon"
+ },
+ {
+     name: "Highlights",
+     img: "img/highlights.png",
+     alt: "Highlights of the weekend icon"
+ },
+ {
+     name: "Kids",
+     img:"img/kids.png",
+     alt: "kids' events icon"
+ },
+ {
+     name: "Shopping",
+     img: "img/shopping.png",
+     alt: "shopping icon"
+ },
+ {
+     name: "Excursions",
+     img: "img/excursion.png",
+     alt: "excursions icon"
+ },
+ {
+     name: "Eating & Drinking",
+     img: "img/eat_drink.png",
+     alt: "eating and drinking icon"
+ },
+ {
+     name: "Explore Berlin",
+     img: "img/city.png",
+     alt: "explore berlin icon"
+ },
+ {
+     name: "Night Life",
+     img:"img/nigth_life.png",
+     alt: "night life icon"
+ }]
 },
 {
-   name: "Highlights",
-   img: "img/highlights.png",
-   alt: "Highlights of the weekend icon"
-},
-{
-   name: "Kids",
-   img:"img/kids.png",
-   alt: "kids' events icon"
-},
-{
-   name: "Shopping",
-   img: "img/shopping.png",
-   alt: "shopping icon"
-},
-{
-   name: "Excursions",
-   img: "img/excursion.png",
-   alt: "excursions icon"
-},
-{
-   name: "Eating & Drinking",
-   img: "img/eat_drink.png",
-   alt: "eating and drinking icon"
-},
-{
-   name: "Explore Berlin",
-   img: "img/city.png",
-   alt: "explore berlin icon"
-},
-{
-   name: "Night Life",
-   img:"img/nigth_life.png",
-   alt: "night life icon"
-}]
-},
-{
-   section: "Cost of Event",
-   menucontent: [
-   {
+ section: "Cost of Event",
+ menucontent: [
+ {
     name: "Free",
     img: "img/free.png"
 },
@@ -270,7 +270,7 @@ var Event = function(data) {
           new google.maps.Point(0, 0),
           new google.maps.Point(10, 34),
           new google.maps.Size(21,34));
-    return markerImage;
+        return markerImage;
     };
     this.defaultIcon = this.makeMarkerIcon('577da6');
     this.highlightedIcon = this.makeMarkerIcon('f6c43e');
@@ -293,12 +293,12 @@ var Event = function(data) {
     }).done(function(data){
         if (data.query.geosearch.length !== 0) {
             self.wikipedia = "<a target=#  href=http://en.wikipedia.org/?curid="
-                + data.query.geosearch[0].pageid + ">"
-                + data.query.geosearch[0].title +"</a>";
+            + data.query.geosearch[0].pageid + ">"
+            + data.query.geosearch[0].title +"</a>";
 
-    } else  {
+        } else  {
             self.wikipedia =  'No wikipedia article found.';
-    }
+        }
     }).fail( function() {
         self.wikipedia = "Failed while loading wikipedia. Please check your connection";
     }
@@ -311,7 +311,7 @@ var Event = function(data) {
         map: map,
         title: self.title,
         icon: self.defaultIcon
-     });
+    });
 
     this.infowindow = new google.maps.InfoWindow({marker: self.marker});
 
@@ -319,8 +319,8 @@ var Event = function(data) {
     // and further details per each event.
     this.marker.addListener('click', function(){
         var infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + self.title + '</br></div>' +
-            '<em> Description: </em>'+ self.description + '</br>' + '<em>Address: </em>' + self.address + '</br>' +
-            '<em> Time: </em>' + self.time + '</br>' + '<em>Nearby by Wikipedia: </em>' + self.wikipedia + '</div>';
+        '<em> Description: </em>'+ self.description + '</br>' + '<em>Address: </em>' + self.address + '</br>' +
+        '<em> Time: </em>' + self.time + '</br>' + '<em>Nearby by Wikipedia: </em>' + self.wikipedia + '</div>';
 
         self.infowindow.setContent(infoWindowDetails);
 
@@ -328,22 +328,22 @@ var Event = function(data) {
 
 
         self.marker.setAnimation(google.maps.Animation.BOUNCE);
-            setTimeout(function() {
-                self.marker.setAnimation(null);
-            }, 2100);
+        setTimeout(function() {
+            self.marker.setAnimation(null);
+        }, 2100);
     });
 
     this.marker.addListener('mouseover', function() {
-          this.setIcon(self.highlightedIcon);
-      });
+      this.setIcon(self.highlightedIcon);
+  });
 
     this.marker.addListener('mouseout', function() {
-          this.setIcon(self.defaultIcon);
-      });
+      this.setIcon(self.defaultIcon);
+  });
 
     this.infowindow.addListener('closeclick', function() {
-            self.infowindow.marker = null;
-        });
+        self.infowindow.marker = null;
+    });
 
     this.showMarker = ko.computed(function() {
         if(this.visible() === true) {
@@ -361,22 +361,22 @@ var ViewModel = function() {
 	var self = this;
 
     this.timesDic = {'0':'morning',
-                    '1': 'afternoon',
-                    '2': 'evening'};
+    '1': 'afternoon',
+    '2': 'evening'};
 
-	this.timeOfEvent = ko.observable();
+    this.timeOfEvent = ko.observable();
 
-	this.sectionList = ko.observableArray([]);
+    this.sectionList = ko.observableArray([]);
 
-	this.likedEvent = ko.observableArray(["Explore Berlin", "Exhibitions", "Shopping", "Night Life", "Eating & Drinking", "Kids", "Highlights"]);
+    this.likedEvent = ko.observableArray(["Explore Berlin", "Exhibitions", "Shopping", "Night Life", "Eating & Drinking", "Kids", "Highlights"]);
 
-	this.slider = ko.observableArray();
+    this.slider = ko.observableArray();
 
-	this.timedEvent = ko.observableArray(['All']);
+    this.timedEvent = ko.observableArray(['All']);
 
-	this.costEvent = ko.observableArray([]);
+    this.costEvent = ko.observableArray([]);
 
-	this.costEventChecked = ko.observableArray(["Paid", "Free"]);
+    this.costEventChecked = ko.observableArray(["Paid", "Free"]);
 
     this.filter = ko.observable();
 
@@ -398,18 +398,18 @@ var ViewModel = function() {
       url: apiServer,
       data: {format: 'json',
       q:queryString}
-    }).done(function(data){
-        var weatherData = [];
-        data.query.results.channel.item.forecast.forEach(function(day){
-            if (day.date === '06 May 2017' || day.date === '07 May 2017'){
-                weatherData.push("<tr><td id='day'>" + day.day + "</td> <td id='forecast'>"+ day.text +
+  }).done(function(data){
+    var weatherData = [];
+    data.query.results.channel.item.forecast.forEach(function(day){
+        if (day.date === '06 May 2017' || day.date === '07 May 2017'){
+            weatherData.push("<tr><td id='day'>" + day.day + "</td> <td id='forecast'>"+ day.text +
                 "</td><td id='high-temp'> " + day.high + "</td> <td id='low-temp'> " + day.low + "</td></br><tr>");
-            }
-        });
-        self.weather(weatherData.join(''));
-    }).fail( function() {
-        self.weather("Failed while loading weather. Please check your connection");
+        }
     });
+    self.weather(weatherData.join(''));
+}).fail( function() {
+    self.weather("Failed while loading weather. Please check your connection");
+});
 
     //Defining google maps styles
     this.styles = [
@@ -636,26 +636,26 @@ var ViewModel = function() {
 
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 52.52000659999999, lng: 13.404953999999975},
-          zoom: 12,
-          styles: self.styles,
-          mapTypeControl: false
-      });
+      center: {lat: 52.52000659999999, lng: 13.404953999999975},
+      zoom: 12,
+      styles: self.styles,
+      mapTypeControl: false
+  });
 
     //Populating our observables with the data
     data.forEach(function(data){
       if (data.section === 'Time') {
-       self.timeOfEvent(new TimeOfEvent(data));
-   } else if (data.section === 'Type of Event'){
-       data.menucontent.forEach(function(data){
-           self.sectionList.push(data);
-       });
-   }  else if (data.section === 'Cost of Event') {
-           data.menucontent.forEach(function(data){
-               self.costEvent.push(data);
-           });
-       }
-   });
+         self.timeOfEvent(new TimeOfEvent(data));
+     } else if (data.section === 'Type of Event'){
+         data.menucontent.forEach(function(data){
+             self.sectionList.push(data);
+         });
+     }  else if (data.section === 'Cost of Event') {
+         data.menucontent.forEach(function(data){
+             self.costEvent.push(data);
+         });
+     }
+ });
 
     //Instantiates an Event object per each event in the data
     dataEvents.forEach(function(data){
@@ -668,14 +668,14 @@ var ViewModel = function() {
       var rows = [], current = [];
       rows.push(current);
       for(var i=0; i < self.sectionList().length; i++){
-       current.push(self.sectionList()[i]);
-       if(((i+1)%2)===0){
-        current = [];
-        rows.push(current);
+         current.push(self.sectionList()[i]);
+         if(((i+1)%2)===0){
+            current = [];
+            rows.push(current);
         }
-        }
+    }
     return rows;
-    }, this);
+}, this);
 
     this.slideClick = function(){
         self.timedEvent([]);
@@ -684,36 +684,36 @@ var ViewModel = function() {
     this.filterByInput = function(item, filter){
         //Check if filtering term in title or description
         if (item.title.toLowerCase().indexOf(filter) !== -1 ||
-                    item.description.toLowerCase().indexOf(filter) !== -1) {
+            item.description.toLowerCase().indexOf(filter) !== -1) {
             return true;
-        } else {
-            return false;
-        }
-    };
-
-    this.filterByTime = function(item) {
-        if (item.timesumm === self.timesDic[self.slider()] || self.timedEvent()[0] == 'All') {
-            return true;
-        } else {
-            return false;
+    } else {
+        return false;
     }
-    };
+};
 
-    this.filterByEvent = function(item) {
-        if (self.likedEvent().indexOf(item.category) !== -1 ){
-            return true;
-        } else {
-            return false;
-        }
-    };
+this.filterByTime = function(item) {
+    if (item.timesumm === self.timesDic[self.slider()] || self.timedEvent()[0] == 'All') {
+        return true;
+    } else {
+        return false;
+    }
+};
 
-    this.filterByCost = function(item) {
-        if (self.costEventChecked().indexOf(item.costcat) !== -1){
-            return true;
-        } else {
-            return false;
-        }
-    };
+this.filterByEvent = function(item) {
+    if (self.likedEvent().indexOf(item.category) !== -1 ){
+        return true;
+    } else {
+        return false;
+    }
+};
+
+this.filterByCost = function(item) {
+    if (self.costEventChecked().indexOf(item.costcat) !== -1){
+        return true;
+    } else {
+        return false;
+    }
+};
 
 
     //Filters events according to user input.
@@ -727,7 +727,7 @@ var ViewModel = function() {
             filter = filter.toLowerCase();
             return ko.utils.arrayFilter(self.eventDescription(), function(item) {
                 return (self.filterByInput(item, filter) && self.filterByTime(item)
-                        && self.filterByEvent(item) && self.filterByCost(item));
+                    && self.filterByEvent(item) && self.filterByCost(item));
             });
         }
     });
@@ -746,19 +746,19 @@ var ViewModel = function() {
         else if (filter) {
             //Updates other categories when user uses text input
             ko.utils.arrayForEach(self.filteredEvents(), function(item){
-            if (eventLikes.indexOf(item.category) === -1){
-               eventLikes.push(item.category);
-            }
-        });
-        self.likedEvent(eventLikes);
+                if (eventLikes.indexOf(item.category) === -1){
+                 eventLikes.push(item.category);
+             }
+         });
+            self.likedEvent(eventLikes);
             ko.utils.arrayForEach(self.filteredEvents(), function(item){
-            if (costEvents.indexOf(item.costcat) === -1){
-               costEvents.push(item.costcat);
-            }
-        self.costEventChecked(costEvents);
-            });
+                if (costEvents.indexOf(item.costcat) === -1){
+                 costEvents.push(item.costcat);
+             }
+             self.costEventChecked(costEvents);
+         });
         }
-       });
+    });
 
 
 
@@ -775,8 +775,7 @@ var ViewModel = function() {
                 item.visible(false);
             }
         });
-        }
-        );
+    });
 
     //Animates and shows information when users click on event list.
     this.clickEvent = function() {
@@ -787,8 +786,8 @@ var ViewModel = function() {
 
 
         var infoWindowDetails = '<div class="infowindow-content">' + '<div id="info-title">' + selfItem.title + '</br></div>' +
-            '<em> Description: </em>'+ selfItem.description + '</br>' + '<em>Address: </em>' + selfItem.address + '</br>' +
-            '<em> Time: </em>' + selfItem.time + '</br>' + '<em>Nearby by Wikipedia: </em>' + selfItem.wikipedia + '</div>';
+        '<em> Description: </em>'+ selfItem.description + '</br>' + '<em>Address: </em>' + selfItem.address + '</br>' +
+        '<em> Time: </em>' + selfItem.time + '</br>' + '<em>Nearby by Wikipedia: </em>' + selfItem.wikipedia + '</div>';
 
         selfItem.infowindow.setContent(infoWindowDetails);
 
@@ -796,8 +795,8 @@ var ViewModel = function() {
 
         selfItem.marker.setAnimation(google.maps.Animation.BOUNCE);
         setTimeout(function() {
-                selfItem.marker.setAnimation(null);
-            }, 2100);
+            selfItem.marker.setAnimation(null);
+        }, 2100);
     };
 
 };
