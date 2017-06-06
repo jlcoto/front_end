@@ -3,7 +3,9 @@ var gulp = require('gulp'),
 	rename = require("gulp-rename"),
   imagemin = require('gulp-imagemin'),
   cleanCSS = require('gulp-clean-css'),
-  htmlmin = require('gulp-htmlmin');
+  htmlmin = require('gulp-htmlmin'),
+  uglify = require('gulp-uglify'),
+  pump = require('pump');
 
 
 
@@ -61,43 +63,43 @@ gulp.task(resizeImage, function () {
 gulp.task('resize-img-med', resizeImageTasks);
 
 
-gulp.task('img-resize-pizza', function () {
-  gulp.src('src/views/images/*.{png,jpg}')
-    .pipe(imageResize({
-      width : 120,
-      height : 85,
-      upscale : false,
-      format: "jpg"
-    }))
-    .pipe(rename({suffix: "-small"}))
-    .pipe(imagemin())
-    .pipe(gulp.dest('dist/views/images/'));
-});
+// gulp.task('img-resize-pizza', function () {
+//   gulp.src('src/views/images/*.{png,jpg}')
+//     .pipe(imageResize({
+//       width : 120,
+//       height : 85,
+//       upscale : false,
+//       format: "jpg"
+//     }))
+//     .pipe(rename({suffix: "-small"}))
+//     .pipe(imagemin())
+//     .pipe(gulp.dest('dist/views/images/'));
+// });
 
 
-//Resizing pizza
-var pizzaSize = [["small", 60], ["medium", 80], ["large", 100]];
+// //Resizing pizza
+// var pizzaSize = [["small", 60], ["medium", 80], ["large", 100]];
 
-var resizePizza = [];
+// var resizePizza = [];
 
-pizzaSize.forEach(function(size) {
-  pizzaSize = 'resize_' + size[0];
-  gulp.task(pizzaSize, function() {
-    gulp.src('src/views/images/pizza.png')
-        .pipe(imageResize({
-          width: size[1],
-          height: size[1],
-          upscale: false,
-          format: "jpg"
-        }))
-        .pipe(rename({suffix: "-" + size[0]}))
-        .pipe(imagemin())
-        .pipe(gulp.dest('dist/views/images/'));
-  })
-  resizePizza.push(pizzaSize);
-})
+// pizzaSize.forEach(function(size) {
+//   pizzaSizer = 'resize_' + size[0];
+//   gulp.task(pizzaSizer, function() {
+//     gulp.src('src/views/images/pizza.png')
+//         .pipe(imageResize({
+//           width: size[1],
+//           height: size[1],
+//           upscale: false,
+//           format: "jpeg"
+//         }))
+//         .pipe(rename({suffix: "-" + size[0]}))
+//         .pipe(imagemin())
+//         .pipe(gulp.dest('dist/views/images/'));
+//   })
+//   resizePizza.push(pizzaSizer);
+// })
 
-gulp.task('resize-img-pizza', resizePizza);
+// gulp.task('resize-img-pizza', resizePizza);
 
 
 //Resizing pizzeria
@@ -124,10 +126,6 @@ pizzeriaSize.forEach(function(size) {
 })
 
 gulp.task('resize-img-pizzeria', resizePizzeria);
-
-
-
-
 
 
 var htmlPages = [['src/*.html', 'dist'], ["src/views/*.html", "dist/views"]];
@@ -158,20 +156,35 @@ cssSource.forEach(function(page){
   cssMinified.push(pathCSS);
 })
 
-
-gulp.task('minify-css', cssMinified)
-
-
+gulp.task('minify-css', cssMinified);
 gulp.task('minify-html', htmlMinified);
 
+//Uglifying JavaScript
+gulp.task('js-uglify', function (cb) {
+  pump([
+        gulp.src('src/views/js/*.js'),
+        uglify(),
+        gulp.dest('dist/views/js')
+    ],
+    cb
+  );
+});
 
+
+
+//Defining tasks to watch
 gulp.task('watch', function(){
   gulp.watch('src/*.html', ['minify-html'])
   gulp.watch('src/views/*.html', ['minify-html'])
   gulp.watch('src/css/*.css', ['minify-css'])
   gulp.watch('src/views/css/*.css', ['minify-css'])
+  gulp.watch('src/views/js/*.js', ['js-uglify'])
 });
 
+
+//Defining default tasks
+gulp.task('default', ['img-resize', 'img-webdev', 'resize-img-med', 'resize-img-pizzeria',
+                      'minify-css', 'minify-html', 'js-uglify'])
 
 
 
