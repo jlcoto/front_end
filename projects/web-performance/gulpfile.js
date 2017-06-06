@@ -63,45 +63,6 @@ gulp.task(resizeImage, function () {
 gulp.task('resize-img-med', resizeImageTasks);
 
 
-// gulp.task('img-resize-pizza', function () {
-//   gulp.src('src/views/images/*.{png,jpg}')
-//     .pipe(imageResize({
-//       width : 120,
-//       height : 85,
-//       upscale : false,
-//       format: "jpg"
-//     }))
-//     .pipe(rename({suffix: "-small"}))
-//     .pipe(imagemin())
-//     .pipe(gulp.dest('dist/views/images/'));
-// });
-
-
-// //Resizing pizza
-// var pizzaSize = [["small", 60], ["medium", 80], ["large", 100]];
-
-// var resizePizza = [];
-
-// pizzaSize.forEach(function(size) {
-//   pizzaSizer = 'resize_' + size[0];
-//   gulp.task(pizzaSizer, function() {
-//     gulp.src('src/views/images/pizza.png')
-//         .pipe(imageResize({
-//           width: size[1],
-//           height: size[1],
-//           upscale: false,
-//           format: "jpeg"
-//         }))
-//         .pipe(rename({suffix: "-" + size[0]}))
-//         .pipe(imagemin())
-//         .pipe(gulp.dest('dist/views/images/'));
-//   })
-//   resizePizza.push(pizzaSizer);
-// })
-
-// gulp.task('resize-img-pizza', resizePizza);
-
-
 //Resizing pizzeria
 
 var pizzeriaSize = [["small", 120, 80], ["medium", 300, 200], ["large", 600, 400]];

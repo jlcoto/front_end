@@ -60,7 +60,7 @@ The google developer console indicated a number of tasks the where generating a 
 
 #### Layout
 
-I made sure that all the moving pizzas created are in the same layer using ´will-change: transform´ and ´transform: translateZ(0)´. I also used requestAnimationFrame to make sure that the drawing occurred on the beginning of the change.
+I made sure that all the moving pizzas created are in the same layer using  and `transform: translateZ(0)`. I also used requestAnimationFrame to make sure that the drawing occurred on the beginning of the change.
 
 
 ### Optimization Tips and Tricks

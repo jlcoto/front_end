@@ -441,6 +441,7 @@ var resizePizzas = function(size) {
 
       var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
 
+      //Loop through all the pizzas and change to selected width
       for (var i=0; i < randomPizzas.length; i++) {
         randomPizzas[i].style.width = newWidth + "%";
       }
@@ -513,6 +514,7 @@ function updatePositions() {
 }
 
 // runs updatePositions on scroll
+// Add a request animation to update image at beginning of frame.
 window.addEventListener('scroll', function(){
   requestAnimationFrame(updatePositions);
 });
