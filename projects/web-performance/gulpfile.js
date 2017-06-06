@@ -7,8 +7,6 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   pump = require('pump');
 
-
-
 //Changing images for index web page
 gulp.task('img-resize', function () {
   gulp.src('src/img/*.{png,jpg}')
@@ -23,7 +21,6 @@ gulp.task('img-resize', function () {
     .pipe(gulp.dest('dist/img'));
 });
 
-
 //Changing images for index web page
 gulp.task('img-webdev', function () {
   gulp.src('src/img/mobilewebdev.jpg')
@@ -37,9 +34,6 @@ gulp.task('img-webdev', function () {
     .pipe(imagemin())
     .pipe(gulp.dest('dist/img'));
 });
-
-
-
 
 var resizeImageTasks = [];
 //Changing image size for individual pages
@@ -60,15 +54,9 @@ gulp.task(resizeImage, function () {
   resizeImageTasks.push(resizeImage);
 })
 
-gulp.task('resize-img-med', resizeImageTasks);
-
-
 //Resizing pizzeria
-
 var pizzeriaSize = [["small", 120, 80], ["medium", 300, 200], ["large", 600, 400]];
-
 var resizePizzeria = [];
-
 pizzeriaSize.forEach(function(size) {
   pizzeriaSize = 'resize_' + size[0];
   gulp.task(pizzeriaSize, function() {
@@ -86,11 +74,8 @@ pizzeriaSize.forEach(function(size) {
   resizePizzeria.push(pizzeriaSize);
 })
 
-gulp.task('resize-img-pizzeria', resizePizzeria);
-
-
+//Minifying HTML
 var htmlPages = [['src/*.html', 'dist'], ["src/views/*.html", "dist/views"]];
-
 var htmlMinified = [];
 htmlPages.forEach(function(page){
   pathMinified = "path-" + page[0];
@@ -102,10 +87,9 @@ htmlPages.forEach(function(page){
   htmlMinified.push(pathMinified)
 })
 
+//Minifying CSS
 var cssSource = [['src/css/*.css', 'dist/css'], ['src/views/css/*.css', "dist/views/css"]];
-
 var cssMinified = [];
-
 cssSource.forEach(function(page){
   pathCSS = "path-" + page[0];
   gulp.task(pathCSS, function(){
@@ -117,8 +101,11 @@ cssSource.forEach(function(page){
   cssMinified.push(pathCSS);
 })
 
+//Calling individual tasks on arrays
+gulp.task('resize-img-pizzeria', resizePizzeria);
 gulp.task('minify-css', cssMinified);
 gulp.task('minify-html', htmlMinified);
+gulp.task('resize-img-med', resizeImageTasks);
 
 //Uglifying JavaScript
 gulp.task('js-uglify', function (cb) {
@@ -131,8 +118,6 @@ gulp.task('js-uglify', function (cb) {
   );
 });
 
-
-
 //Defining tasks to watch
 gulp.task('watch', function(){
   gulp.watch('src/*.html', ['minify-html'])
@@ -141,7 +126,6 @@ gulp.task('watch', function(){
   gulp.watch('src/views/css/*.css', ['minify-css'])
   gulp.watch('src/views/js/*.js', ['js-uglify'])
 });
-
 
 //Defining default tasks
 gulp.task('default', ['img-resize', 'img-webdev', 'resize-img-med', 'resize-img-pizzeria',
