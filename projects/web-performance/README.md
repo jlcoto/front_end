@@ -7,19 +7,19 @@ Udacity project to optimaze the performance of the given webpage. After implemen
 This project uses [Gulp](http://gulpjs.com/) to automate part of the workflow. In order to work with gulp, is is a requisite to have installed [node.js](https://nodejs.org/en/).
 
 1. Install [node.js](https://nodejs.org/en/download/).
-2. Install gulp running ´npm install --global gulp-cli´ in Terminal.
+2. Install gulp running `npm install --global gulp-cli` in Terminal.
 3. Go to folder directory where repository was cloned/downloaded.
-4. Install gulp in the folder ´npm install --save-dev gulp´.
+4. Install gulp in the folder `npm install --save-dev gulp`.
 5. Download the following plugins:
 
-- Image resize: ´npm install --save-dev gulp-image-resize´.
-- Rename: ´npm install --save-dev gulp-rename´.
-- Image minimize: ´npm install --save-dev gulp-imagemin´.
-- CSS cleaner: ´npm install --save-dev gulp-clean-css´.
-- HTML minimizer: ´npm install --save-dev gulp-htmlmin´.
-- JSS uglyfier: ´npm install --save-dev gulp-uglify´.
-- HTML minimizer: ´npm install --save-dev gulp-uglify´.
-- Pump files: ´npm install pump´.
+- Image resize: `npm install --save-dev gulp-image-resize`.
+- Rename: `npm install --save-dev gulp-rename`.
+- Image minimize: `npm install --save-dev gulp-imagemin`.
+- CSS cleaner: `npm install --save-dev gulp-clean-css`.
+- HTML minimizer: `npm install --save-dev gulp-htmlmin`.
+- JSS uglyfier: `npm install --save-dev gulp-uglify`.
+- HTML minimizer: `npm install --save-dev gulp-uglify`.
+- Pump files: `npm install pump`.
 
 6. Run in the terminal `gulp` to launch all the tasks.
 
