@@ -9,19 +9,8 @@ This project uses [Gulp](http://gulpjs.com/) to automate part of the workflow. I
 1. Install [node.js](https://nodejs.org/en/download/).
 2. Install gulp running `npm install --global gulp-cli` in Terminal.
 3. Go to folder directory where repository was cloned/downloaded.
-4. Install gulp in the folder `npm install --save-dev gulp`.
-5. Download the following plugins:
-
-- Image resize: `npm install --save-dev gulp-image-resize`.
-- Rename: `npm install --save-dev gulp-rename`.
-- Image minimize: `npm install --save-dev gulp-imagemin`.
-- CSS cleaner: `npm install --save-dev gulp-clean-css`.
-- HTML minimizer: `npm install --save-dev gulp-htmlmin`.
-- JSS uglyfier: `npm install --save-dev gulp-uglify`.
-- HTML minimizer: `npm install --save-dev gulp-uglify`.
-- Pump files: `npm install pump`.
-
-6. Run in the terminal `gulp` to launch all the tasks.
+4. Run `npm install`. This will install all the gulp modules from `package.json`.
+5. Run in the terminal `gulp` to launch all the tasks.
 
 As per specification, the file is divided in a source ´src´ and ´dist´ distribution folders. After successfully running gulp, one should be able to inspect the distribution code by launching a server. For that, we can use Python and [ngrok](https://ngrok.com/) to make the local server accessible remotely.
 
