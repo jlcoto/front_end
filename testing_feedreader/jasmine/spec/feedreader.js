@@ -33,6 +33,13 @@ $(function() {
             });
         });
 
+        it('all names defined', function() {
+            allFeeds.forEach(function(entry) {
+                expect(entry.name).toBeDefined();
+                expect(entry.name.length).not.toBe(0);
+            });
+        });
+
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
