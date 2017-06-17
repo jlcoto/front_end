@@ -105,12 +105,15 @@ $(function() {
      * above using Handlebars) and append it to the list of all
      * available feeds within the menu.
      */
+
+
     allFeeds.forEach(function(feed) {
         feed.id = feedId;
         feedList.append(feedItemTemplate(feed));
 
         feedId++;
     });
+
 
     /* When a link in our feedList is clicked on, we want to hide
      * the menu, load the feed, and prevent the default action
@@ -130,4 +133,9 @@ $(function() {
     menuIcon.on('click', function() {
         $('body').toggleClass('menu-hidden');
     });
+
+
+
+
+
 }());
