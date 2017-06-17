@@ -35,8 +35,10 @@
      });
 
 
-    describe('The menu', function() {
+    // Checking that menu functionality works.
+    // It needs to be hidden and when clicked appear.
 
+    describe('The menu', function() {
         it('menu box by default is closed', function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
@@ -44,14 +46,17 @@
         it('display and hide menu', function() {
         //Trigger so the menu gets displayed
         $('.menu-icon-link').trigger("click");
-        expect($('body').hasClass('menu-hidden')).toBe(false);;
+        expect($('body').hasClass('menu-hidden')).toBe(false);
 
        //Trigger again so it is hidden
        $('.menu-icon-link').trigger("click");
-       expect($('body').hasClass('menu-hidden')).toBe(true);;
+       expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
 
+
+    // Checking that initial entries are
+    // included in the page
 
     describe('Initial Entries', function() {
         beforeEach(function(done){
@@ -65,6 +70,8 @@
 
     });
 
+    // Checking that content of page
+    // changes when selecting another feed.
 
     describe('New Feed Selection', function() {
         var oldFeed,
@@ -83,11 +90,8 @@
                 newFeed = $(".entry").html();
                 expect(newFeed).not.toEqual(oldFeed);
                 done();
-            })
-
-
+            });
         });
 
     });
-
-     }());
+}());
