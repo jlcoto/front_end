@@ -60,6 +60,7 @@
     // included in the page
 
     describe('Initial Entries', function() {
+
         beforeEach(function(done){
             loadFeed(0, done);
         });
@@ -73,6 +74,7 @@
     // changes when selecting another feed.
 
     describe('New Feed Selection', function() {
+
         var oldFeed,
             newFeed;
 
