@@ -14,19 +14,20 @@
     // we will be getting the feed from
 
     describe('RSS Feeds', function() {
-         it('are defined', function() {
+
+        it('are defined', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
 
-         it('all URLs defined', function() {
+        it('all URLs defined', function() {
             allFeeds.forEach(function(entry) {
                 expect(entry.url).toBeDefined();
                 expect(entry.url.length).not.toBe(0);
             });
         });
 
-         it('all names defined', function() {
+        it('all names defined', function() {
             allFeeds.forEach(function(entry) {
                 expect(entry.name).toBeDefined();
                 expect(entry.name.length).not.toBe(0);
@@ -45,12 +46,12 @@
 
         it('display and hide menu', function() {
         //Trigger so the menu gets displayed
-        $('.menu-icon-link').trigger("click");
-        expect($('body').hasClass('menu-hidden')).toBe(false);
+            $('.menu-icon-link').trigger("click");
+            expect($('body').hasClass('menu-hidden')).toBe(false);
 
-       //Trigger again so it is hidden
-       $('.menu-icon-link').trigger("click");
-       expect($('body').hasClass('menu-hidden')).toBe(true);
+            //Trigger again so it is hidden
+            $('.menu-icon-link').trigger("click");
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
 
@@ -63,11 +64,9 @@
             loadFeed(0, done);
         });
 
-        it('should have entries', function(done) {
-            expect($('.entry').length).toBeGreaterThan(0);
-            done();
+        it('should have entries', function() {
+            expect($('.feed .entry').length).toBeGreaterThan(0);
         });
-
     });
 
     // Checking that content of page
@@ -82,7 +81,6 @@
                 oldFeed = $(".entry").html();
                 done();
             });
-
         });
 
         it('compares the old vs. new feed', function(done) {
@@ -92,6 +90,5 @@
                 done();
             });
         });
-
     });
 }());
